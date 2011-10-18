@@ -1,0 +1,6 @@
+.settings/
+/cobertura.ser
+stacktrace.log
+/plugin.xml
+/target
+/web-app/WEB-INF/classes
