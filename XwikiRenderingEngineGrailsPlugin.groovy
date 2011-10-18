@@ -11,11 +11,11 @@ class XwikiRenderingEngineGrailsPlugin {
     ]
 
     // TODO Fill in these fields
-    def author = "Your name"
-    def authorEmail = ""
-    def title = "Plugin summary/headline"
+    def author = "Masatoshi Hayashi"
+    def authorEmail = "literalice@monochromeroad.com"
+    def title = "XWiki Rendering Engine Plugin"
     def description = '''\\
-Brief description of the plugin.
+The wiki rendering engine using xwiki rendering system.
 '''
 
     // URL to the plugin's documentation
