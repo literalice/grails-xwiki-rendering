@@ -29,7 +29,7 @@ grails.project.dependency.resolution = {
                 "org.xwiki.rendering:xwiki-rendering-syntax-xwiki2:3.2",
                 "org.xwiki.rendering:xwiki-rendering-syntax-xhtml:3.2",
                 "org.xwiki.rendering:xwiki-rendering-transformation-macro:3.2"){
-            excludes "xml-apis", "slf4j-api"
+            excludes "xml-apis", "xercesImpl", "slf4j-api"
         }
     }
 
