@@ -13,14 +13,14 @@ class XWikiRenderingTagLib {
     def defaultOutputSyntax = Syntax.XHTML_1_0.toIdString()
 
     /**
-     * Rendering Wiki Text
+     * Renders Wiki Text
      *
-     * @attrs syntax WikiText Syntax ("xwiki/2.1", "mediawiki/1.0",...)
-     * @attrs format Output Format ("xhtml/1.0", "plain/1.0", ...)
+     * @attrs inputSyntax WikiText Syntax ("xwiki/2.1", "mediawiki/1.0",...)
+     * @attrs outputSyntax Output Format ("xhtml/1.0", "plain/1.0", ...)
      */
-    def renderer = { attrs, body ->
-        def inputSyntax = (attrs.syntax) ?: defaultInputSyntax
-        def outputSyntax = (attrs.format) ?: defaultOutputSyntax
+    def render = { attrs, body ->
+        def inputSyntax = (attrs.inputSyntax) ?: defaultInputSyntax
+        def outputSyntax = (attrs.outputSyntax) ?: defaultOutputSyntax
 
         xwikiRenderer.render(body().reader, out, inputSyntax, outputSyntax)
     }

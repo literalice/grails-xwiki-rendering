@@ -21,13 +21,13 @@
     
     <body>
         <g:form action="index">
-            Syntax: <g:textField name="syntax" value="${params.syntax}"/> / OutputFormat:<g:textField name="format" value="${params.format}"/><br>
+            Syntax: <g:textField name="syntax" value="${params.syntax}"/> / Output:<g:textField name="format" value="${params.format}"/><br>
             <g:textArea id="source" name="source" value="${ params.source }" cols="90" rows="10" /><br>
             <input type="submit" value="Parse" />
         </g:form>
 
         <div class="twr">
-        <xwiki:renderer syntax="${params.syntax}" format="${params.format}">${ params.source }</xwiki:renderer>
+        <xwiki:render inputSyntax="${params.syntax}" outputSyntax="${params.format}">${ params.source }</xwiki:render>
         </div>
 
     </body>
