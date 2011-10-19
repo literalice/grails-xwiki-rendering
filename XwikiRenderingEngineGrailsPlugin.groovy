@@ -1,3 +1,6 @@
+import org.xwiki.component.embed.EmbeddableComponentManager
+import com.monochromeroad.grails.plugins.xwiki.XWikiRenderer
+
 class XwikiRenderingEngineGrailsPlugin {
     // the plugin version
     def version = "0.1"
@@ -7,10 +10,12 @@ class XwikiRenderingEngineGrailsPlugin {
     def dependsOn = [:]
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
-            "grails-app/views/error.gsp"
+            "grails-app/views/**/*",
+            "grails-app/i18n/**/*",
+            "grails-app/controllers/**/*",
+            "web-app/images/**/*",
     ]
 
-    // TODO Fill in these fields
     def author = "Masatoshi Hayashi"
     def authorEmail = "literalice@monochromeroad.com"
     def title = "XWiki Rendering Engine Plugin"
@@ -26,7 +31,8 @@ The wiki rendering engine using xwiki rendering system.
     }
 
     def doWithSpring = {
-        // TODO Implement runtime spring config (optional)
+        componentManager(EmbeddableComponentManager)
+        xwikiRenderer(XWikiRenderer, componentManager)
     }
 
     def doWithDynamicMethods = { ctx ->
@@ -34,7 +40,9 @@ The wiki rendering engine using xwiki rendering system.
     }
 
     def doWithApplicationContext = { applicationContext ->
-        // TODO Implement post initialization spring config (optional)
+        def componentManager = applicationContext.getBean("componentManager")
+        def grailsApplication = applicationContext.getBean("grailsApplication")
+        componentManager.initialize(grailsApplication.classLoader)
     }
 
     def onChange = { event ->
