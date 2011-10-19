@@ -25,8 +25,12 @@ grails.project.dependency.resolution = {
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-
-        // runtime 'mysql:mysql-connector-java:5.1.13'
+        compile("org.xwiki.commons:xwiki-commons-component-default:3.2",
+                "org.xwiki.rendering:xwiki-rendering-syntax-xwiki2:3.2",
+                "org.xwiki.rendering:xwiki-rendering-syntax-xhtml:3.2",
+                "org.xwiki.rendering:xwiki-rendering-transformation-macro:3.2"){
+            excludes "xml-apis", "slf4j-api"
+        }
     }
 
     plugins {
