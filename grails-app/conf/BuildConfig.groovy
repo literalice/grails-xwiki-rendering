@@ -31,6 +31,9 @@ grails.project.dependency.resolution = {
                 "org.xwiki.rendering:xwiki-rendering-transformation-macro:3.2"){
             excludes "xml-apis", "xercesImpl", "slf4j-api"
         }
+        runtime("org.xwiki.rendering:xwiki-rendering-macro-comment:3.2") {
+            export = false
+        }
     }
 
     plugins {
