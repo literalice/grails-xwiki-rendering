@@ -42,35 +42,27 @@ public class XWikiRenderer {
      *
      * @param source source text reader
      * @param writer output writer
-     * @param inputSyntax input syntax
-     * @param outputSyntax output syntax
+     * @param parameters [input syntax, output syntax, ...transform parameters]
      */
-    public void render(Reader source, Writer writer, CharSequence inputSyntax, CharSequence outputSyntax) {
+    public void render(Reader source, Writer writer, Object ...parameters) {
+        if (parameters.length < 2) {
+            throw new IllegalArgumentException("the input/output sytaxes must be passed.");
+        }
+
         SyntaxFactory syntaxFactory = getSyntaxFactory();
-        Syntax inputSyntaxObj = getSyntax(syntaxFactory, inputSyntax);
-        Syntax outputSyntaxObj = getSyntax(syntaxFactory, outputSyntax);
+        Syntax inputSyntaxObj = getSyntax(syntaxFactory, parameters[0]);
+        Syntax outputSyntaxObj = getSyntax(syntaxFactory, parameters[1]);
 
         Parser parser = getParser(inputSyntaxObj);
         XDOM xdom = xdomBuilder.build(source, parser);
         for (XDOMTransformer transformer:transformers) {
-            transformer.transform(xdom, parser);
+            transformer.transform(xdom, parser, parameters);
         }
         xdomWriter.write(xdom, outputSyntaxObj, writer);
     }
 
     /**
-     * Renders a source text using XWiki rendering engine and default input syntax.
-     *
-     * @param source source text reader
-     * @param writer output writer
-     * @param outputSyntax output syntax
-     */
-    public void render(Reader source, Writer writer, CharSequence outputSyntax) {
-        render(source, writer, defaultInputSyntax, outputSyntax);
-    }
-
-    /**
-     * Renders a source text using XWiki rendering engine and default input syntax and output syntax.
+     * Renders a source text using XWiki rendering engine and default syntax.
      *
      * @param source source text reader
      * @param writer output writer
@@ -80,49 +72,30 @@ public class XWikiRenderer {
     }
 
     /**
-     * @see #render(java.io.Reader, java.io.Writer, CharSequence, CharSequence)
+     * @see #render(java.io.Reader, java.io.Writer, Object[]))
      */
-    public void render(CharSequence source, Writer writer, CharSequence inputSyntax, CharSequence outputSyntax) {
-        render(new StringReader(source.toString()), writer, inputSyntax, outputSyntax);
-    }
-
-    /**
-     * @see #render(java.io.Reader, java.io.Writer, CharSequence)
-     */
-    public void render(CharSequence source, Writer writer, CharSequence outputSyntax) {
-        render(source, writer, defaultInputSyntax, outputSyntax);
+    public void render(CharSequence source, Writer writer, Object...parameters) {
+        render(new StringReader(source.toString()), writer, parameters);
     }
 
     /**
      * @see #render(java.io.Reader, java.io.Writer)
      */
     public void render(CharSequence source, Writer writer) {
-        render(source, writer, defaultOutputSyntax);
+        render(source, writer, defaultInputSyntax, defaultOutputSyntax);
     }
 
     /**
      * Returns rendered text from XWiki Rendering.
      *
      * @param source a source text
-     * @param inputSyntax input syntax
-     * @param outputSyntax output syntax
+     * @param parameters [input syntax, output syntax, and transform parameters...]
      * @return a rendered result
      */
-    public String render(Reader source, CharSequence inputSyntax, CharSequence outputSyntax) {
+    public String render(Reader source, Object ...parameters) {
         Writer writer = new StringWriter();
-        render(source, writer, inputSyntax, outputSyntax);
+        render(source, writer, parameters);
         return writer.toString();
-    }
-
-    /**
-     * Returns rendered text from XWiki Rendering using default input syntax.
-     *
-     * @param source a source text
-     * @param outputSyntax output syntax
-     * @return a rendered result
-     */
-    public String render(Reader source, CharSequence outputSyntax) {
-        return render(source, defaultInputSyntax, outputSyntax);
     }
 
     /**
@@ -132,28 +105,21 @@ public class XWikiRenderer {
      * @return a rendered result
      */
     public String render(Reader source) {
-        return render(source, defaultOutputSyntax);
+        return render(source, defaultInputSyntax, defaultOutputSyntax);
     }
 
     /**
-     * @see #render(java.io.Reader, CharSequence, CharSequence)
+     * @see #render(java.io.Reader, Object[])
      */
-    public String render(CharSequence source, CharSequence inputSyntax, CharSequence outputSyntax) {
-        return render(new StringReader(source.toString()), inputSyntax, outputSyntax);
-    }
-
-    /**
-     * @see #render(java.io.Reader, CharSequence)
-     */
-    public String render(CharSequence source, CharSequence outputSyntax) {
-        return render(source, defaultInputSyntax, outputSyntax);
+    public String render(CharSequence source, Object ...parameters) {
+        return render(new StringReader(source.toString()), parameters);
     }
 
     /**
      * @see #render(java.io.Reader)
      */
     public String render(CharSequence source) {
-        return render(source, defaultOutputSyntax);
+        return render(source, defaultInputSyntax, defaultOutputSyntax);
     }
 
     /**
@@ -180,7 +146,7 @@ public class XWikiRenderer {
                 lookupComponent(Parser.class, syntax.toIdString());
     }
 
-    private Syntax getSyntax(SyntaxFactory factory, CharSequence id) {
+    private Syntax getSyntax(SyntaxFactory factory, Object id) {
         try {
             return factory.createSyntaxFromIdString(id.toString());
         } catch (ParseException e) {

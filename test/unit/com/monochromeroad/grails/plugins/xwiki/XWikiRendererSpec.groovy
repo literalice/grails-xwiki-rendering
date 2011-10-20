@@ -4,7 +4,6 @@ import spock.lang.Specification
 import spock.lang.Shared
 import org.xwiki.component.manager.ComponentManager
 import org.xwiki.component.embed.EmbeddableComponentManager
-import org.xwiki.rendering.syntax.Syntax
 
 /**
  * XWiki Renderer Spec
@@ -84,13 +83,6 @@ this line is comment.
         writer.toString() == '<h1 id="Hlevel1"><span>level1</span></h1><h2 id="Hlevel2"><span>level2</span></h2>'
     }
     
-    def "Extra API: using default input syntax"() {
-        when:
-        String result = renderer.render(testXWiki21Text, "xhtml/1.0")
-        then:
-        result == expectedHTML
-    }
-
     def "Extra API: using default input syntax and default output syntax"() {
         when:
         String result = renderer.render(testXWiki21Text)
@@ -105,17 +97,20 @@ this line is comment.
         result == expectedHTML
     }
 
-    def "Extra API: returns the result text using default input syntax"() {
-        when:
-        String result = renderer.render(testXWiki21Text, "xhtml/1.0")
-        then:
-        result == expectedHTML
-    }
-
     def "Extra API: returns the result text using default input syntax and default output syntax"() {
         when:
         String result = renderer.render(testXWiki21Text)
         then:
         result == expectedHTML
+    }
+
+    def "Adds some custom transformer"() {
+        renderer.addTransformer(new TestTransformer());
+
+        when:
+        String result = renderer.render(testXWiki21Text, "xwiki/2.0", "xhtml/1.0", "Transform Parameter")
+        println result
+        then:
+        result == expectedHTML + "Transform Parameter"
     }
 }

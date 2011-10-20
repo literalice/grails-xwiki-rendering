@@ -16,6 +16,6 @@ public interface XDOMTransformer {
      * @param xdom the XDOM object
      * @param parser XDOM parser
      */
-    public void transform(XDOM xdom, Parser parser);
+    public void transform(XDOM xdom, Parser parser, Object ...parameters);
 
 }
