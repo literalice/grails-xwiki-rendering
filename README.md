@@ -6,7 +6,7 @@ This Grails plugin allows you to convert texts using XWiki Rendering Engine.
 
 ## Tag Libraries ##
 
-This Plugin provides "<xwiki:render inputSyntax='' outputSyntax='' />" tag.
+This Plugin provides "&lt;xwiki:render inputSyntax='' outputSyntax='' /&gt;" tag.
 
 inputSyntax:
 
