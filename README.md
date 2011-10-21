@@ -30,6 +30,7 @@ outputSyntax:
 	** bold text **
 	</xwiki:render>
 
+See [XWiki Syntax](http://platform.xwiki.org/xwiki/bin/view/Main/XWikiSyntax) for the xwiki/2.0 syntax basics
 
 ## Services ##
 
