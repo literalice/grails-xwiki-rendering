@@ -4,6 +4,43 @@ This Grails plugin allows you to convert texts using XWiki Rendering Engine.
 
 [XWiki Rendering Framework](http://rendering.xwiki.org/xwiki/bin/view/Main/WebHome)
 
+## Installation ##
+
+* Clone the plugin project.
+
+
+    git clone git://github.com/literalice/grails-xwiki-rendering-engine.git
+
+* Install the plugin as a maven artifact.
+
+
+    cd grails-xwiki-rendering-engine.git
+    grails prod compile
+    grails prod maven-install
+
+* Add Maven Repository as your grails project's repository.
+
+grails-app/conf/BuildConfig.groovy
+
+    grails.project.dependency.resolution = {
+    ...
+        repositories {
+            grailsPlugins()
+            grailsHome()
+            grailsCentral()
+
+            // uncomment
+            mavenLocal()
+            mavenCentral()
+            ...
+
+* Install the plugin to your grails project.
+
+
+    cd [YOUR GRAILS PROJECT]
+    grails install-plugin xwiki-rendering-engine
+
+
 ## Tag Libraries ##
 
 This Plugin provides "&lt;xwiki:render inputSyntax='' outputSyntax='' /&gt;" tag.
