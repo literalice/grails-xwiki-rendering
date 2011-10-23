@@ -18,6 +18,8 @@ This Grails plugin allows you to convert texts using XWiki Rendering Engine.
 
 ### Add Maven Repository as your grails project's repository. ###
 
+grails-app/conf/BuildConfig.groovy
+
     grails.project.dependency.resolution = {
     ...
         repositories {
@@ -115,7 +117,7 @@ If you want to create your own macro, [ExtendingMacro](http://rendering.xwiki.or
 ### Example ###
 If you need [Comment Macro](http://extensions.xwiki.org/xwiki/bin/view/Extension/Comment+Macro) :
 
-conf/BuildConfig.groovy
+grails-app/conf/BuildConfig.groovy
 
 	dependencies {
 	    ...
