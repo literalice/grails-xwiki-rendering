@@ -30,5 +30,12 @@
         <xwiki:render inputSyntax="${params.syntax}" outputSyntax="${params.format}">${ params.source }</xwiki:render>
         </div>
 
+        <hr />
+
+        0.1 API:
+        <div class="twr">
+            <g:xwikiRender syntax="${params.syntax}">${ params.source }</g:xwikiRender>
+        </div>
+
     </body>
 </html>
