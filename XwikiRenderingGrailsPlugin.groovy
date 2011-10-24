@@ -1,7 +1,7 @@
 import org.xwiki.component.embed.EmbeddableComponentManager
 import com.monochromeroad.grails.plugins.xwiki.XWikiRenderer
 
-class XwikiRenderingEngineGrailsPlugin {
+class XwikiRenderingGrailsPlugin {
     // the plugin version
     def version = "0.1"
     // the version or versions of Grails the plugin is designed for
@@ -18,13 +18,13 @@ class XwikiRenderingEngineGrailsPlugin {
 
     def author = "Masatoshi Hayashi"
     def authorEmail = "literalice@monochromeroad.com"
-    def title = "XWiki Rendering Engine Plugin"
+    def title = "XWiki Rendering Plugin"
     def description = '''\\
 The wiki rendering engine using xwiki rendering system.
 '''
 
     // URL to the plugin's documentation
-    def documentation = "http://grails.org/plugin/xwiki-rendering-engine"
+    def documentation = "http://grails.org/plugin/xwiki-rendering"
 
     def doWithWebDescriptor = { xml ->
         // TODO Implement additions to web.xml (optional), this event occurs before 
