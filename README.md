@@ -122,7 +122,7 @@ grails-app/conf/BuildConfig.groovy
 	dependencies {
 	    ...
 	    runtime("org.xwiki.rendering:xwiki-rendering-macro-comment:3.2") {
-	        excludes "xml-apis", "xercesImpl", "slf4j-api"
+            transitive = false
 	    }
 	}
 
