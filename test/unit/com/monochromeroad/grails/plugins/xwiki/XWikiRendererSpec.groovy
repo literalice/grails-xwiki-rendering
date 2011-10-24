@@ -49,7 +49,7 @@ text :'''bold'''
         writer.toString() == expectedHTML
     }
 
-    def "Converts XWiki 2.1 text to another format using XWiki syntax"() {
+    def "Converts XWiki 2_1 text to another format using XWiki syntax"() {
         Writer writer = new StringWriter();
 
         when:
