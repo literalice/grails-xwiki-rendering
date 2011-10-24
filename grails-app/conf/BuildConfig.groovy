@@ -18,13 +18,14 @@ grails.project.dependency.resolution = {
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-        compile("org.xwiki.commons:xwiki-commons-component-default:3.2",
-                "org.xwiki.rendering:xwiki-rendering-syntax-xwiki2:3.2",
-                "org.xwiki.rendering:xwiki-rendering-syntax-xhtml:3.2",
-                "org.xwiki.rendering:xwiki-rendering-transformation-macro:3.2"){
+        def xwikiVersion="3.2"
+        compile("org.xwiki.commons:xwiki-commons-component-default:$xwikiVersion",
+                "org.xwiki.rendering:xwiki-rendering-syntax-xwiki2:$xwikiVersion",
+                "org.xwiki.rendering:xwiki-rendering-syntax-xhtml:$xwikiVersion",
+                "org.xwiki.rendering:xwiki-rendering-transformation-macro:$xwikiVersion"){
             excludes "xml-apis", "xercesImpl", "slf4j-api"
         }
-        runtime("org.xwiki.rendering:xwiki-rendering-macro-comment:3.2") {
+        runtime("org.xwiki.rendering:xwiki-rendering-macro-comment:$xwikiVersion") {
             transitive = false
             export = false
         }
