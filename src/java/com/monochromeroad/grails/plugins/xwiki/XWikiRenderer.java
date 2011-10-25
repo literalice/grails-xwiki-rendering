@@ -20,18 +20,17 @@ public class XWikiRenderer {
 
     private XWikiComponentRepository componentRepository;
 
+    private XWikiConfigurationProvider configurationProvider;
+
     private XDOMBuilder xdomBuilder;
 
     private List<XDOMTransformer> transformers = new LinkedList<XDOMTransformer> ();
 
     private XDOMWriter xdomWriter;
 
-    private String defaultInputSyntax = Syntax.XWIKI_2_1.toIdString();
-
-    private String defaultOutputSyntax = Syntax.XHTML_1_0.toIdString();
-
-    public XWikiRenderer(ComponentManager componentManager) {
+    public XWikiRenderer(ComponentManager componentManager, XWikiConfigurationProvider xwikiConfigurationProvider) {
         this.componentRepository = new XWikiComponentRepository(componentManager);
+        this.configurationProvider = xwikiConfigurationProvider;
         this.xdomBuilder = new XDOMBuilder();
         this.transformers.add(new DefaultXDOMTransformer(componentManager));
         this.xdomWriter = new XDOMWriter(componentManager);
@@ -68,7 +67,9 @@ public class XWikiRenderer {
      * @param writer output writer
      */
     public void render(Reader source, Writer writer) {
-        render(source, writer, defaultInputSyntax, defaultOutputSyntax);
+        render(source, writer,
+                configurationProvider.getDefaultInputSyntax(),
+                configurationProvider.getDefaultOutputSyntax());
     }
 
     /**
@@ -82,7 +83,9 @@ public class XWikiRenderer {
      * @see #render(java.io.Reader, java.io.Writer)
      */
     public void render(CharSequence source, Writer writer) {
-        render(source, writer, defaultInputSyntax, defaultOutputSyntax);
+        render(source, writer,
+                configurationProvider.getDefaultInputSyntax(),
+                configurationProvider.getDefaultOutputSyntax());
     }
 
     /**
@@ -105,7 +108,9 @@ public class XWikiRenderer {
      * @return a rendered result
      */
     public String render(Reader source) {
-        return render(source, defaultInputSyntax, defaultOutputSyntax);
+        return render(source,
+                configurationProvider.getDefaultInputSyntax(),
+                configurationProvider.getDefaultOutputSyntax());
     }
 
     /**
@@ -119,7 +124,9 @@ public class XWikiRenderer {
      * @see #render(java.io.Reader)
      */
     public String render(CharSequence source) {
-        return render(source, defaultInputSyntax, defaultOutputSyntax);
+        return render(source,
+                configurationProvider.getDefaultInputSyntax(),
+                configurationProvider.getDefaultOutputSyntax());
     }
 
     /**

@@ -27,8 +27,10 @@ text :**bold**
     String expectedHTML = '<h1 id="Hlevel1"><span>level1</span></h1><p>text :<strong>bold</strong></p>'
 
     def setup() {
-        renderer = new XWikiRenderer(componentManager)
-        renderingService = new RenderingService(xwikiRenderer: renderer)
+        def configurationProvider = new XWikiConfigurationProvider()
+        renderer = new XWikiRenderer(componentManager, configurationProvider)
+        renderingService = new RenderingService(
+                xwikiRenderer: renderer, xwikiConfigurationProvider: configurationProvider)
     }
 
     def "Rendering a text as XHTML using XWiki 2_0 syntax"() {

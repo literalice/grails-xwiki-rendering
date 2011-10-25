@@ -37,7 +37,7 @@ text :'''bold'''
     String expectedText = "level1\n\ntext :bold"
 
     def setup() {
-        renderer = new XWikiRenderer(componentManager)
+        renderer = new XWikiRenderer(componentManager, new XWikiConfigurationProvider())
     }
 
     def "Converts wiki text using XWiki syntax"() {

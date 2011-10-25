@@ -1,16 +1,12 @@
 package com.monochromeroad.grails.plugins.xwiki
 
-import org.xwiki.rendering.syntax.Syntax
-
 class XWikiRenderingTagLib {
 
     static namespace = "xwiki"
 
     def xwikiRenderer
 
-    def defaultInputSyntax = Syntax.XWIKI_2_1.toIdString()
-
-    def defaultOutputSyntax = Syntax.XHTML_1_0.toIdString()
+    def xwikiConfigurationProvider
 
     /**
      * Renders Wiki Text
@@ -19,8 +15,8 @@ class XWikiRenderingTagLib {
      * @attrs outputSyntax Output Format ("xhtml/1.0", "plain/1.0", ...)
      */
     def render = { attrs, body ->
-        def inputSyntax = (attrs.inputSyntax) ?: defaultInputSyntax
-        def outputSyntax = (attrs.outputSyntax) ?: defaultOutputSyntax
+        def inputSyntax = (attrs.inputSyntax) ?: xwikiConfigurationProvider.defaultInputSyntax
+        def outputSyntax = (attrs.outputSyntax) ?: xwikiConfigurationProvider.defaultOutputSyntax
 
         xwikiRenderer.render(body().reader, out, inputSyntax, outputSyntax)
     }

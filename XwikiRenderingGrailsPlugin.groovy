@@ -1,5 +1,6 @@
 import org.xwiki.component.embed.EmbeddableComponentManager
 import com.monochromeroad.grails.plugins.xwiki.XWikiRenderer
+import com.monochromeroad.grails.plugins.xwiki.XWikiConfigurationProvider
 
 class XwikiRenderingGrailsPlugin {
     // the plugin version
@@ -32,7 +33,8 @@ The wiki rendering engine using xwiki rendering system.
 
     def doWithSpring = {
         componentManager(EmbeddableComponentManager)
-        xwikiRenderer(XWikiRenderer, componentManager)
+        xwikiConfigurationProvider(XWikiConfigurationProvider)
+        xwikiRenderer(XWikiRenderer, componentManager, xwikiConfigurationProvider)
     }
 
     def doWithDynamicMethods = { ctx ->
