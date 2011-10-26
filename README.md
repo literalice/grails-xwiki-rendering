@@ -4,6 +4,16 @@ This Grails plugin allows you to convert texts using XWiki Rendering Framework.
 
 [XWiki Rendering Framework](http://rendering.xwiki.org/xwiki/bin/view/Main/WebHome)
 
+## Upgrading from version 0.1 ##
+
+### Removal of TagLib "xwikiRender" ###
+
+Use "&lt;xwiki:render inputSyntax='' /&gt;" tag instead.
+
+### Removal of Service "RenderingService" ###
+
+Use "XWikiRenderer" service instead.
+
 ## Installation ##
 
 ### Clone the plugin project. ###
