@@ -12,11 +12,11 @@ import org.xwiki.rendering.transformation.TransformationException;
  *
  * @author Masatoshi Hayashi
  */
-public class DefaultXDOMTransformer implements XDOMTransformer {
+public class DefaultXDOMTransformation implements XDOMTransformation {
 
     private final XWikiComponentRepository componentRepository;
 
-    public DefaultXDOMTransformer(ComponentManager componentManager) {
+    public DefaultXDOMTransformation(ComponentManager componentManager) {
         this.componentRepository = new XWikiComponentRepository(componentManager);
     }
 

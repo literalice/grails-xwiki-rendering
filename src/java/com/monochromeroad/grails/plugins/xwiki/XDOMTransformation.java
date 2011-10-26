@@ -8,7 +8,7 @@ import org.xwiki.rendering.parser.Parser;
  *
  * @author Masatoshi Hayashi
  */
-public interface XDOMTransformer {
+public interface XDOMTransformation {
 
     /**
      * Transforms the XDOM Object

@@ -105,7 +105,7 @@ this line is comment.
     }
 
     def "Adds some custom transformer"() {
-        renderer.addTransformer(new TestTransformer());
+        renderer.addTransformer(new TestTransformation());
 
         when:
         String result = renderer.render(testXWiki21Text, "xwiki/2.0", "xhtml/1.0", "Transform Parameter")

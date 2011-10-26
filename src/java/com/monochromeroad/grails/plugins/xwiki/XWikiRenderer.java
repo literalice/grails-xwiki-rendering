@@ -24,7 +24,7 @@ public class XWikiRenderer {
 
     private XDOMBuilder xdomBuilder;
 
-    private List<XDOMTransformer> transformers = new LinkedList<XDOMTransformer> ();
+    private List<XDOMTransformation> transformations = new LinkedList<XDOMTransformation> ();
 
     private XDOMWriter xdomWriter;
 
@@ -32,7 +32,7 @@ public class XWikiRenderer {
         this.componentRepository = new XWikiComponentRepository(componentManager);
         this.configurationProvider = xwikiConfigurationProvider;
         this.xdomBuilder = new XDOMBuilder();
-        this.transformers.add(new DefaultXDOMTransformer(componentManager));
+        this.transformations.add(new DefaultXDOMTransformation(componentManager));
         this.xdomWriter = new XDOMWriter(componentManager);
     }
 
@@ -54,8 +54,8 @@ public class XWikiRenderer {
 
         Parser parser = getParser(inputSyntaxObj);
         XDOM xdom = xdomBuilder.build(source, parser);
-        for (XDOMTransformer transformer:transformers) {
-            transformer.transform(xdom, parser, parameters);
+        for (XDOMTransformation transformation : transformations) {
+            transformation.transform(xdom, parser, parameters);
         }
         xdomWriter.write(xdom, outputSyntaxObj, writer);
     }
@@ -130,22 +130,22 @@ public class XWikiRenderer {
     }
 
     /**
-     * Adds a transformer
+     * Adds a transformation
      *
-     * @param transformer transformer
+     * @param transformation transformation
      */
-    public void addTransformer(XDOMTransformer transformer) {
-        this.transformers.add(transformer);
+    public void addTransformer(XDOMTransformation transformation) {
+        this.transformations.add(transformation);
     }
 
     /**
-     * Adds a transformer
+     * Adds a transformation
      *
-     * @param index the index of the transformer
-     * @param transformer transformer
+     * @param index the index of the transformation
+     * @param transformation transformation
      */
-    public void addTransformer(int index, XDOMTransformer transformer) {
-        this.transformers.add(index, transformer);
+    public void addTransformation(int index, XDOMTransformation transformation) {
+        this.transformations.add(index, transformation);
     }
 
     private Parser getParser(Syntax syntax) {

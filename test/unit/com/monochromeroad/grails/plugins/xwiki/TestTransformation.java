@@ -5,14 +5,12 @@
  */
 package com.monochromeroad.grails.plugins.xwiki;
 
-import org.xwiki.rendering.block.Block;
-import org.xwiki.rendering.block.ParagraphBlock;
 import org.xwiki.rendering.block.RawBlock;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.syntax.Syntax;
 
-public class TestTransformer implements XDOMTransformer {
+public class TestTransformation implements XDOMTransformation {
 
     public void transform(XDOM xdom, Parser parser, Object... parameters) {
         if (parameters.length > 2) {
