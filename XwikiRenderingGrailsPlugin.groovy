@@ -21,7 +21,7 @@ class XwikiRenderingGrailsPlugin {
     def authorEmail = "literalice@monochromeroad.com"
     def title = "XWiki Rendering Plugin"
     def description = '''\\
-The wiki rendering engine using xwiki rendering system.
+The wiki rendering engine using XWiki Rendering Framework.
 '''
 
     // URL to the plugin's documentation
