@@ -16,37 +16,9 @@ Use "XWikiRenderer" service instead.
 
 ## Installation ##
 
-### Clone the plugin project. ###
+Just run "install-pluing" command.
 
-    git clone git://github.com/literalice/grails-xwiki-rendering.git
-
-### Install the plugin as a maven artifact. ###
-
-    cd grails-xwiki-rendering.git
-    grails prod compile
-    grails prod maven-install
-
-### Add Maven Repository as your grails project's repository. ###
-
-grails-app/conf/BuildConfig.groovy
-
-    grails.project.dependency.resolution = {
-    ...
-        repositories {
-            grailsPlugins()
-            grailsHome()
-            grailsCentral()
-
-            // uncomment
-            mavenLocal()
-            mavenCentral()
-            ...
-
-### Install the plugin to your grails project. ###
-
-    cd [YOUR GRAILS PROJECT]
     grails install-plugin xwiki-rendering
-
 
 ## Tag Libraries ##
 
