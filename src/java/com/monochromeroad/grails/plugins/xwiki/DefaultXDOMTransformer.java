@@ -3,9 +3,9 @@ package com.monochromeroad.grails.plugins.xwiki;
 import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.parser.Parser;
+import org.xwiki.rendering.transformation.Transformation;
 import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.TransformationException;
-import org.xwiki.rendering.transformation.TransformationManager;
 
 /**
  * Default Transform Class for XWiki macro support.
@@ -28,9 +28,9 @@ public class DefaultXDOMTransformer implements XDOMTransformer {
      */
     public void transform(XDOM xdom, Parser parser, Object ...parameters) {
         try {
-            TransformationManager txManager =
-                    componentRepository.lookupComponent(TransformationManager.class);
-            txManager.performTransformations(xdom, new TransformationContext(xdom, parser.getSyntax()));
+            Transformation transform = componentRepository.lookupComponent(Transformation.class, "macro");
+            TransformationContext context = new TransformationContext(xdom, parser.getSyntax());
+            transform.transform(xdom, context);
         } catch (TransformationException e) {
             throw new IllegalStateException(e);
         }
