@@ -27,6 +27,10 @@ The wiki rendering engine using XWiki Rendering Framework.
     // URL to the plugin's documentation
     def documentation = "http://grails.org/plugin/xwiki-rendering"
 
+    def license = "APACHE"
+    
+    def scm = [url: "https://github.com/literalice/grails-xwiki-rendering"]
+
     def doWithWebDescriptor = { xml ->
         // TODO Implement additions to web.xml (optional), this event occurs before 
     }
