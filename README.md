@@ -16,7 +16,7 @@ Use "XWikiRenderer" service instead.
 
 ## Installation ##
 
-Just run "install-pluing" command.
+Just run "install-plugin" command.
 
     grails install-plugin xwiki-rendering
 
