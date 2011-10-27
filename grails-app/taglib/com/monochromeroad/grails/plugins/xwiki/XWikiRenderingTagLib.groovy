@@ -1,5 +1,7 @@
 package com.monochromeroad.grails.plugins.xwiki
 
+import org.codehaus.groovy.grails.web.util.StreamCharBuffer
+
 class XWikiRenderingTagLib {
 
     static namespace = "xwiki"
@@ -18,7 +20,14 @@ class XWikiRenderingTagLib {
         def inputSyntax = (attrs.inputSyntax) ?: xwikiConfigurationProvider.defaultInputSyntax
         def outputSyntax = (attrs.outputSyntax) ?: xwikiConfigurationProvider.defaultOutputSyntax
 
-        xwikiRenderer.render(body().reader, out, inputSyntax, outputSyntax)
+        def bodyReader = body()
+        def bodyContent
+        if (bodyReader instanceof StreamCharBuffer) {
+            bodyContent = bodyReader.reader
+        } else {
+            bodyContent = bodyReader.toString()
+        }
+        xwikiRenderer.render(bodyContent, out, inputSyntax, outputSyntax)
     }
 
 }

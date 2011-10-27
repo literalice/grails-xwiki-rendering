@@ -7,12 +7,6 @@ import grails.plugin.spock.GroovyPagesSpec
  */
 class XWikiRenderingTagLibSpec extends GroovyPagesSpec {
 
-    def setup() {
-        String.metaClass.getReader = {
-            return new StringReader(delegate)
-        }
-    }
-
     def "Rendering XWiki text"() {
         when:
         template = '<xwiki:render inputSyntax="mediawiki/1.0" outputSyntax="plain/1.0">\'\'\'bold\'\'\'</xwiki:render>'
@@ -25,5 +19,12 @@ class XWikiRenderingTagLibSpec extends GroovyPagesSpec {
         template = '<xwiki:render>**bold**</xwiki:render>'
         then:
         output == "<p><strong>bold</strong></p>"
+    }
+
+    def "Rendering some nested tags"() {
+        when:
+        template = '<xwiki:render>**bold** <g:join in="[\'Grails\', \'Groovy\', \'Gradle\']" delimiter="_"/></xwiki:render>'
+        then:
+        output == "<p><strong>bold</strong> Grails_Groovy_Gradle</p>"
     }
 }
