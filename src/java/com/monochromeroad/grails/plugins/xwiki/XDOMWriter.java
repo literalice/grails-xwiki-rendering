@@ -16,7 +16,7 @@ import java.io.Writer;
  */
 public class XDOMWriter {
 
-    XWikiComponentRepository componentRepository;
+    private XWikiComponentRepository componentRepository;
 
     public XDOMWriter(ComponentManager componentManager) {
         this.componentRepository = new XWikiComponentRepository(componentManager);
