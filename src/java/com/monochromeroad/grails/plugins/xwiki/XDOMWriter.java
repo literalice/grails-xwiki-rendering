@@ -13,11 +13,11 @@ import java.io.Writer;
  *
  * @author Masatoshi Hayashi
  */
-public class XDOMWriter {
+class XDOMWriter {
 
     private XWikiComponentRepository componentRepository;
 
-    public XDOMWriter(XWikiComponentRepository componentRepository) {
+    XDOMWriter(XWikiComponentRepository componentRepository) {
         this.componentRepository = componentRepository;
     }
 
@@ -28,7 +28,7 @@ public class XDOMWriter {
      * @param outputSyntax the output format
      * @param writer the writer used to write the xdom
      */
-    public void write(XDOM xdom, Syntax outputSyntax, Writer writer) {
+    void write(XDOM xdom, Syntax outputSyntax, Writer writer) {
         BlockRenderer renderer = componentRepository.lookupComponent(
                 BlockRenderer.class, outputSyntax.toIdString());
 

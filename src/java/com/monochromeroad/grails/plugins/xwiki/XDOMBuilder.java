@@ -11,7 +11,7 @@ import java.io.Reader;
  *
  * @author Masatoshi Hayashi
  */
-public class XDOMBuilder {
+class XDOMBuilder {
 
     /**
      * Builds XDOM Tree from a source text reader.
