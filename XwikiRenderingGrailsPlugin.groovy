@@ -1,6 +1,7 @@
 import org.xwiki.component.embed.EmbeddableComponentManager
 import com.monochromeroad.grails.plugins.xwiki.XWikiRenderer
 import com.monochromeroad.grails.plugins.xwiki.XWikiConfigurationProvider
+import com.monochromeroad.grails.plugins.xwiki.XWikiComponentRepository
 
 class XwikiRenderingGrailsPlugin {
     // the plugin version
@@ -34,9 +35,10 @@ class XwikiRenderingGrailsPlugin {
     }
 
     def doWithSpring = {
-        componentManager(EmbeddableComponentManager)
+        xwikiComponentManager(EmbeddableComponentManager)
+        xwikiComponentRepository(XWikiComponentRepository, xwikiComponentManager)
         xwikiConfigurationProvider(XWikiConfigurationProvider)
-        xwikiRenderer(XWikiRenderer, componentManager, xwikiConfigurationProvider)
+        xwikiRenderer(XWikiRenderer, xwikiComponentRepository, xwikiConfigurationProvider)
     }
 
     def doWithDynamicMethods = { ctx ->
@@ -44,7 +46,7 @@ class XwikiRenderingGrailsPlugin {
     }
 
     def doWithApplicationContext = { applicationContext ->
-        def componentManager = applicationContext.getBean("componentManager")
+        def componentManager = applicationContext.getBean("xwikiComponentManager")
         def grailsApplication = applicationContext.getBean("grailsApplication")
         componentManager.initialize(grailsApplication.classLoader)
     }

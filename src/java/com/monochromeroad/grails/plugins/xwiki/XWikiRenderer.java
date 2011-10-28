@@ -1,6 +1,5 @@
 package com.monochromeroad.grails.plugins.xwiki;
 
-import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.Parser;
@@ -28,12 +27,14 @@ public class XWikiRenderer {
 
     private XDOMWriter xdomWriter;
 
-    public XWikiRenderer(ComponentManager componentManager, XWikiConfigurationProvider xwikiConfigurationProvider) {
-        this.componentRepository = new XWikiComponentRepository(componentManager);
-        this.configurationProvider = xwikiConfigurationProvider;
+    public XWikiRenderer(
+                XWikiComponentRepository componentRepository,
+                XWikiConfigurationProvider configurationProvider) {
+        this.componentRepository = componentRepository;
+        this.configurationProvider = configurationProvider;
         this.xdomBuilder = new XDOMBuilder();
-        this.transformations.add(new DefaultXDOMTransformation(componentManager));
-        this.xdomWriter = new XDOMWriter(componentManager);
+        this.transformations.add(new DefaultXDOMTransformation(componentRepository));
+        this.xdomWriter = new XDOMWriter(componentRepository);
     }
 
     /**

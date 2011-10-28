@@ -1,6 +1,5 @@
 package com.monochromeroad.grails.plugins.xwiki;
 
-import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.renderer.BlockRenderer;
 import org.xwiki.rendering.renderer.printer.WikiPrinter;
@@ -18,8 +17,8 @@ public class XDOMWriter {
 
     private XWikiComponentRepository componentRepository;
 
-    public XDOMWriter(ComponentManager componentManager) {
-        this.componentRepository = new XWikiComponentRepository(componentManager);
+    public XDOMWriter(XWikiComponentRepository componentRepository) {
+        this.componentRepository = componentRepository;
     }
 
     /**

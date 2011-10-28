@@ -1,6 +1,5 @@
 package com.monochromeroad.grails.plugins.xwiki;
 
-import org.xwiki.component.manager.ComponentManager;
 import org.xwiki.rendering.block.XDOM;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.transformation.Transformation;
@@ -16,8 +15,8 @@ public class DefaultXDOMTransformation implements XDOMTransformation {
 
     private final XWikiComponentRepository componentRepository;
 
-    public DefaultXDOMTransformation(ComponentManager componentManager) {
-        this.componentRepository = new XWikiComponentRepository(componentManager);
+    public DefaultXDOMTransformation(XWikiComponentRepository componentRepository) {
+        this.componentRepository = componentRepository;
     }
 
     /**

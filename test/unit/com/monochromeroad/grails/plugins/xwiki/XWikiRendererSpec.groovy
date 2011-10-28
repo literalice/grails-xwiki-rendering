@@ -13,11 +13,12 @@ import org.xwiki.component.embed.EmbeddableComponentManager
 class XWikiRendererSpec extends Specification {
 
     @Shared
-    ComponentManager componentManager
+    XWikiComponentRepository componentRepository
 
     def setupSpec() {
-        componentManager = new EmbeddableComponentManager()
+        def componentManager = new EmbeddableComponentManager()
         componentManager.initialize(getClass().classLoader)
+        componentRepository = new XWikiComponentRepository(componentManager);
     }
 
     XWikiRenderer renderer
@@ -37,7 +38,7 @@ text :'''bold'''
     String expectedText = "level1\n\ntext :bold"
 
     def setup() {
-        renderer = new XWikiRenderer(componentManager, new XWikiConfigurationProvider())
+        renderer = new XWikiRenderer(componentRepository, new XWikiConfigurationProvider())
     }
 
     def "Converts wiki text using XWiki syntax"() {
