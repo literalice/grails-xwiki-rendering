@@ -14,7 +14,7 @@ class XWikiRenderingTagLibSpec extends GroovyPagesSpec {
         output == "bold"
     }
 
-    def "Rendering XWiki text using default input syntax xwiki and default output syntax xhtml"() {
+    def "Rendering XWiki text using default input syntax XWiki and default output syntax xhtml"() {
         when:
         template = '<xwiki:render>**bold**</xwiki:render>'
         then:

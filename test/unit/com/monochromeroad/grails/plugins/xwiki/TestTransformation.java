@@ -5,17 +5,30 @@
  */
 package com.monochromeroad.grails.plugins.xwiki;
 
+import org.xwiki.rendering.block.Block;
 import org.xwiki.rendering.block.RawBlock;
-import org.xwiki.rendering.block.XDOM;
-import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.syntax.Syntax;
+import org.xwiki.rendering.transformation.AbstractTransformation;
+import org.xwiki.rendering.transformation.TransformationContext;
+import org.xwiki.rendering.transformation.TransformationException;
 
-public class TestTransformation implements XDOMTransformation {
+public class TestTransformation extends AbstractTransformation {
 
-    public void transform(XDOM xdom, Parser parser, Object... parameters) {
-        if (parameters.length > 2) {
-            xdom.addChild(new RawBlock((String) parameters[2], Syntax.XHTML_1_0));
-        }
+    private String parameter;
+
+    private int priority;
+
+    public TestTransformation(String parameter, int priority) {
+        this.parameter = parameter;
+        this.priority = priority;
     }
 
+    public void transform(
+            Block block, TransformationContext transformationContext) throws TransformationException {
+        block.addChild(new RawBlock(parameter, Syntax.XHTML_1_0));
+    }
+
+    public int getPriority() {
+        return this.priority;
+    }
 }

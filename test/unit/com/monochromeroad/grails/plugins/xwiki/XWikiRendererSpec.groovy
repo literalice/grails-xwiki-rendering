@@ -2,13 +2,11 @@ package com.monochromeroad.grails.plugins.xwiki
 
 import spock.lang.Specification
 import spock.lang.Shared
-import org.xwiki.component.manager.ComponentManager
 import org.xwiki.component.embed.EmbeddableComponentManager
+import org.apache.log4j.BasicConfigurator
 
 /**
  * XWiki Renderer Spec
- * 
- * @author <a href="mailto:literalice@monochromeroad.com">Masatoshi Hayashi</a>
  */
 class XWikiRendererSpec extends Specification {
 
@@ -16,6 +14,8 @@ class XWikiRendererSpec extends Specification {
     XWikiComponentRepository componentRepository
 
     def setupSpec() {
+        BasicConfigurator.configure();
+
         def componentManager = new EmbeddableComponentManager()
         componentManager.initialize(getClass().classLoader)
         componentRepository = new XWikiComponentRepository(componentManager);
@@ -106,12 +106,14 @@ this line is comment.
     }
 
     def "Adds some custom transformer"() {
-        renderer.addTransformer(new TestTransformation());
+        def transformation1 = new TestTransformation("Pre Transformation", 1);
+        def transformation2 = new TestTransformation("Post Transformation", 1000);
 
         when:
-        String result = renderer.render(testXWiki21Text, "xwiki/2.0", "xhtml/1.0", "Transform Parameter")
+        String result = renderer.render(
+                testXWiki21Text, "xwiki/2.0", "xhtml/1.0", transformation1, transformation2)
         println result
         then:
-        result == expectedHTML + "Transform Parameter"
+        result == expectedHTML + "Pre TransformationPost Transformation"
     }
 }

@@ -5,10 +5,9 @@ import org.xwiki.rendering.parser.ParseException;
 import org.xwiki.rendering.parser.Parser;
 import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.syntax.SyntaxFactory;
+import org.xwiki.rendering.transformation.Transformation;
 
 import java.io.*;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Wiki Text Renderer using XWiki Rendering Engine.
@@ -23,7 +22,7 @@ public class XWikiRenderer {
 
     private XDOMBuilder xdomBuilder;
 
-    private List<XDOMTransformation> transformations = new LinkedList<XDOMTransformation> ();
+    private XDOMTransformationManager xdomTransformationManager;
 
     private XDOMWriter xdomWriter;
 
@@ -33,7 +32,8 @@ public class XWikiRenderer {
         this.componentRepository = componentRepository;
         this.configurationProvider = configurationProvider;
         this.xdomBuilder = new XDOMBuilder();
-        this.transformations.add(new DefaultXDOMTransformation(componentRepository));
+        this.xdomTransformationManager =
+                new XDOMTransformationManager(componentRepository, configurationProvider);
         this.xdomWriter = new XDOMWriter(componentRepository);
     }
 
@@ -42,22 +42,19 @@ public class XWikiRenderer {
      *
      * @param source source text reader
      * @param writer output writer
-     * @param parameters [input syntax, output syntax, ...transform parameters]
+     * @param inputSyntax inputSyntax
+     * @param outputSyntax outputSyntax
+     * @param transformations transform parameters
      */
-    public void render(Reader source, Writer writer, Object ...parameters) {
-        if (parameters.length < 2) {
-            throw new IllegalArgumentException("the input/output sytaxes must be passed.");
-        }
-
+    public void render(Reader source, Writer writer,
+                         CharSequence inputSyntax, CharSequence outputSyntax, Transformation ...transformations) {
         SyntaxFactory syntaxFactory = getSyntaxFactory();
-        Syntax inputSyntaxObj = getSyntax(syntaxFactory, parameters[0]);
-        Syntax outputSyntaxObj = getSyntax(syntaxFactory, parameters[1]);
+        Syntax inputSyntaxObj = getSyntax(syntaxFactory, inputSyntax);
+        Syntax outputSyntaxObj = getSyntax(syntaxFactory, outputSyntax);
 
         Parser parser = getParser(inputSyntaxObj);
         XDOM xdom = xdomBuilder.build(source, parser);
-        for (XDOMTransformation transformation : transformations) {
-            transformation.transform(xdom, parser, parameters);
-        }
+        xdomTransformationManager.transform(xdom, parser, transformations);
         xdomWriter.write(xdom, outputSyntaxObj, writer);
     }
 
@@ -66,39 +63,52 @@ public class XWikiRenderer {
      *
      * @param source source text reader
      * @param writer output writer
+     * @param transformations transform parameters
      */
-    public void render(Reader source, Writer writer) {
-        render(source, writer,
-                configurationProvider.getDefaultInputSyntax(),
-                configurationProvider.getDefaultOutputSyntax());
+    public void render(Reader source, Writer writer, Transformation ...transformations) {
+        String inputSyntax = configurationProvider.getDefaultInputSyntax();
+        String outputSyntax = configurationProvider.getDefaultOutputSyntax();
+        render(source, writer, inputSyntax, outputSyntax, transformations);
     }
 
     /**
-     * @see #render(java.io.Reader, java.io.Writer, Object[]))
+     * Renders a source text using XWiki rendering engine and default syntax.
+     *
+     * @param source source text reader
+     * @param writer output writer
+     * @param inputSyntax inputSyntax
+     * @param outputSyntax outputSyntax
+     * @param transformations transform parameters
      */
-    public void render(CharSequence source, Writer writer, Object...parameters) {
-        render(new StringReader(source.toString()), writer, parameters);
+    public void render(
+            CharSequence source, Writer writer,
+            CharSequence inputSyntax, CharSequence outputSyntax, Transformation ...transformations) {
+        render(new StringReader(source.toString()), writer, inputSyntax, outputSyntax, transformations);
     }
 
     /**
-     * @see #render(java.io.Reader, java.io.Writer)
+     * Renders a source text using XWiki rendering engine and default syntax.
+     *
+     * @param source source text reader
+     * @param writer output writer
+     * @param transformations transform parameters
      */
-    public void render(CharSequence source, Writer writer) {
-        render(source, writer,
-                configurationProvider.getDefaultInputSyntax(),
-                configurationProvider.getDefaultOutputSyntax());
+    public void render(CharSequence source, Writer writer, Transformation...transformations) {
+        render(new StringReader(source.toString()), writer, transformations);
     }
 
     /**
      * Returns rendered text from XWiki Rendering.
      *
-     * @param source a source text
-     * @param parameters [input syntax, output syntax, and transform parameters...]
+     * @param source source text reader
+     * @param inputSyntax inputSyntax
+     * @param outputSyntax outputSyntax
+     * @param transformations transform parameters
      * @return a rendered result
      */
-    public String render(Reader source, Object ...parameters) {
+    public String render(Reader source, String inputSyntax, String outputSyntax, Transformation ...transformations) {
         Writer writer = new StringWriter();
-        render(source, writer, parameters);
+        render(source, writer, inputSyntax, outputSyntax, transformations);
         return writer.toString();
     }
 
@@ -106,47 +116,40 @@ public class XWikiRenderer {
      * Returns rendered text from XWiki Rendering using default input syntax and default output syntax.
      *
      * @param source a source text
+     * @param transformations transform parameters
      * @return a rendered result
      */
-    public String render(Reader source) {
-        return render(source,
-                configurationProvider.getDefaultInputSyntax(),
-                configurationProvider.getDefaultOutputSyntax());
+    public String render(Reader source, Transformation ...transformations) {
+        String inputSyntax = configurationProvider.getDefaultInputSyntax();
+        String outputSyntax = configurationProvider.getDefaultOutputSyntax();
+        return render(source, inputSyntax, outputSyntax, transformations);
     }
 
     /**
-     * @see #render(java.io.Reader, Object[])
-     */
-    public String render(CharSequence source, Object ...parameters) {
-        return render(new StringReader(source.toString()), parameters);
-    }
-
-    /**
-     * @see #render(java.io.Reader)
-     */
-    public String render(CharSequence source) {
-        return render(source,
-                configurationProvider.getDefaultInputSyntax(),
-                configurationProvider.getDefaultOutputSyntax());
-    }
-
-    /**
-     * Adds a transformation
+     * Returns rendered text from XWiki Rendering.
      *
-     * @param transformation transformation
+     * @param source a source text
+     * @param inputSyntax inputSyntax
+     * @param outputSyntax outputSyntax
+     * @param transformations transform parameters
+     * @return a rendered result
      */
-    public void addTransformer(XDOMTransformation transformation) {
-        this.transformations.add(transformation);
+    public String render(CharSequence source,
+                          String inputSyntax, String outputSyntax, Transformation ...transformations) {
+        return render(new StringReader(source.toString()), inputSyntax, outputSyntax, transformations);
     }
 
     /**
-     * Adds a transformation
+     * Returns rendered text from XWiki Rendering using default input syntax and default output syntax.
      *
-     * @param index the index of the transformation
-     * @param transformation transformation
+     * @param source a source text
+     * @param transformations transform parameters
+     * @return a rendered result
      */
-    public void addTransformation(int index, XDOMTransformation transformation) {
-        this.transformations.add(index, transformation);
+    public String render(CharSequence source, Transformation ...transformations) {
+        String inputSyntax = configurationProvider.getDefaultInputSyntax();
+        String outputSyntax = configurationProvider.getDefaultOutputSyntax();
+        return render(source, inputSyntax, outputSyntax, transformations);
     }
 
     private Parser getParser(Syntax syntax) {
