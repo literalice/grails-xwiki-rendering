@@ -11,7 +11,7 @@ public class XWikiComponentRepository {
         this.componentManager = componentManager;
     }
 
-    public <T> T lookupComponent(Class<T>componentClass) {
+    public <T> T lookupComponent(Class<T> componentClass) {
         try {
             return componentManager.lookup(componentClass);
         } catch (ComponentLookupException e) {
@@ -19,7 +19,7 @@ public class XWikiComponentRepository {
         }
     }
 
-    public <T> T lookupComponent(Class<T>componentClass, String parameter) {
+    public <T> T lookupComponent(Class<T> componentClass, String parameter) {
         try {
             return componentManager.lookup(componentClass, parameter);
         } catch (ComponentLookupException e) {
