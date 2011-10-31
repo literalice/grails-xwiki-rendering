@@ -2,8 +2,8 @@ package com.monochromeroad.grails.plugins.xwiki
 
 import spock.lang.Specification
 import spock.lang.Shared
-import org.xwiki.component.embed.EmbeddableComponentManager
 import org.apache.log4j.BasicConfigurator
+import org.xwiki.component.embed.EmbeddableComponentManager
 
 /**
  * XWiki Renderer Spec
@@ -11,17 +11,20 @@ import org.apache.log4j.BasicConfigurator
 class XWikiRendererSpec extends Specification {
 
     @Shared
-    XWikiComponentRepository componentRepository
+    XWikiRenderer renderer
 
     def setupSpec() {
         BasicConfigurator.configure();
 
-        def componentManager = new EmbeddableComponentManager()
-        componentManager.initialize(getClass().classLoader)
-        componentRepository = new XWikiComponentRepository(componentManager);
-    }
+        XWikiConfigurationProvider configurationProvider = new XWikiConfigurationProvider();
 
-    XWikiRenderer renderer
+        EmbeddableComponentManager componentManager = new EmbeddableComponentManager();
+        componentManager.initialize(getClass().classLoader)
+
+        renderer = new XWikiRenderer()
+        XWikiRendererConfigurator.initialize(
+                renderer, configurationProvider, componentManager);
+    }
 
     String testXWiki21Text = """
 =level1=
@@ -38,7 +41,7 @@ text :'''bold'''
     String expectedText = "level1\n\ntext :bold"
 
     def setup() {
-        renderer = new XWikiRenderer(componentRepository, new XWikiConfigurationProvider())
+
     }
 
     def "Converts wiki text using XWiki syntax"() {

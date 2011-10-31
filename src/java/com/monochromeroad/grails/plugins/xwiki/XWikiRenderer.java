@@ -16,26 +16,17 @@ import java.io.*;
  */
 public class XWikiRenderer {
 
-    private XWikiComponentRepository componentRepository;
-
     private XWikiConfigurationProvider configurationProvider;
 
-    private XDOMBuilder xdomBuilder;
+    private SyntaxFactory syntaxFactory;
+
+    private XWikiParserFactory parserFactory;
+
+    private XDOMBuilder xdomBuilder = new XDOMBuilder();
 
     private XDOMTransformationManager xdomTransformationManager;
 
     private XDOMWriter xdomWriter;
-
-    public XWikiRenderer(
-                XWikiComponentRepository componentRepository,
-                XWikiConfigurationProvider configurationProvider) {
-        this.componentRepository = componentRepository;
-        this.configurationProvider = configurationProvider;
-        this.xdomBuilder = new XDOMBuilder();
-        this.xdomTransformationManager =
-                new XDOMTransformationManager(componentRepository, configurationProvider);
-        this.xdomWriter = new XDOMWriter(componentRepository);
-    }
 
     /**
      * Renders a source text using XWiki Rendering Engine.
@@ -48,11 +39,10 @@ public class XWikiRenderer {
      */
     public void render(Reader source, Writer writer,
                          CharSequence inputSyntax, CharSequence outputSyntax, Transformation ...transformations) {
-        SyntaxFactory syntaxFactory = getSyntaxFactory();
-        Syntax inputSyntaxObj = getSyntax(syntaxFactory, inputSyntax);
-        Syntax outputSyntaxObj = getSyntax(syntaxFactory, outputSyntax);
+        Syntax inputSyntaxObj = getSyntax(inputSyntax);
+        Syntax outputSyntaxObj = getSyntax(outputSyntax);
 
-        Parser parser = getParser(inputSyntaxObj);
+        Parser parser = parserFactory.getParser(inputSyntaxObj);
         XDOM xdom = xdomBuilder.build(source, parser);
         xdomTransformationManager.transform(xdom, parser, transformations);
         xdomWriter.write(xdom, outputSyntaxObj, writer);
@@ -152,21 +142,32 @@ public class XWikiRenderer {
         return render(source, inputSyntax, outputSyntax, transformations);
     }
 
-    private Parser getParser(Syntax syntax) {
-        return componentRepository.
-                lookupComponent(Parser.class, syntax.toIdString());
+    void setTransformationManager(XDOMTransformationManager transformationManager) {
+        this.xdomTransformationManager = transformationManager;
     }
 
-    private Syntax getSyntax(SyntaxFactory factory, Object id) {
+    void setWriter(XDOMWriter writer) {
+        this.xdomWriter = writer;
+    }
+
+    void setSyntaxFactory(SyntaxFactory syntaxFactory) {
+        this.syntaxFactory = syntaxFactory;
+    }
+
+    void setParserFactory(XWikiParserFactory parserFactory) {
+        this.parserFactory = parserFactory;
+    }
+
+    void setConfigurationProvider(XWikiConfigurationProvider configurationProvider) {
+        this.configurationProvider = configurationProvider;
+    }
+
+    private Syntax getSyntax(Object id) {
         try {
-            return factory.createSyntaxFromIdString(id.toString());
+            return syntaxFactory.createSyntaxFromIdString(id.toString());
         } catch (ParseException e) {
             throw new IllegalArgumentException("Invalid Syntax ID: " + id, e);
         }
     }
 
-    private SyntaxFactory getSyntaxFactory() {
-        return componentRepository.
-                lookupComponent(SyntaxFactory.class);
-    }
 }

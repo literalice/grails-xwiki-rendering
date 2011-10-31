@@ -1,7 +1,7 @@
 import org.xwiki.component.embed.EmbeddableComponentManager
 import com.monochromeroad.grails.plugins.xwiki.XWikiRenderer
 import com.monochromeroad.grails.plugins.xwiki.XWikiConfigurationProvider
-import com.monochromeroad.grails.plugins.xwiki.XWikiComponentRepository
+import com.monochromeroad.grails.plugins.xwiki.XWikiRendererConfigurator
 
 class XwikiRenderingGrailsPlugin {
     // the plugin version
@@ -23,7 +23,6 @@ class XwikiRenderingGrailsPlugin {
     def title = "XWiki Rendering Plugin"
     def description = "The wiki rendering engine using XWiki Rendering Framework."
 
-    // URL to the plugin's documentation
     def documentation = "http://grails.org/plugin/xwiki-rendering"
 
     def license = "LGPL"
@@ -36,9 +35,8 @@ class XwikiRenderingGrailsPlugin {
 
     def doWithSpring = {
         xwikiComponentManager(EmbeddableComponentManager)
-        xwikiComponentRepository(XWikiComponentRepository, xwikiComponentManager)
         xwikiConfigurationProvider(XWikiConfigurationProvider)
-        xwikiRenderer(XWikiRenderer, xwikiComponentRepository, xwikiConfigurationProvider)
+        xwikiRenderer(XWikiRenderer)
     }
 
     def doWithDynamicMethods = { ctx ->
@@ -46,9 +44,17 @@ class XwikiRenderingGrailsPlugin {
     }
 
     def doWithApplicationContext = { applicationContext ->
-        def componentManager = applicationContext.getBean("xwikiComponentManager")
-        def grailsApplication = applicationContext.getBean("grailsApplication")
-        componentManager.initialize(grailsApplication.classLoader)
+        XWikiConfigurationProvider xwikiConfigurationProvider =
+            applicationContext.getBean("xwikiConfigurationProvider") as XWikiConfigurationProvider
+
+        EmbeddableComponentManager componentManager =
+            applicationContext.getBean("xwikiComponentManager") as EmbeddableComponentManager
+        componentManager.initialize(application.classLoader)
+
+        XWikiRenderer xwikiRenderer =
+            applicationContext.getBean("xwikiRenderer") as XWikiRenderer
+        XWikiRendererConfigurator.initialize(
+                xwikiRenderer, xwikiConfigurationProvider, componentManager)
     }
 
     def onChange = { event ->

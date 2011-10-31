@@ -7,21 +7,12 @@ import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.TransformationException;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.NavigableSet;
 import java.util.TreeSet;
 
 class XDOMTransformationManager {
 
-    XWikiComponentRepository componentRepository;
-
-    XWikiConfigurationProvider configurationProvider;
-
-    XDOMTransformationManager(
-            XWikiComponentRepository componentRepository, XWikiConfigurationProvider configurationProvider) {
-        this.componentRepository = componentRepository;
-        this.configurationProvider = configurationProvider;
-    }
+    private NavigableSet<Transformation> defaultTransformations = new TreeSet<Transformation>();
 
     XDOM transform(XDOM xdom, Parser parser, Transformation ...transformations) {
         TransformationContext context = new TransformationContext(xdom, parser.getSyntax());
@@ -38,14 +29,13 @@ class XDOMTransformationManager {
         return xdom;
     }
 
+    void addDefaultTransformation(Transformation transformation) {
+        defaultTransformations.add(transformation);
+    }
+
     private NavigableSet<Transformation> getTransformationList(Transformation ...transformations) {
-        List<String> defaultTransformations = configurationProvider.getDefaultTransformations();
-        NavigableSet<Transformation> transformationList = new TreeSet<Transformation>();
-        for(String defaultTransformation : defaultTransformations) {
-            Transformation transform =
-                    componentRepository.lookupComponent(Transformation.class, defaultTransformation);
-            transformationList.add(transform);
-        }
+        NavigableSet<Transformation> transformationList =
+                new TreeSet<Transformation>(defaultTransformations);
         Collections.addAll(transformationList, transformations);
         return transformationList;
     }
