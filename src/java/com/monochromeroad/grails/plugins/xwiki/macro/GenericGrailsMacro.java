@@ -60,6 +60,10 @@ public class GenericGrailsMacro extends AbstractMacro<Object> {
         return macroImpl.execute(parameters, content, context);
     }
 
+    public String getMacroName() {
+        return macroName;
+    }
+
     public ComponentDescriptor createDescriptor() {
         DefaultComponentDescriptor<Macro> macroDescriptor =
                         new DefaultComponentDescriptor<Macro>();
