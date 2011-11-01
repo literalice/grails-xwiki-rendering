@@ -2,6 +2,11 @@ import org.xwiki.component.embed.EmbeddableComponentManager
 import com.monochromeroad.grails.plugins.xwiki.XWikiRenderer
 import com.monochromeroad.grails.plugins.xwiki.XWikiConfigurationProvider
 import com.monochromeroad.grails.plugins.xwiki.XWikiRendererConfigurator
+import com.monochromeroad.grails.plugins.xwiki.artefact.GrailsXwikiMacroClass
+import com.monochromeroad.grails.plugins.xwiki.artefact.XwikiMacroArtefactHandler
+import org.xwiki.properties.BeanManager
+import com.monochromeroad.grails.plugins.xwiki.macro.GenericGrailsMacro
+import com.monochromeroad.grails.plugins.xwiki.macro.GrailsMacro
 
 class XwikiRenderingGrailsPlugin {
     // the plugin version
@@ -12,6 +17,7 @@ class XwikiRenderingGrailsPlugin {
     def dependsOn = [:]
     // resources that are excluded from plugin packaging
     def pluginExcludes = [
+            "grails-app/xwiki/**/*",
             "grails-app/views/**/*",
             "grails-app/i18n/**/*",
             "grails-app/controllers/**/*",
@@ -28,6 +34,8 @@ class XwikiRenderingGrailsPlugin {
     def license = "LGPL"
     
     def scm = [url: "https://github.com/literalice/grails-xwiki-rendering"]
+
+    def artefacts = [ XwikiMacroArtefactHandler ]
 
     def doWithWebDescriptor = { xml ->
         // TODO Implement additions to web.xml (optional), this event occurs before 
@@ -55,6 +63,19 @@ class XwikiRenderingGrailsPlugin {
             applicationContext.getBean("xwikiRenderer") as XWikiRenderer
         XWikiRendererConfigurator.initialize(
                 xwikiRenderer, xwikiConfigurationProvider, componentManager)
+
+        BeanManager beanManager = componentManager.lookup(BeanManager) as BeanManager
+
+        log.info("Starting to register Grails XWiki Macros...")
+        application.xwikiMacroClasses.each { GrailsXwikiMacroClass macroClass->
+            log.info("XWiki Macro [${macroClass.naturalName}] is being registered...")
+
+            def macro = createMacro(macroClass, beanManager);
+            def macroDescriptor = macro.createDescriptor()
+            componentManager.registerComponent(macroDescriptor, macro);
+        }
+        log.info("Grails XWiki Macros registered successfully")
+
     }
 
     def onChange = { event ->
@@ -66,5 +87,26 @@ class XwikiRenderingGrailsPlugin {
     def onConfigChange = { event ->
         // TODO Implement code that is executed when the project configuration changes.
         // The event is the same as for 'onChange'.
+    }
+
+    GenericGrailsMacro createMacro(
+            GrailsXwikiMacroClass macroClass, BeanManager beanManager) {
+        String macroName = macroClass.getPropertyValue("macroName") as String
+        if (!macroName) {
+            throw new IllegalStateException(
+                    "Macro name (static macroName) not defined.: $macroClass.fullName")
+        }
+
+        def grailsMacro = macroClass.clazz.newInstance() as GrailsMacro
+        Class parametersBeanClass =
+            (macroClass.getPropertyValue("parametersBeanClass") ?: Object.class) as Class
+        Boolean inlineSupport =
+            macroClass.getPropertyValue("inlineSupport") as Boolean
+
+        return GenericGrailsMacro.getInstance(beanManager,
+                    macroName:macroName,
+                    macroImpl:grailsMacro,
+                    parametersBeanClass: parametersBeanClass,
+                    inlineSupport: inlineSupport);
     }
 }
