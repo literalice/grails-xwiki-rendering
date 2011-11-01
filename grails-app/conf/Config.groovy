@@ -21,6 +21,7 @@ log4j = {
            'net.sf.ehcache.hibernate'
 
     warn   'org.mortbay.log'
+    debug  'org.codehaus.groovy.grails.plugins.DefaultGrailsPlugin' // plugins
 }
 grails.views.default.codec="none" // none, html, base64
 grails.views.gsp.encoding="UTF-8"
