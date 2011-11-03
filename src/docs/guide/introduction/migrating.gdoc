@@ -1,0 +1,8 @@
+h4. Removal of TagLib "xwikiRender"
+
+Use xwiki:[render|Tags] tag instead.
+
+h4. Removal of Service "RenderingService"
+
+Use [xwikiRenderer|Services] tag instead.
+

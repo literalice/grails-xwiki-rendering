@@ -1,0 +1,23 @@
+@XWiki Transfromation@ modefies some @XDOM@(AST representing the input) to generate modified @XDOM@.
+
+See also "XWiki Rendering Architecture":http://rendering.xwiki.org/xwiki/bin/view/Main/Architecture for more detail about XWiki Transformation.
+
+In this Grails XWiki Rendering Plugin, [xwikiRenderer|Services] service can take some XWiki Transformations.
+
+h4. Example
+
+{code:java}
+class TestTransformation extends AbstractTransformation {
+    public void transform(
+            Block block, TransformationContext transformationContext) throws TransformationException {
+        block.addChild(new RawBlock(parameter, Syntax.XHTML_1_0));
+    }
+}
+{code}
+
+and:
+
+{code:java}
+def transformation = new TestTransformation()
+def output = xwikiRenderer.render("** Source Text **", transformation)
+{code}

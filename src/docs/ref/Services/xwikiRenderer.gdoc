@@ -1,0 +1,43 @@
+h1. xwikiRender
+
+h2. Purpose
+
+An instance of the [XWikiRenderer|api:com.monochromeroad.grails.plugins.xwiki.XWikiRenderer] class.
+
+h2. Examples
+
+{code:java}
+class SomeController {
+
+    def xwikiRenderer
+
+    def someAction = {
+        String testString = """
+        =level1=
+        **bold**
+        """
+        String result = xwikiRenderer.render(textString, "mediawiki/1.0", "plain/1.0")
+        ...
+    }
+
+}
+{code}
+
+or
+
+{code:java}
+class SomeController {
+
+    def xwikiRenderer
+
+    def someAction = {
+        StringWriter writer = new StringWriter()
+        new File("./test").withReader { reader ->
+            xwikiRenderer.render(reader, writer, "mediawiki/1.0", "plain/1.0")
+        }
+        String result = writer.toString()
+        ...
+    }
+
+}
+{code}

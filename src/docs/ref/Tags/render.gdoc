@@ -1,0 +1,47 @@
+h1. xwiki:render Tag
+
+h2. Purpose
+
+Renders the source text converted based on the specified input syntax and output syntax.
+
+h2. Examples
+
+{code:xml}
+<xwiki:render>
+=XWiki Rendering Sample 1=
+This text will be rendered:
+input - **XWiki Syntax 2.1**(default) , output - **XHTML**(default)
+{{comment}}
+This line will be processed by XWiki Comment Macro.
+{{/comment}}
+</xwiki:render>
+
+<xwiki:render inputSyntax="mediawiki/2.1" outputSyntax="xhtml/1.0">
+=XWiki Rendering Sample 2=
+This text will be rendered:
+input - **MediaWiki Syntax** , output - **Plain Text**
+</xwiki:render>
+{code}
+
+h2. Description
+
+Attributes
+
+* @inputSyntax@ (optional) - The source text syntax. Default to "xwiki/2.1"
+* @outputSyntax@ (optional) - The output text syntax. Default to "xhtml/1.0"
+
+The supported input syntaxes are:
+
+* @xwiki/2.1@ - XWiki Syntax 2.1
+* @mediawiki/1.0@ - Media Wiki Syntax
+* @creole/1.0@ - Creole 1.0 Syntax
+* etc. (See also "XWiki Rendering Framework Supported Syntaxes":http://rendering.xwiki.org/xwiki/bin/view/Main/WebHome#HSupportedSyntaxes )
+
+The supported output syntaxes are:
+
+* @xhtml/1.0@ - XHTML
+* @plain/1.0@ - Plain Text
+* @xwiki/2.1@ - XWiki Syntax 2.1
+* @docbook/4.4@ - DocBook 4.4
+* etc. (See also "XWiki Rendering Framework Supported Syntaxes":http://rendering.xwiki.org/xwiki/bin/view/Main/WebHome#HSupportedSyntaxes )
+
