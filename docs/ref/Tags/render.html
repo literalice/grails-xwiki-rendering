@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>XWiki Rendering Plugin 0.3</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
+    <link rel="stylesheet" href="../../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
+    <script type="text/javascript">
+function addJsClass(el) {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+</head>
+
+<body class="body" onload="addJsClass();">
+
+<div id="navigation">
+    <ul>
+        <li>
+            <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                <a href="../../guide/index.html" class="button">Table of contents</a>
+
+                <div id="nav-summary-childs">
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/introduction.html"><strong>1</strong><span>Introduction</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/macro.html"><strong>2</strong><span>XWiki Macro</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/transformation.html"><strong>3</strong><span>XWiki Transformation</span></a>
+                    </div>
+                    
+                </div>
+            </div>
+        </li>
+        <li class="separator selected">
+            <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+        </li>
+    </ul>
+</div>
+<div id="header">
+    <div class="images clearfix">
+        
+        
+    </div>
+    <p>The wiki rendering engine using XWiki Rendering Framework.</p>
+</div>
+
+
+<table id="colset" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td id="col1">
+            <div id="main" class="reference corner-all">
+
+                <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                <h1>xwiki:render Tag</h1><p class="paragraph"/><h2>Purpose</h2><p class="paragraph"/>Renders the source text converted based on the specified input syntax and output syntax.<p class="paragraph"/><h2>Examples</h2><p class="paragraph"/><div class="code"><pre><span class="xml&#45;tag">&#60;xwiki:render&#62;</span>
+=XWiki Rendering Sample 1=
+This text will be rendered:
+input &#45; &#42;&#42;XWiki Syntax 2.1&#42;&#42;(default) , output &#45; &#42;&#42;XHTML&#42;&#42;(default)
+&#123;&#123;comment&#125;&#125;
+This line will be processed by XWiki Comment Macro.
+&#123;&#123;/comment&#125;&#125;
+<span class="xml&#45;tag">&#60;/xwiki:render&#62;</span><p class="paragraph"/><span class="xml&#45;tag">&#60;xwiki:render inputSyntax=<span class="xml&#45;quote">"mediawiki/2.1"</span> outputSyntax=<span class="xml&#45;quote">"xhtml/1.0"</span>&#62;</span>
+=XWiki Rendering Sample 2=
+This text will be rendered:
+input &#45; &#42;&#42;MediaWiki Syntax&#42;&#42; , output &#45; &#42;&#42;Plain Text&#42;&#42;
+<span class="xml&#45;tag">&#60;/xwiki:render&#62;</span></pre></div><p class="paragraph"/><h2>Description</h2><p class="paragraph"/>Attributes
+<ul class="star">
+<li><code>inputSyntax</code> (optional) - The source text syntax. Default to "xwiki/2.1"</li>
+<li><code>outputSyntax</code> (optional) - The output text syntax. Default to "xhtml/1.0"</li>
+</ul><p class="paragraph"/>The supported input syntaxes are:
+<ul class="star">
+<li><code>xwiki/2.1</code> - XWiki Syntax 2.1</li>
+<li><code>mediawiki/1.0</code> - Media Wiki Syntax</li>
+<li><code>creole/1.0</code> - Creole 1.0 Syntax</li>
+<li>etc. (See also <a href="http://rendering.xwiki.org/xwiki/bin/view/Main/WebHome#HSupportedSyntaxes" target="blank">XWiki Rendering Framework Supported Syntaxes</a> )</li>
+</ul><p class="paragraph"/>The supported output syntaxes are:
+<ul class="star">
+<li><code>xhtml/1.0</code> - XHTML</li>
+<li><code>plain/1.0</code> - Plain Text</li>
+<li><code>xwiki/2.1</code> - XWiki Syntax 2.1</li>
+<li><code>docbook/4.4</code> - DocBook 4.4</li>
+<li>etc. (See also <a href="http://rendering.xwiki.org/xwiki/bin/view/Main/WebHome#HSupportedSyntaxes" target="blank">XWiki Rendering Framework Supported Syntaxes</a> )</li>
+</ul><p class="paragraph"/>
+            </div>
+        </td>
+        <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                    <div class="menu-block">
+                        <h1 class="menu-title" onclick="toggleRef(nextElement(this))">Services</h1>
+                        <div class="menu-sub">
+                            
+                            
+                            <div class="menu-item"><a href="../../ref/Services/xwikiRenderer.html">xwikiRenderer</a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="menu-block">
+                        <h1 class="menu-title" onclick="toggleRef(nextElement(this))">Tags</h1>
+                        <div class="menu-sub selected">
+                            
+                            
+                            <div class="menu-item"><a href="../../ref/Tags/render.html">render</a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div id="footer">
+    
+    
+</div>
+
+
+<script type="text/javascript" src="../../js/docs.js"></script>
+
+</body>
+</html>

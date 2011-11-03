@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+        <title>XWiki Rendering Plugin 0.3</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
+        <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
+    <script type="text/javascript">
+function addJsClass(el) {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+    </head>
+
+    <body class="body" onload="addJsClass();">
+        <div id="navigation">
+            <ul>
+                <li>
+                    <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                        <a href="../guide/index.html" class="button">Table of contents</a>
+                        <div id="nav-summary-childs" style="display:none;">
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#macro"><strong>2</strong><span>XWiki Macro</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#transformation"><strong>3</strong><span>XWiki Transformation</span></a></div>
+                            
+                        </div>
+                    </div>
+                </li>
+                <li class="separator selected">
+                    <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+                </li>
+            </ul>
+        </div>
+        <div id="header">
+            <div class="images clearfix">
+                
+                
+            </div>
+            <p>The wiki rendering engine using XWiki Rendering Framework.</p>
+        </div>
+
+
+        <table id="colset" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td id="col1">
+                    <div id="main" class="corner-all">
+
+                        <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                        <div class="project">
+                            <h1>XWiki Rendering Plugin - Reference Documentation</h1>
+                            <p><strong>Authors:</strong> Masatoshi Hayashi</p>
+                            <p><strong>Version:</strong> 0.3</p>
+                            
+                        </div>
+
+                        
+                        <div id="table-of-content">
+                            <h2>Table of Contents</h2>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#introduction"><strong>1</strong><span>Introduction</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="#migrating"><strong>1.1</strong><span>Migrating from version 0.1</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#macro"><strong>2</strong><span>XWiki Macro</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#transformation"><strong>3</strong><span>XWiki Transformation</span></a></div>
+                            
+                            <div style="clear:both" ></div>
+                        </div>
+                        
+                        
+
+<h1 id="introduction">1 Introduction</h1>
+This Grails plugin allows you to convert texts using XWiki Rendering Framework.<p class="paragraph"/>See <a href="http://rendering.xwiki.org/xwiki/bin/view/Main/WebHome" target="blank">XWiki Rendering Framework</a> for the details about the framework.
+
+
+
+<h2 id="migrating">1.1 Migrating from version 0.1</h2>
+<h4>Removal of TagLib "xwikiRender"</h4><p class="paragraph"/>Use xwiki:<a href="../ref/Tags/render.html" class="Tags">render</a> tag instead.<p class="paragraph"/><h4>Removal of Service "RenderingService"</h4><p class="paragraph"/>Use <a href="../ref/Services/xwikiRenderer.html" class="Services">xwikiRenderer</a> tag instead.<p class="paragraph"/>
+
+
+<h1 id="macro">2 XWiki Macro</h1>
+<h4>Adding the macro libraries</h4><p class="paragraph"/>The Macro libraries must be added to your grails project in order to use XWiki Macros.<p class="paragraph"/>If you want to create your own macro, <a href="http://rendering.xwiki.org/xwiki/bin/view/Main/ExtendingMacro" target="blank">ExtendingMacro</a> would be useful.<p class="paragraph"/><h5>Example</h5><p class="paragraph"/>If you need <a href="http://extensions.xwiki.org/xwiki/bin/view/Extension/Comment+Macro" target="blank">Comment Macro</a> :<p class="paragraph"/><code>grails-app/conf/BuildConfig.groovy</code>
+<div class="code"><pre>dependencies &#123;
+    &#8230;
+    runtime(<span class="java&#45;quote">"org.xwiki.rendering:xwiki&#45;rendering&#45;macro&#45;comment:3.2"</span>) &#123;
+        transitive = <span class="java&#45;keyword">false</span>
+    &#125;
+&#125;</pre></div><p class="paragraph"/>and:<p class="paragraph"/><div class="code"><pre><span class="xml&#45;tag">&#60;xwiki:render&#62;</span>
+= level1 headings =
+&#42;&#42; bold text &#42;&#42;
+&#123;&#123;comment&#125;&#125;
+comment here...(not be rendered)
+&#123;&#123;/comment&#125;&#125;
+<span class="xml&#45;tag">&#60;/xwiki:render&#62;</span></pre></div><p class="paragraph"/>you can also add the macro library into "YOUR-GRAILS-PROJECT/lib" directory.
+
+
+
+<h1 id="transformation">3 XWiki Transformation</h1>
+<code>XWiki Transfromation</code> modefies some <code>XDOM</code>(AST representing the input) to generate modified <code>XDOM</code>.<p class="paragraph"/>See also <a href="http://rendering.xwiki.org/xwiki/bin/view/Main/Architecture" target="blank">XWiki Rendering Architecture</a> for more detail about XWiki Transformation.<p class="paragraph"/>In this Grails XWiki Rendering Plugin, <a href="../ref/Services/xwikiRenderer.html" class="Services">xwikiRenderer</a> service can take some XWiki Transformations.<p class="paragraph"/><h4>Example</h4><p class="paragraph"/><div class="code"><pre>class TestTransformation <span class="java&#45;keyword">extends</span> AbstractTransformation &#123;
+    <span class="java&#45;keyword">public</span> void transform(
+            Block block, TransformationContext transformationContext) <span class="java&#45;keyword">throws</span> TransformationException &#123;
+        block.addChild(<span class="java&#45;keyword">new</span> RawBlock(parameter, Syntax.XHTML_1_0));
+    &#125;
+&#125;</pre></div><p class="paragraph"/>and:<p class="paragraph"/><div class="code"><pre>def transformation = <span class="java&#45;keyword">new</span> TestTransformation()
+def output = xwikiRenderer.render(<span class="java&#45;quote">"&#42;&#42; Source Text &#42;&#42;"</span>, transformation)</pre></div>
+
+
+                    </div>
+                </td>
+                <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                    <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Services</h1><div class="menu-sub">
+                        
+                        
+                        <div class="menu-item"><a href="../ref/Services/xwikiRenderer.html">xwikiRenderer</a>
+                        </div>
+                        
+                        </div>
+                    </div>
+                    
+                    <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Tags</h1><div class="menu-sub">
+                        
+                        
+                        <div class="menu-item"><a href="../ref/Tags/render.html">render</a>
+                        </div>
+                        
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </td>
+            </tr>
+        </table>
+
+        <div id="footer">
+            
+            
+        </div>
+
+
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+    </body>
+</html>
