@@ -33,7 +33,7 @@ class XwikiRenderingGrailsPlugin {
     def title = "XWiki Rendering Plugin"
     def description = "The wiki rendering engine using XWiki Rendering Framework."
 
-    def documentation = "http://grails.org/plugin/xwiki-rendering"
+    def documentation = "http://literalice.github.com/grails-xwiki-rendering/"
 
     def license = "APACHE"
     
