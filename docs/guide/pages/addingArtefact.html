@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>3 XWiki Transformation 0.3</title>
+    <title>2.2 Adding Grails XWiki Macro artefacts 0.3</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -20,17 +20,17 @@ function addJsClass() {
     <ul>
         <li>
             <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
-                <a href="../guide/index.html" class="button">Table of contents</a>
+                <a href="../../guide/index.html" class="button">Table of contents</a>
 
                 <div id="nav-summary-childs" style="display:none;">
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/introduction.html"><strong>1</strong><span>Introduction</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/introduction.html"><strong>1</strong><span>Introduction</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/macro.html"><strong>2</strong><span>XWiki Macro</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/macro.html"><strong>2</strong><span>XWiki Macro</span></a>
                     </div>
                     
-                    <div class="toc-item" style="margin-left:0"><a href="../guide/transformation.html"><strong>3</strong><span>XWiki Transformation</span></a>
+                    <div class="toc-item" style="margin-left:0"><a href="../../guide/transformation.html"><strong>3</strong><span>XWiki Transformation</span></a>
                     </div>
                     
                 </div>
@@ -56,16 +56,18 @@ function addJsClass() {
             <div id="main" class="corner-all">
 
                 
-                    <div class="toc-item prev-left"><a href="../guide/macro.html">&lt;&lt; <strong>2</strong><span>XWiki Macro</span></a></div>
+                    <div class="toc-item prev-left"><a href="../../guide/introduction.html">&lt;&lt; <strong>1</strong><span>Introduction</span></a></div>
                 
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
+                    <div class="toc-item next-right"><a href="../../guide/transformation.html"><strong>3</strong><span>XWiki Transformation</span> >></a></div>
+                
 
 
                 <div class="project">
-                    <h1>3 XWiki Transformation - Reference Documentation</h1>
+                    <h1>2.2 Adding Grails XWiki Macro artefacts - Reference Documentation</h1>
 
                     <p><strong>Authors:</strong> Masatoshi Hayashi</p>
 
@@ -78,21 +80,21 @@ function addJsClass() {
 
                 
 
-<h1 id="transformation">3 XWiki Transformation</h1>
-<code>XWiki Transfromation</code> modefies some <code>XDOM</code>(AST representing the input) to generate modified <code>XDOM</code>.<p class="paragraph"/>See also <a href="http://rendering.xwiki.org/xwiki/bin/view/Main/Architecture" target="blank">XWiki Rendering Architecture</a> for more detail about XWiki Transformation.<p class="paragraph"/>In this Grails XWiki Rendering Plugin, <a href="../ref/Services/xwikiRenderer.html" class="Services">xwikiRenderer</a> service can take some XWiki Transformations.<p class="paragraph"/><h4>Example</h4><p class="paragraph"/><div class="code"><pre>class TestTransformation <span class="java&#45;keyword">extends</span> AbstractTransformation &#123;<p class="paragraph"/>    def parameter<p class="paragraph"/>    <span class="java&#45;keyword">public</span> TestTransformation(parameter)&#123;
-        <span class="java&#45;keyword">this</span>.parameter = parameter
-    &#125;<p class="paragraph"/>    <span class="java&#45;keyword">public</span> void transform(
-            Block block, TransformationContext transformationContext) <span class="java&#45;keyword">throws</span> TransformationException &#123;
-        block.addChild(<span class="java&#45;keyword">new</span> RawBlock(parameter, Syntax.XHTML_1_0));
-    &#125;
-&#125;</pre></div><p class="paragraph"/>and:<p class="paragraph"/><div class="code"><pre>def transformation = <span class="java&#45;keyword">new</span> TestTransformation(<span class="java&#45;quote">"test parameter"</span>)
-def output = xwikiRenderer.render(<span class="java&#45;quote">"&#42;&#42; Source Text &#42;&#42;"</span>, transformation)</pre></div>
-
+<h2 id="addingArtefact">2.2 Adding Grails XWiki Macro artefacts</h2>
+Add a groovy class that implements <code>GrailsMacro</code> to <code>grails-app/xwiki</code> directory in the grails project.<p class="paragraph"/><h4>A macro with no parameters</h4><p class="paragraph"/>A example code is <a href="https://github.com/literalice/grails-xwiki-rendering/blob/master/grails-app/xwiki/com/monochromeroad/grails/plugins/xwiki/macro/DateMacro.groovy" target="blank">here</a><p class="paragraph"/>If you add the code to <code>grails-app/xwiki</code> in your project, you can use "date" macro in this way:<p class="paragraph"/><div class="code"><pre><span class="xml&#45;tag">&#60;xwiki:render&#62;</span>
+= Date Macro DEMO =
+&#123;&#123;date /&#125;&#125;
+<span class="xml&#45;tag">&#60;/xwiki:render&#62;</span></pre></div><p class="paragraph"/><h4>A macro with some parameters</h4><p class="paragraph"/>A example code is <a href="https://github.com/literalice/grails-xwiki-rendering/blob/master/grails-app/xwiki/com/monochromeroad/grails/plugins/xwiki/macro/RbMacro.groovy" target="blank">here</a><p class="paragraph"/>If you add the code to <code>grails-app/xwiki</code> in your project, you can use "rb" macro in this way:<p class="paragraph"/><div class="code"><pre><span class="xml&#45;tag">&#60;xwiki:render&#62;</span>
+= Ruby Macro DEMO =
+&#123;&#123;rb read=<span class="xml&#45;quote">"ruby text"</span>&#125;&#125;ruby base&#123;&#123;/rb&#125;&#125;
+<span class="xml&#45;tag">&#60;/xwiki:render&#62;</span></pre></div><p class="paragraph"/>
 
 
                 <div style="clear:both;margin-top:15px;"></div>
                 
-                    <div class="toc-item prev-left"><a href="../guide/macro.html">&lt;&lt; <strong>2</strong><span>XWiki Macro</span></a></div>
+                    <div class="toc-item prev-left"><a href="../../guide/introduction.html">&lt;&lt; <strong>1</strong><span>Introduction</span></a></div>
+                
+                    <div class="toc-item next-right"><a href="../../guide/transformation.html"><strong>3</strong><span>XWiki Transformation</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>
@@ -100,7 +102,7 @@ def output = xwikiRenderer.render(<span class="java&#45;quote">"&#42;&#42; Sourc
         <td id="col2">
             <div class="local clearfix">
                 <div class="local-title">
-                    <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <a href="../../guide/index.html" target="mainFrame">Quick Reference</a>
                     <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
                 </div>
                 <div class="menu">
@@ -108,7 +110,7 @@ def output = xwikiRenderer.render(<span class="java&#45;quote">"&#42;&#42; Sourc
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Services</h1><div class="menu-sub">
                         
                             
-                            <div class="menu-item"><a href="../ref/Services/xwikiRenderer.html">xwikiRenderer</a>
+                            <div class="menu-item"><a href="../../ref/Services/xwikiRenderer.html">xwikiRenderer</a>
                             </div>
                             
                             </div>
@@ -117,7 +119,7 @@ def output = xwikiRenderer.render(<span class="java&#45;quote">"&#42;&#42; Sourc
                     <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Tags</h1><div class="menu-sub">
                         
                             
-                            <div class="menu-item"><a href="../ref/Tags/render.html">render</a>
+                            <div class="menu-item"><a href="../../ref/Tags/render.html">render</a>
                             </div>
                             
                             </div>
