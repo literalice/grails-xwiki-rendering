@@ -25,6 +25,7 @@ class XwikiRenderingGrailsPlugin {
             "grails-app/views/**/*",
             "grails-app/i18n/**/*",
             "grails-app/controllers/**/*",
+            "src/docs/**/*",
             "web-app/images/**/*",
     ]
 
