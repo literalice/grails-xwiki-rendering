@@ -1,0 +1,28 @@
+Add a groovy class that implements @GrailsMacro@ to @grails-app/xwiki@ directory in the grails project.
+
+h4. A macro with no parameters
+
+A example code is "here":https://github.com/literalice/grails-xwiki-rendering/blob/master/grails-app/xwiki/com/monochromeroad/grails/plugins/xwiki/macro/DateMacro.groovy
+
+If you add the code to @grails-app/xwiki@ in your project, you can use "date" macro in this way:
+
+{code:xml}
+<xwiki:render>
+= Date Macro DEMO =
+{{date /}}
+</xwiki:render>
+{code}
+
+h4. A macro with some parameters
+
+A example code is "here":https://github.com/literalice/grails-xwiki-rendering/blob/master/grails-app/xwiki/com/monochromeroad/grails/plugins/xwiki/macro/RbMacro.groovy
+
+If you add the code to @grails-app/xwiki@ in your project, you can use "rb" macro in this way:
+
+{code:xml}
+<xwiki:render>
+= Ruby Macro DEMO =
+{{rb read="ruby text"}}ruby base{{/rb}}
+</xwiki:render>
+{code}
+

@@ -1,33 +1,18 @@
-h4. Adding the macro libraries
+You can add any type of wiki elements by adding XWiki Macros.
 
-The Macro libraries must be added to your grails project in order to use XWiki Macros.
+if you add a macro, you will be able to use the macro in this way:
 
-If you want to create your own macro, "ExtendingMacro":http://rendering.xwiki.org/xwiki/bin/view/Main/ExtendingMacro would be useful.
-
-h5. Example
-
-If you need "Comment Macro":http://extensions.xwiki.org/xwiki/bin/view/Extension/Comment+Macro :
-
-@grails-app/conf/BuildConfig.groovy@
-{code:java}
-dependencies {
-    ...
-    runtime("org.xwiki.rendering:xwiki-rendering-macro-comment:3.2") {
-        transitive = false
-    }
-}
-{code}
-
-and:
-
+@Example of using Comment Macro@
 {code:xml}
 <xwiki:render>
-= level1 headings =
-** bold text **
+= Comment Macro DEMO =
 {{comment}}
 comment here...(not be rendered)
 {{/comment}}
 </xwiki:render>
 {code}
 
-you can also add the macro library into "[YOUR-GRAILS-PROJECT]/lib" directory.
+There are some ways to add a XWiki Macro in your grails project.
+
+* Add a library jar file of the XWiki Macro to the grails project (that is, edit "BuildConfig.groovy" or add a jar file to @lib@ directory).
+* Add a Grails XWiki Macro artefact to @grails-app/xwiki@ directory in the grails project.

@@ -1,6 +1,9 @@
 introduction:
     title: Introduction
     migrating: Migrating from version 0.1
-macro: XWiki Macro
+macro:
+    title: XWiki Macro
+    addingLibrary: Adding XWiki Macro libraries
+    addingArtefact: Adding Grails XWiki Macro artefacts
 transformation: XWiki Transformation
 
