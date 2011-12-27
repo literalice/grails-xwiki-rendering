@@ -9,6 +9,7 @@ stacktrace.log
 /*.zip
 /*.zip.sha1
 *.class
+/.idea
 *.iml
 *.ipr
 *.iws
