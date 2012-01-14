@@ -9,16 +9,15 @@ grails.project.dependency.resolution = {
 
     inherits("global")
 
-    log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
+    log "error" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
 
     repositories {
         grailsPlugins()
         grailsHome()
         grailsCentral()
 
-        mavenLocal()
         mavenCentral()
-        mavenRepo "http://nexus.xwiki.org/nexus/content/groups/public"
+        mavenRepo name: "XWikiPublic", root: "http://nexus.xwiki.org/nexus/content/groups/public"
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
@@ -37,12 +36,12 @@ grails.project.dependency.resolution = {
 
     plugins {
         build(":tomcat:$grailsVersion",
-              ":release:1.0.0",
-              ":svn:1.0.1") {
+              ":release:1.0.1",
+              ":svn:1.0.2") {
             export = false
         }
 
-        test( ":spock:0.6-SNAPSHOT" ) {
+        test(":spock:0.6-SNAPSHOT") {
             export = false
         }
     }
