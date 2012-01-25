@@ -21,7 +21,7 @@ grails.project.dependency.resolution = {
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-        def xwikiVersion="3.3"
+        def xwikiVersion="3.4"
         compile("org.xwiki.commons:xwiki-commons-component-default:$xwikiVersion",
                 "org.xwiki.rendering:xwiki-rendering-syntax-xwiki2:$xwikiVersion",
                 "org.xwiki.rendering:xwiki-rendering-syntax-xhtml:$xwikiVersion",
