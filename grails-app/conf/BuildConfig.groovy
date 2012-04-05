@@ -15,6 +15,7 @@ grails.project.dependency.resolution = {
         grailsPlugins()
         grailsHome()
         grailsCentral()
+        grailsRepo "http://grails.org/plugins"
 
         mavenCentral()
         mavenRepo name: "XWikiPublic", root: "http://nexus.xwiki.org/nexus/content/groups/public"
@@ -36,8 +37,8 @@ grails.project.dependency.resolution = {
 
     plugins {
         build(":tomcat:$grailsVersion",
-              ":release:1.0.1",
-              ":svn:1.0.2") {
+              ":release:2.0.0.BUILD-SNAPSHOT",
+              ":rest-client-builder:1.0.2") {
             export = false
         }
 
