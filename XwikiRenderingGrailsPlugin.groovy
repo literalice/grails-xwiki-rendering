@@ -22,11 +22,7 @@ class XwikiRenderingGrailsPlugin {
 
     def pluginExcludes = [
             "grails-app/xwiki/**/*",
-            "grails-app/views/**/*",
-            "grails-app/i18n/**/*",
-            "grails-app/controllers/**/*",
             "src/docs/**/*",
-            "web-app/images/**/*",
     ]
 
     def author = "Masatoshi Hayashi"
