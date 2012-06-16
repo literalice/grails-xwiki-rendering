@@ -4,6 +4,24 @@ grails.project.test.reports.dir = "target/test-reports"
 
 grails.release.scm.enabled = false
 
+def grailsCentralCredentialLocation = System.getProperty("grailsCentral.credential.properties")
+if (grailsCentralCredentialLocation) {
+    def credentialFile = new File(grailsCentralCredentialLocation)
+    if (credentialFile.canRead()) {
+        def grailsCentralCredential = new Properties()
+        //noinspection GroovyMissingReturnStatement
+        credentialFile.withReader {
+            grailsCentralCredential.load(it)
+        }
+
+        grails.project.repos.grailsCentral.username = grailsCentralCredential.get("grails.project.repos.grailsCentral.username")
+        grails.project.repos.grailsCentral.password = grailsCentralCredential.get("grails.project.repos.grailsCentral.password")
+        println "Grails Central Credential File correctly loaded."
+    } else {
+        throw new IllegalStateException("Grails Central Credential File couldn't be read.")
+    }
+}
+
 grails.project.dependency.resolution = {
 
     inherits("global")
