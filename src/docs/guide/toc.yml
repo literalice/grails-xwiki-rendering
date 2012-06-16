@@ -1,6 +1,7 @@
 introduction:
     title: Introduction
     migrating: Migrating from version 0.1
+configuration: Configuration
 macro:
     title: XWiki Macro
     addingLibrary: Adding XWiki Macro libraries

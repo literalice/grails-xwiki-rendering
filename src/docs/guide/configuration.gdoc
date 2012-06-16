@@ -1,0 +1,28 @@
+XWiki has multiple Wiki Syntaxes Support.
+
+"Supported Syntaxes":http://rendering.xwiki.org/xwiki/bin/view/Main/WebHome#HSupportedSyntaxes
+
+If some syntaxes other than "XWiki 2.1" are needed, add a configuration as below in BuildConfig.groovy file.
+
+{code:java}
+// BuildConfig.groovy
+grails.xwiki.rendering.syntaxes = "mediawiki, jspwiki" // XWiki Syntax Configuration
+
+grails.project.dependency.resolution = {
+    // ...
+}
+{code}
+
+{table}
+ *Syntax* | *Configuration*
+ Confluence | confluence
+ Creole | creole
+ DocBook | docbook
+ Doxia | doxia
+ JSPWiki | jspwiki
+ Markdown | markdown
+ Plain Text | plain
+ tex | tex
+ TWiki | twiki
+{table}
+
