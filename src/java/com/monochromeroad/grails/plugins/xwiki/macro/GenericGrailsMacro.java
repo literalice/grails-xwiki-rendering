@@ -68,7 +68,7 @@ public class GenericGrailsMacro extends AbstractMacro<Object> {
         DefaultComponentDescriptor<Macro> macroDescriptor =
                         new DefaultComponentDescriptor<Macro>();
         macroDescriptor.setImplementation(GenericGrailsMacro.class);
-        macroDescriptor.setRole(Macro.class);
+        macroDescriptor.setRoleType(Macro.class);
         macroDescriptor.setRoleHint(this.macroName);
         return macroDescriptor;
     }

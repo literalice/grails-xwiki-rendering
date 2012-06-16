@@ -31,24 +31,15 @@ class XWikiRendererSpec extends Specification {
 text :**bold**
 """
 
-    String testMediaWikiText = """
-=level1=
-text :'''bold'''
-"""
-
     String expectedHTML = '<h1 id="Hlevel1"><span>level1</span></h1><p>text :<strong>bold</strong></p>'
 
     String expectedText = "level1\n\ntext :bold"
-
-    def setup() {
-
-    }
 
     def "Converts wiki text using XWiki syntax"() {
         Writer writer = new StringWriter();
         
         when:
-        renderer.render(new StringReader(testXWiki21Text), writer, "xwiki/2.0", "xhtml/1.0")
+        renderer.render(new StringReader(testXWiki21Text), writer, "xwiki/2.1", "xhtml/1.0")
         then:
         writer.toString() == expectedHTML
     }
@@ -57,18 +48,9 @@ text :'''bold'''
         Writer writer = new StringWriter();
 
         when:
-        renderer.render(new StringReader(testXWiki21Text), writer, "xwiki/2.0", "plain/1.0")
+        renderer.render(new StringReader(testXWiki21Text), writer, "xwiki/2.1", "plain/1.0")
         then:
         writer.toString() == expectedText
-    }
-
-    def "Converts another syntax wiki text to another format using XWiki syntax"() {
-        Writer writer = new StringWriter();
-
-        when:
-        renderer.render(new StringReader(testMediaWikiText), writer, "mediawiki/1.0", "xhtml/1.0")
-        then:
-        writer.toString() == expectedHTML
     }
 
     def "Macro Support"() {
@@ -82,7 +64,7 @@ this line is comment.
         Writer writer = new StringWriter();
 
         when:
-        renderer.render(text, writer, "xwiki/2.0", "xhtml/1.0")
+        renderer.render(text, writer, "xwiki/2.1", "xhtml/1.0")
         then:"The text written in Comment Macro is not rendered"
         writer.toString() == '<h1 id="Hlevel1"><span>level1</span></h1><h2 id="Hlevel2"><span>level2</span></h2>'
     }
@@ -96,7 +78,7 @@ this line is comment.
 
     def "Extra API: returns the result text"() {
         when:
-        String result = renderer.render(testXWiki21Text, "xwiki/2.0", "xhtml/1.0")
+        String result = renderer.render(testXWiki21Text, "xwiki/2.1", "xhtml/1.0")
         then:
         result == expectedHTML
     }
@@ -114,7 +96,7 @@ this line is comment.
 
         when:
         String result = renderer.render(
-                testXWiki21Text, "xwiki/2.0", "xhtml/1.0", transformation1, transformation2)
+                testXWiki21Text, "xwiki/2.1", "xhtml/1.0", transformation1, transformation2)
         println result
         then:
         result == expectedHTML + "Pre TransformationPost Transformation"

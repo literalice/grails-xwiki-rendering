@@ -20,13 +20,24 @@ grails.project.dependency.resolution = {
         mavenRepo "http://nexus.xwiki.org/nexus/content/groups/public"
     }
     dependencies {
-        def xwikiVersion="3.4"
+        def xwikiVersion="4.1-rc-1"
         compile("org.xwiki.commons:xwiki-commons-component-default:$xwikiVersion",
-                "org.xwiki.rendering:xwiki-rendering-syntax-xwiki2:$xwikiVersion",
-                "org.xwiki.rendering:xwiki-rendering-syntax-xhtml:$xwikiVersion",
                 "org.xwiki.rendering:xwiki-rendering-transformation-macro:$xwikiVersion"){
             excludes "xercesImpl", "slf4j-api"
         }
+
+        def syntaxesConfig =  (grailsSettings.config.grails.xwiki.rendering.syntaxes ?: "").split(/\s*,\s*/).toList().findAll { it }
+        syntaxesConfig << "xwiki21"
+        syntaxesConfig << "xhtml"
+
+        println "XWiki Syntaxes ${syntaxesConfig} loading."
+
+        for (xwikiSyntax in syntaxesConfig) {
+            compile("org.xwiki.rendering:xwiki-rendering-syntax-$xwikiSyntax:$xwikiVersion"){
+                excludes "xercesImpl", "slf4j-api"
+            }
+        }
+
         test("org.xwiki.rendering:xwiki-rendering-macro-comment:$xwikiVersion") {
             transitive = false
             export = false
@@ -43,3 +54,4 @@ grails.project.dependency.resolution = {
         }
     }
 }
+

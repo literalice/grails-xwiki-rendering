@@ -13,7 +13,7 @@ public class XWikiComponentRepository {
 
     public <T> T lookupComponent(Class<T> componentClass) {
         try {
-            return componentManager.lookup(componentClass);
+            return componentManager.getInstance(componentClass);
         } catch (ComponentLookupException e) {
             throw new IllegalStateException(e);
         }
@@ -21,7 +21,7 @@ public class XWikiComponentRepository {
 
     public <T> T lookupComponent(Class<T> componentClass, String parameter) {
         try {
-            return componentManager.lookup(componentClass, parameter);
+            return componentManager.getInstance(componentClass, parameter);
         } catch (ComponentLookupException e) {
             throw new IllegalStateException(e);
         }

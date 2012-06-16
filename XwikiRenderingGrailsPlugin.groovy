@@ -92,7 +92,7 @@ class XwikiRenderingGrailsPlugin {
     }
 
     private void reloadMacro(EmbeddableComponentManager componentManager, GrailsMacro macroImpl) {
-        BeanManager beanManager = componentManager.lookup(BeanManager) as BeanManager
+        BeanManager beanManager = componentManager.getInstance(BeanManager) as BeanManager
         GenericGrailsMacro macro = createMacro(macroImpl, beanManager);
         componentManager.unregisterComponent(Macro, macro.macroName);
         componentManager.registerComponent(macro.createDescriptor(), macro);
