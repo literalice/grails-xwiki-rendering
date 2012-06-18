@@ -1,35 +1,40 @@
-<HTML>
-<BODY BGCOLOR="white">
-<PRE>
-<FONT color="green">001</FONT>    package com.monochromeroad.grails.plugins.xwiki;<a name="line.1"></a>
-<FONT color="green">002</FONT>    <a name="line.2"></a>
-<FONT color="green">003</FONT>    import org.xwiki.component.manager.ComponentLookupException;<a name="line.3"></a>
-<FONT color="green">004</FONT>    import org.xwiki.component.manager.ComponentManager;<a name="line.4"></a>
-<FONT color="green">005</FONT>    <a name="line.5"></a>
-<FONT color="green">006</FONT>    public class XWikiComponentRepository {<a name="line.6"></a>
-<FONT color="green">007</FONT>    <a name="line.7"></a>
-<FONT color="green">008</FONT>        private final ComponentManager componentManager;<a name="line.8"></a>
-<FONT color="green">009</FONT>    <a name="line.9"></a>
-<FONT color="green">010</FONT>        public XWikiComponentRepository(ComponentManager componentManager) {<a name="line.10"></a>
-<FONT color="green">011</FONT>            this.componentManager = componentManager;<a name="line.11"></a>
-<FONT color="green">012</FONT>        }<a name="line.12"></a>
-<FONT color="green">013</FONT>    <a name="line.13"></a>
-<FONT color="green">014</FONT>        public &lt;T&gt; T lookupComponent(Class&lt;T&gt; componentClass) {<a name="line.14"></a>
-<FONT color="green">015</FONT>            try {<a name="line.15"></a>
-<FONT color="green">016</FONT>                return componentManager.lookup(componentClass);<a name="line.16"></a>
-<FONT color="green">017</FONT>            } catch (ComponentLookupException e) {<a name="line.17"></a>
-<FONT color="green">018</FONT>                throw new IllegalStateException(e);<a name="line.18"></a>
-<FONT color="green">019</FONT>            }<a name="line.19"></a>
-<FONT color="green">020</FONT>        }<a name="line.20"></a>
-<FONT color="green">021</FONT>    <a name="line.21"></a>
-<FONT color="green">022</FONT>        public &lt;T&gt; T lookupComponent(Class&lt;T&gt; componentClass, String parameter) {<a name="line.22"></a>
-<FONT color="green">023</FONT>            try {<a name="line.23"></a>
-<FONT color="green">024</FONT>                return componentManager.lookup(componentClass, parameter);<a name="line.24"></a>
-<FONT color="green">025</FONT>            } catch (ComponentLookupException e) {<a name="line.25"></a>
-<FONT color="green">026</FONT>                throw new IllegalStateException(e);<a name="line.26"></a>
-<FONT color="green">027</FONT>            }<a name="line.27"></a>
-<FONT color="green">028</FONT>        }<a name="line.28"></a>
-<FONT color="green">029</FONT>    }<a name="line.29"></a>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span>package com.monochromeroad.grails.plugins.xwiki;<a name="line.1"></a>
+<span class="sourceLineNo">002</span><a name="line.2"></a>
+<span class="sourceLineNo">003</span>import org.xwiki.component.manager.ComponentLookupException;<a name="line.3"></a>
+<span class="sourceLineNo">004</span>import org.xwiki.component.manager.ComponentManager;<a name="line.4"></a>
+<span class="sourceLineNo">005</span><a name="line.5"></a>
+<span class="sourceLineNo">006</span>public class XWikiComponentRepository {<a name="line.6"></a>
+<span class="sourceLineNo">007</span><a name="line.7"></a>
+<span class="sourceLineNo">008</span>    private final ComponentManager componentManager;<a name="line.8"></a>
+<span class="sourceLineNo">009</span><a name="line.9"></a>
+<span class="sourceLineNo">010</span>    public XWikiComponentRepository(ComponentManager componentManager) {<a name="line.10"></a>
+<span class="sourceLineNo">011</span>        this.componentManager = componentManager;<a name="line.11"></a>
+<span class="sourceLineNo">012</span>    }<a name="line.12"></a>
+<span class="sourceLineNo">013</span><a name="line.13"></a>
+<span class="sourceLineNo">014</span>    public &lt;T&gt; T lookupComponent(Class&lt;T&gt; componentClass) {<a name="line.14"></a>
+<span class="sourceLineNo">015</span>        try {<a name="line.15"></a>
+<span class="sourceLineNo">016</span>            return componentManager.getInstance(componentClass);<a name="line.16"></a>
+<span class="sourceLineNo">017</span>        } catch (ComponentLookupException e) {<a name="line.17"></a>
+<span class="sourceLineNo">018</span>            throw new IllegalStateException(e);<a name="line.18"></a>
+<span class="sourceLineNo">019</span>        }<a name="line.19"></a>
+<span class="sourceLineNo">020</span>    }<a name="line.20"></a>
+<span class="sourceLineNo">021</span><a name="line.21"></a>
+<span class="sourceLineNo">022</span>    public &lt;T&gt; T lookupComponent(Class&lt;T&gt; componentClass, String parameter) {<a name="line.22"></a>
+<span class="sourceLineNo">023</span>        try {<a name="line.23"></a>
+<span class="sourceLineNo">024</span>            return componentManager.getInstance(componentClass, parameter);<a name="line.24"></a>
+<span class="sourceLineNo">025</span>        } catch (ComponentLookupException e) {<a name="line.25"></a>
+<span class="sourceLineNo">026</span>            throw new IllegalStateException(e);<a name="line.26"></a>
+<span class="sourceLineNo">027</span>        }<a name="line.27"></a>
+<span class="sourceLineNo">028</span>    }<a name="line.28"></a>
+<span class="sourceLineNo">029</span>}<a name="line.29"></a>
 
 
 
@@ -90,6 +95,7 @@
 
 
 
-</PRE>
-</BODY>
-</HTML>
+</pre>
+</div>
+</body>
+</html>

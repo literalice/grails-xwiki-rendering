@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>4 XWiki Transformation 0.5</title>
+    <title>2 Configuration 0.5</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -59,16 +59,18 @@ function addJsClass() {
             <div id="main" class="corner-all">
 
                 
-                    <div class="toc-item prev-left"><a href="../guide/macro.html">&lt;&lt; <strong>3</strong><span>XWiki Macro</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/introduction.html">&lt;&lt; <strong>1</strong><span>Introduction</span></a></div>
                 
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
                 
+                    <div class="toc-item next-right"><a href="../guide/macro.html"><strong>3</strong><span>XWiki Macro</span> >></a></div>
+                
 
 
                 <div class="project">
-                    <h1>4 XWiki Transformation - Reference Documentation</h1>
+                    <h1>2 Configuration - Reference Documentation</h1>
 
                     <p><strong>Authors:</strong> Masatoshi Hayashi</p>
 
@@ -81,21 +83,18 @@ function addJsClass() {
 
                 
 
-<h1 id="transformation">4 XWiki Transformation</h1>
-<code>XWiki Transfromation</code> modefies some <code>XDOM</code>(AST representing the input) to generate modified <code>XDOM</code>.<p class="paragraph"/>See also <a href="http://rendering.xwiki.org/xwiki/bin/view/Main/Architecture" target="blank">XWiki Rendering Architecture</a> for more detail about XWiki Transformation.<p class="paragraph"/>In this Grails XWiki Rendering Plugin, <a href="../ref/Services/xwikiRenderer.html" class="Services">xwikiRenderer</a> service can take some XWiki Transformations.<p class="paragraph"/><h4>Example</h4><p class="paragraph"/><div class="code"><pre>class TestTransformation <span class="java&#45;keyword">extends</span> AbstractTransformation &#123;<p class="paragraph"/>    def parameter<p class="paragraph"/>    <span class="java&#45;keyword">public</span> TestTransformation(parameter)&#123;
-        <span class="java&#45;keyword">this</span>.parameter = parameter
-    &#125;<p class="paragraph"/>    <span class="java&#45;keyword">public</span> void transform(
-            Block block, TransformationContext transformationContext) <span class="java&#45;keyword">throws</span> TransformationException &#123;
-        block.addChild(<span class="java&#45;keyword">new</span> RawBlock(parameter, Syntax.XHTML_1_0));
-    &#125;
-&#125;</pre></div><p class="paragraph"/>and:<p class="paragraph"/><div class="code"><pre>def transformation = <span class="java&#45;keyword">new</span> TestTransformation(<span class="java&#45;quote">"test parameter"</span>)
-def output = xwikiRenderer.render(<span class="java&#45;quote">"&#42;&#42; Source Text &#42;&#42;"</span>, transformation)</pre></div>
-
+<h1 id="configuration">2 Configuration</h1>
+XWiki has multiple Wiki Syntaxes Support.<p class="paragraph"/><a href="http://rendering.xwiki.org/xwiki/bin/view/Main/WebHome#HSupportedSyntaxes" target="blank">Supported Syntaxes</a><p class="paragraph"/>If some syntaxes other than "XWiki 2.1" are needed, add a configuration as below in BuildConfig.groovy file.<p class="paragraph"/><div class="code"><pre>// BuildConfig.groovy
+grails.xwiki.rendering.syntaxes = <span class="java&#45;quote">"mediawiki, jspwiki"</span> // XWiki Syntax Configuration<p class="paragraph"/>grails.project.dependency.resolution = &#123;
+    // &#8230;
+&#125;</pre></div><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Syntax</strong></th><th><strong class="bold">Configuration</strong></th></tr><tr class="table-odd"><td>Confluence</td><td>confluence</td></tr><tr class="table-even"><td>Creole</td><td>creole</td></tr><tr class="table-odd"><td>DocBook</td><td>docbook</td></tr><tr class="table-even"><td>Doxia</td><td>doxia</td></tr><tr class="table-odd"><td>JSPWiki</td><td>jspwiki</td></tr><tr class="table-even"><td>Markdown</td><td>markdown</td></tr><tr class="table-odd"><td>Plain Text</td><td>plain</td></tr><tr class="table-even"><td>tex</td><td>tex</td></tr><tr class="table-odd"><td>TWiki</td><td>twiki</td></tr></table><p class="paragraph"/>
 
 
                 <div style="clear:both;margin-top:15px;"></div>
                 
-                    <div class="toc-item prev-left"><a href="../guide/macro.html">&lt;&lt; <strong>3</strong><span>XWiki Macro</span></a></div>
+                    <div class="toc-item prev-left"><a href="../guide/introduction.html">&lt;&lt; <strong>1</strong><span>Introduction</span></a></div>
+                
+                    <div class="toc-item next-right"><a href="../guide/macro.html"><strong>3</strong><span>XWiki Macro</span> >></a></div>
                 
                 <div style="clear:both"></div>
             </div>
