@@ -11,7 +11,15 @@ import org.xwiki.rendering.macro.Macro
 
 class XwikiRenderingGrailsPlugin {
     // the plugin version
-    def version = "0.5"
+    def version = loadVersionNumber("0.5")
+    private String loadVersionNumber(baseVersion) {
+        if (System.getProperty("snapshotRepository.credential.properties")) {
+            return "$baseVersion-SNAPSHOT"
+        } else {
+            return baseVersion
+        }
+    }
+
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "* > 1.2.2"
     // the other plugins this plugin depends on
