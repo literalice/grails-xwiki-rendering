@@ -11,8 +11,8 @@ import org.xwiki.rendering.macro.Macro
 
 class XwikiRenderingGrailsPlugin {
     // the plugin version
-    def version = loadVersionNumber("0.5")
-    private String loadVersionNumber(baseVersion) {
+    def getVersion() {
+        def baseVersion = "0.5"
         if (System.getProperty("snapshotRepository.credential.properties")) {
             return "$baseVersion-SNAPSHOT"
         } else {
