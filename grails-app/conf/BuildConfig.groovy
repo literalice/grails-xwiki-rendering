@@ -4,21 +4,37 @@ grails.project.test.reports.dir = "target/test-reports"
 
 grails.release.scm.enabled = false
 
-def grailsCentralCredentialLocation = System.getProperty("grailsCentral.credential.properties")
-if (grailsCentralCredentialLocation) {
-    def credentialFile = new File(grailsCentralCredentialLocation)
-    if (credentialFile.canRead()) {
-        def grailsCentralCredential = new Properties()
-        //noinspection GroovyMissingReturnStatement
-        credentialFile.withReader {
-            grailsCentralCredential.load(it)
-        }
+private repositoryConfigLoader(name, path) {
+    def centralCredentialLocation = System.getProperty(path)
+    if (centralCredentialLocation) {
+        def credentialFile = new File(centralCredentialLocation)
+        if (credentialFile.canRead()) {
+            def credential = new Properties()
+            //noinspection GroovyMissingReturnStatement
+            credentialFile.withReader {
+                credential.load(it)
+            }
 
-        grails.project.repos.grailsCentral.username = grailsCentralCredential.get("grails.project.repos.grailsCentral.username")
-        grails.project.repos.grailsCentral.password = grailsCentralCredential.get("grails.project.repos.grailsCentral.password")
-        println "Grails Central Credential File correctly loaded."
-    } else {
-        throw new IllegalStateException("Grails Central Credential File couldn't be read.")
+            for (param in ["url", "username", "password", "type", "portal"]) {
+                if (credential.get(param)) {
+                    grails.project.repos."${name}"."${param}" = credential.get(param)
+                }
+            }
+            println "Repository Configuration $name correctly loaded."
+        } else {
+            throw new IllegalStateException("Grails Central Credential File couldn't be read.")
+        }
+    }
+}
+
+for (repositoryName in ["grailsCentral", "snapshotRepository"]) {
+    repositoryConfigLoader(repositoryName, "${repositoryName}.credential.properties")
+    for (param in ["url", "type", "portal"]) {
+        if (grails.project.repos."${repositoryName}"."${param}") {
+            print "$repositoryName / $param : "
+            print "$repositoryName / $param : "
+            println grails.project.repos."${repositoryName}"."${param}"
+        }
     }
 }
 
