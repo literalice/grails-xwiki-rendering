@@ -42,7 +42,6 @@ class XwikiRenderingGrailsPlugin {
     def watchedResources = "file:./grails-app/xwiki/**/*"
 
     def doWithWebDescriptor = { xml ->
-        // TODO Implement additions to web.xml (optional), this event occurs before 
     }
 
     def doWithSpring = {
@@ -52,7 +51,6 @@ class XwikiRenderingGrailsPlugin {
     }
 
     def doWithDynamicMethods = { ctx ->
-        // TODO Implement registering dynamic methods to classes (optional)
     }
 
     def doWithApplicationContext = { applicationContext ->
@@ -88,8 +86,6 @@ class XwikiRenderingGrailsPlugin {
     }
 
     def onConfigChange = { event ->
-        // TODO Implement code that is executed when the project configuration changes.
-        // The event is the same as for 'onChange'.
     }
 
     private void reloadMacro(EmbeddableComponentManager componentManager, GrailsMacro macroImpl) {
