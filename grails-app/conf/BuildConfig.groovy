@@ -54,7 +54,7 @@ grails.project.dependency.resolution = {
         mavenRepo "http://nexus.xwiki.org/nexus/content/groups/public"
     }
     dependencies {
-        def xwikiVersion="4.1-rc-1"
+        def xwikiVersion="4.1"
         compile("org.xwiki.commons:xwiki-commons-component-default:$xwikiVersion",
                 "org.xwiki.rendering:xwiki-rendering-transformation-macro:$xwikiVersion"){
             excludes "xercesImpl", "slf4j-api"
