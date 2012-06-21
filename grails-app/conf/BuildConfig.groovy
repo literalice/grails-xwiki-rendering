@@ -64,10 +64,20 @@ grails.project.dependency.resolution = {
         syntaxesConfig << "xwiki21"
         syntaxesConfig << "xhtml"
 
-        println "XWiki Syntaxes ${syntaxesConfig} loading."
+        println "XWiki syntaxes ${syntaxesConfig} loading."
 
         for (xwikiSyntax in syntaxesConfig) {
             compile("org.xwiki.rendering:xwiki-rendering-syntax-$xwikiSyntax:$xwikiVersion"){
+                excludes "xercesImpl", "slf4j-api"
+            }
+        }
+
+        def macrosConfig =  (grailsSettings.config.grails.xwiki.rendering.macros ?: "").split(/\s*,\s*/).toList().findAll { it }
+        if (macrosConfig) {
+            println "XWiki official macros ${macrosConfig} loading."
+        }
+        for (xwikiMacro in macrosConfig) {
+            compile("org.xwiki.rendering:xwiki-rendering-macro-$xwikiMacro:$xwikiVersion"){
                 excludes "xercesImpl", "slf4j-api"
             }
         }
