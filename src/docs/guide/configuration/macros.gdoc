@@ -1,0 +1,24 @@
+XWiki provides "some macros":http://rendering.xwiki.org/xwiki/bin/view/Main/Macros officially.
+
+If these macros are needed, add a configuration as below in BuildConfig.groovy file.
+
+{code:java}
+// BuildConfig.groovy
+grails.xwiki.rendering.macros = "comment, box, toc, footnotes, html, id, message"
+
+grails.project.dependency.resolution = {
+    // ...
+}
+{code}
+
+{table}
+ *Macro* | *Configuration*
+ Box | box
+ Comment | comment
+ Footnote | footnotes
+ HTML | html
+ Id | id
+ Info Message, Warning Message, Error Message | message
+ TOC | toc
+{table}
+

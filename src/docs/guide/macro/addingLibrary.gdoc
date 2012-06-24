@@ -1,33 +1,16 @@
 Edit "BuildConfig.groovy" or add a jar file to @lib@ directory to add a dependency to the macro.
 
-If you need "Comment Macro":http://extensions.xwiki.org/xwiki/bin/view/Extension/Comment+Macro :
-
 @grails-app/conf/BuildConfig.groovy@
 {code:java}
 dependencies {
     ...
-    runtime("org.xwiki.rendering:xwiki-rendering-macro-comment:3.2") {
-        transitive = false
-    }
+    compile("com.example:xwiki-macro-xxx:xxx") // a macro jar
 }
 {code}
 
 You can also add the macro library jar file into @YOUR-GRAILS-PROJECT/lib@ directory.
 
-then:
-
-{code:xml}
-<xwiki:render>
-= level1 headings =
-** bold text **
-{{comment}}
-comment here...(not be rendered)
-{{/comment}}
-</xwiki:render>
-{code}
-
 {note}
-Some macros are provided on "XWiki Official Site":http://rendering.xwiki.org/xwiki/bin/view/Main/Macros
-
 If you want to create your own macro, "ExtendingMacro":http://rendering.xwiki.org/xwiki/bin/view/Main/ExtendingMacro would be useful.
 {note}
+
