@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>3.1 Adding XWiki Macro libraries 0.5</title>
+    <title>3.1 Adding XWiki Macro libraries 0.6</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -74,7 +74,7 @@ function addJsClass() {
 
                     <p><strong>Authors:</strong> Masatoshi Hayashi</p>
 
-                    <p><strong>Version:</strong> 0.5</p>
+                    <p><strong>Version:</strong> 0.6</p>
 
                     
                 </div>
@@ -84,22 +84,13 @@ function addJsClass() {
                 
 
 <h2 id="addingLibrary">3.1 Adding XWiki Macro libraries</h2>
-Edit "BuildConfig.groovy" or add a jar file to <code>lib</code> directory to add a dependency to the macro.<p class="paragraph"/>If you need <a href="http://extensions.xwiki.org/xwiki/bin/view/Extension/Comment+Macro" target="blank">Comment Macro</a> :<p class="paragraph"/><code>grails-app/conf/BuildConfig.groovy</code>
+Edit "BuildConfig.groovy" or add a jar file to <code>lib</code> directory to add a dependency to the macro.<p class="paragraph"/><code>grails-app/conf/BuildConfig.groovy</code>
 <div class="code"><pre>dependencies &#123;
     &#8230;
-    runtime(<span class="java&#45;quote">"org.xwiki.rendering:xwiki&#45;rendering&#45;macro&#45;comment:3.2"</span>) &#123;
-        transitive = <span class="java&#45;keyword">false</span>
-    &#125;
-&#125;</pre></div><p class="paragraph"/>You can also add the macro library jar file into <code>YOUR-GRAILS-PROJECT/lib</code> directory.<p class="paragraph"/>then:<p class="paragraph"/><div class="code"><pre><span class="xml&#45;tag">&#60;xwiki:render&#62;</span>
-= level1 headings =
-&#42;&#42; bold text &#42;&#42;
-&#123;&#123;comment&#125;&#125;
-comment here...(not be rendered)
-&#123;&#123;/comment&#125;&#125;
-<span class="xml&#45;tag">&#60;/xwiki:render&#62;</span></pre></div><p class="paragraph"/><blockquote class="note">
-Some macros are provided on <a href="http://rendering.xwiki.org/xwiki/bin/view/Main/Macros" target="blank">XWiki Official Site</a><p class="paragraph"/>If you want to create your own macro, <a href="http://rendering.xwiki.org/xwiki/bin/view/Main/ExtendingMacro" target="blank">ExtendingMacro</a> would be useful.
-</blockquote>
-
+    compile(<span class="java&#45;quote">"com.example:xwiki&#45;macro&#45;xxx:xxx"</span>) // a macro jar
+&#125;</pre></div><p class="paragraph"/>You can also add the macro library jar file into <code>YOUR-GRAILS-PROJECT/lib</code> directory.<p class="paragraph"/><blockquote class="note">
+If you want to create your own macro, <a href="http://rendering.xwiki.org/xwiki/bin/view/Main/ExtendingMacro" target="blank">ExtendingMacro</a> would be useful.
+</blockquote><p class="paragraph"/>
 
 
                 <div style="clear:both;margin-top:15px;"></div>

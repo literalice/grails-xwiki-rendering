@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
-        <title>XWiki Rendering Plugin 0.5</title>
+        <title>XWiki Rendering Plugin 0.6</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
         <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
@@ -58,7 +58,7 @@ function addJsClass(el) {
                         <div class="project">
                             <h1>XWiki Rendering Plugin - Reference Documentation</h1>
                             <p><strong>Authors:</strong> Masatoshi Hayashi</p>
-                            <p><strong>Version:</strong> 0.5</p>
+                            <p><strong>Version:</strong> 0.6</p>
                             
                         </div>
 
@@ -71,6 +71,10 @@ function addJsClass(el) {
                             <div class="toc-item" style="margin-left:10px"><a href="#migrating"><strong>1.1</strong><span>Migrating from version 0.1</span></a></div>
                             
                             <div class="toc-item" style="margin-left:0px"><a href="#configuration"><strong>2</strong><span>Configuration</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="#syntaxes"><strong>2.1</strong><span>Supporeted Syntaxes</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:10px"><a href="#macros"><strong>2.2</strong><span>Available Macros</span></a></div>
                             
                             <div class="toc-item" style="margin-left:0px"><a href="#macro"><strong>3</strong><span>XWiki Macro</span></a></div>
                             
@@ -95,10 +99,22 @@ This Grails plugin allows you to convert texts using XWiki Rendering Framework.<
 
 
 <h1 id="configuration">2 Configuration</h1>
+XWiki Plugin's Configuration<p class="paragraph"/>
+
+
+<h2 id="syntaxes">2.1 Supporeted Syntaxes</h2>
 XWiki has multiple Wiki Syntaxes Support.<p class="paragraph"/><a href="http://rendering.xwiki.org/xwiki/bin/view/Main/WebHome#HSupportedSyntaxes" target="blank">Supported Syntaxes</a><p class="paragraph"/>If some syntaxes other than "XWiki 2.1" are needed, add a configuration as below in BuildConfig.groovy file.<p class="paragraph"/><div class="code"><pre>// BuildConfig.groovy
 grails.xwiki.rendering.syntaxes = <span class="java&#45;quote">"mediawiki, jspwiki"</span> // XWiki Syntax Configuration<p class="paragraph"/>grails.project.dependency.resolution = &#123;
     // &#8230;
-&#125;</pre></div><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Syntax</strong></th><th><strong class="bold">Configuration</strong></th></tr><tr class="table-odd"><td>Confluence</td><td>confluence</td></tr><tr class="table-even"><td>Creole</td><td>creole</td></tr><tr class="table-odd"><td>DocBook</td><td>docbook</td></tr><tr class="table-even"><td>Doxia</td><td>doxia</td></tr><tr class="table-odd"><td>JSPWiki</td><td>jspwiki</td></tr><tr class="table-even"><td>Markdown</td><td>markdown</td></tr><tr class="table-odd"><td>Plain Text</td><td>plain</td></tr><tr class="table-even"><td>tex</td><td>tex</td></tr><tr class="table-odd"><td>TWiki</td><td>twiki</td></tr></table><p class="paragraph"/>
+&#125;</pre></div><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Syntax</strong></th><th><strong class="bold">Configuration</strong></th></tr><tr class="table-odd"><td>Confluence</td><td>confluence</td></tr><tr class="table-even"><td>Creole</td><td>creole</td></tr><tr class="table-odd"><td>DocBook</td><td>docbook</td></tr><tr class="table-even"><td>Doxia</td><td>doxia</td></tr><tr class="table-odd"><td>JSPWiki</td><td>jspwiki</td></tr><tr class="table-even"><td>Markdown</td><td>markdown</td></tr><tr class="table-odd"><td>Plain Text</td><td>plain</td></tr><tr class="table-even"><td>tex</td><td>tex</td></tr><tr class="table-odd"><td>TWiki</td><td>twiki</td></tr></table>
+
+
+
+<h2 id="macros">2.2 Available Macros</h2>
+XWiki provides <a href="http://rendering.xwiki.org/xwiki/bin/view/Main/Macros" target="blank">some macros</a> officially.<p class="paragraph"/>If these macros are needed, add a configuration as below in BuildConfig.groovy file.<p class="paragraph"/><div class="code"><pre>// BuildConfig.groovy
+grails.xwiki.rendering.macros = <span class="java&#45;quote">"comment, box, toc, footnotes, html, id, message"</span><p class="paragraph"/>grails.project.dependency.resolution = &#123;
+    // &#8230;
+&#125;</pre></div><p class="paragraph"/><table class="wiki-table" cellpadding="0" cellspacing="0" border="0"><tr><th><strong class="bold">Macro</strong></th><th><strong class="bold">Configuration</strong></th></tr><tr class="table-odd"><td>Box</td><td>box</td></tr><tr class="table-even"><td>Comment</td><td>comment</td></tr><tr class="table-odd"><td>Footnote</td><td>footnotes</td></tr><tr class="table-even"><td>HTML</td><td>html</td></tr><tr class="table-odd"><td>Id</td><td>id</td></tr><tr class="table-even"><td>Info Message, Warning Message, Error Message</td><td>message</td></tr><tr class="table-odd"><td>TOC</td><td>toc</td></tr></table><p class="paragraph"/>
 
 
 <h1 id="macro">3 XWiki Macro</h1>
@@ -110,28 +126,20 @@ comment here...(not be rendered)
 &#123;&#123;/comment&#125;&#125;
 <span class="xml&#45;tag">&#60;/xwiki:render&#62;</span></pre></div><p class="paragraph"/>There are some ways to add a XWiki Macro in your grails project.
 <ul class="star">
+<li>Add a configuration in BuildConfig.groovy in order to use XWiki official macros. See also <a href="../guide/single.html#macros" class="guide">Configuration</a>.</li>
 <li>Add a library jar file of the XWiki Macro to the grails project (that is, edit "BuildConfig.groovy" or add a jar file to <code>lib</code> directory).</li>
 <li>Add a Grails XWiki Macro artefact to <code>grails-app/xwiki</code> directory in the grails project.</li>
 </ul><p class="paragraph"/>
 
 
 <h2 id="addingLibrary">3.1 Adding XWiki Macro libraries</h2>
-Edit "BuildConfig.groovy" or add a jar file to <code>lib</code> directory to add a dependency to the macro.<p class="paragraph"/>If you need <a href="http://extensions.xwiki.org/xwiki/bin/view/Extension/Comment+Macro" target="blank">Comment Macro</a> :<p class="paragraph"/><code>grails-app/conf/BuildConfig.groovy</code>
+Edit "BuildConfig.groovy" or add a jar file to <code>lib</code> directory to add a dependency to the macro.<p class="paragraph"/><code>grails-app/conf/BuildConfig.groovy</code>
 <div class="code"><pre>dependencies &#123;
     &#8230;
-    runtime(<span class="java&#45;quote">"org.xwiki.rendering:xwiki&#45;rendering&#45;macro&#45;comment:3.2"</span>) &#123;
-        transitive = <span class="java&#45;keyword">false</span>
-    &#125;
-&#125;</pre></div><p class="paragraph"/>You can also add the macro library jar file into <code>YOUR-GRAILS-PROJECT/lib</code> directory.<p class="paragraph"/>then:<p class="paragraph"/><div class="code"><pre><span class="xml&#45;tag">&#60;xwiki:render&#62;</span>
-= level1 headings =
-&#42;&#42; bold text &#42;&#42;
-&#123;&#123;comment&#125;&#125;
-comment here...(not be rendered)
-&#123;&#123;/comment&#125;&#125;
-<span class="xml&#45;tag">&#60;/xwiki:render&#62;</span></pre></div><p class="paragraph"/><blockquote class="note">
-Some macros are provided on <a href="http://rendering.xwiki.org/xwiki/bin/view/Main/Macros" target="blank">XWiki Official Site</a><p class="paragraph"/>If you want to create your own macro, <a href="http://rendering.xwiki.org/xwiki/bin/view/Main/ExtendingMacro" target="blank">ExtendingMacro</a> would be useful.
-</blockquote>
-
+    compile(<span class="java&#45;quote">"com.example:xwiki&#45;macro&#45;xxx:xxx"</span>) // a macro jar
+&#125;</pre></div><p class="paragraph"/>You can also add the macro library jar file into <code>YOUR-GRAILS-PROJECT/lib</code> directory.<p class="paragraph"/><blockquote class="note">
+If you want to create your own macro, <a href="http://rendering.xwiki.org/xwiki/bin/view/Main/ExtendingMacro" target="blank">ExtendingMacro</a> would be useful.
+</blockquote><p class="paragraph"/>
 
 
 <h2 id="addingArtefact">3.2 Adding Grails XWiki Macro artefacts</h2>
