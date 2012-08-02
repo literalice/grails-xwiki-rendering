@@ -33,7 +33,7 @@ class XwikiRenderingGrailsPlugin {
 
     def documentation = "http://literalice.github.com/grails-xwiki-rendering/"
 
-    def license = "APACHE"
+    def license = "LGPL2.1"
     
     def scm = [url: "https://github.com/literalice/grails-xwiki-rendering"]
 
