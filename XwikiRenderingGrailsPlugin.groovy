@@ -11,7 +11,7 @@ import org.xwiki.rendering.macro.Macro
 
 class XwikiRenderingGrailsPlugin {
     // the plugin version
-    def version = "0.6"
+    def version = "0.7"
 
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "* > 1.2.2"
