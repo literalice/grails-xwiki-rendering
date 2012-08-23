@@ -19,8 +19,7 @@ class XwikiRenderingGrailsPlugin {
     def loadAfter = ['logging'] // retained to ensure correct loading under Grails < 2.0
 
     def pluginExcludes = [
-            "grails-app/xwiki/**/*",
-            "src/docs/**/*",
+        "src/docs/**/*"
     ]
 
     def author = "Masatoshi Hayashi"
