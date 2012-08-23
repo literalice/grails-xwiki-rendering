@@ -10,12 +10,12 @@ public class XWikiConfigurationProvider {
     // TODO import from a configuration file
     // private Map<String, String> config = new HashMap<String, String>();
 
-    public String getDefaultInputSyntax() {
-        return Syntax.XWIKI_2_1.toIdString();
+    public Syntax getDefaultInputSyntax() {
+        return Syntax.XWIKI_2_1;
     }
 
-    public String getDefaultOutputSyntax() {
-        return Syntax.XHTML_1_0.toIdString();
+    public Syntax getDefaultOutputSyntax() {
+        return Syntax.XHTML_1_0;
     }
 
     public List<String> getDefaultTransformations() {

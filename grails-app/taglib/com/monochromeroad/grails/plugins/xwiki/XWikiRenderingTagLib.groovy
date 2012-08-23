@@ -8,7 +8,10 @@ class XWikiRenderingTagLib {
 
     def xwikiRenderer
 
-    def xwikiConfigurationProvider
+    def defaultXWikiConfigurationProvider
+
+    def defaultXWikiSyntaxFactory
+
 
     /**
      * Renders Wiki Text
@@ -17,8 +20,8 @@ class XWikiRenderingTagLib {
      * @attrs outputSyntax Output Format ("xhtml/1.0", "plain/1.0", ...)
      */
     def render = { attrs, body ->
-        def inputSyntax = (attrs.inputSyntax) ?: xwikiConfigurationProvider.defaultInputSyntax
-        def outputSyntax = (attrs.outputSyntax) ?: xwikiConfigurationProvider.defaultOutputSyntax
+        def inputSyntax = (attrs.inputSyntax) ? defaultXWikiSyntaxFactory.getSyntax(attrs.inputSyntax) : defaultXWikiConfigurationProvider.defaultInputSyntax
+        def outputSyntax = (attrs.outputSyntax) ? defaultXWikiSyntaxFactory.getSyntax(attrs.outputSyntax) : defaultXWikiConfigurationProvider.defaultOutputSyntax
 
         def bodyReader = body()
         def bodyContent
@@ -27,7 +30,7 @@ class XWikiRenderingTagLib {
         } else {
             bodyContent = bodyReader.toString()
         }
-        xwikiRenderer.render(bodyContent, out, inputSyntax, outputSyntax)
+        out << xwikiRenderer.render(bodyContent, inputSyntax, outputSyntax)
     }
 
 }
