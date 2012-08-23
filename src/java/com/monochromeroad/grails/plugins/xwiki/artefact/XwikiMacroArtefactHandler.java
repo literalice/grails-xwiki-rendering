@@ -1,6 +1,6 @@
 package com.monochromeroad.grails.plugins.xwiki.artefact;
 
-import com.monochromeroad.grails.plugins.xwiki.macro.GrailsMacro;
+import com.monochromeroad.grails.plugins.xwiki.macro.DefaultXWikiMacro;
 import org.codehaus.groovy.grails.commons.ArtefactHandlerAdapter;
 
 public class XwikiMacroArtefactHandler extends ArtefactHandlerAdapter {
@@ -12,7 +12,7 @@ public class XwikiMacroArtefactHandler extends ArtefactHandlerAdapter {
     }
 
     public boolean isArtefactClass(Class clazz) {
-        return clazz != null && GrailsMacro.class.isAssignableFrom(clazz);
+        return clazz != null && DefaultXWikiMacro.class.isAssignableFrom(clazz);
     }
 
 }

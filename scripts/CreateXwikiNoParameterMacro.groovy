@@ -11,7 +11,7 @@ target ('default': "Creates a new XWiki Macro") {
     //noinspection GroovyAssignabilityCheck
     depends(checkVersion, parseArguments)
 
-    def type = "XwikiMacro"
+    def type = "XwikiNoParameterMacro"
     promptForName(type: type)
 
     def name = argsMap["params"][0]

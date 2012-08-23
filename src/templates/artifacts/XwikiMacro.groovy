@@ -1,17 +1,27 @@
 @artifact.package@
 import org.xwiki.rendering.block.Block
 import org.xwiki.rendering.transformation.MacroTransformationContext
+import org.xwiki.rendering.macro.MacroExecutionException
+import com.monochromeroad.grails.plugins.xwiki.macro.DefaultXWikiMacro
 
-import com.monochromeroad.grails.plugins.xwiki.macro.GrailsMacro
+class @artifact.name@ extends DefaultXWikiMacro<@artifact.name@Parameters> {
 
-class @artifact.name@ implements GrailsMacro {
+    public @artifact.name@() {
+        super("", @artifact.name@Parameters) // TODO Set a label to use the macro
+    }
 
-    static macroName = ""
+    @Override
+    boolean supportsInlineMode() {
+        return false
+    }
 
-    static inlineSupport = true
-
-    List<Block> execute(parameters, String content, MacroTransformationContext context) {
-        // execute macro
-        return null;
+    @Override
+    public List<Block> execute(@artifact.name@Parameters parameters, String content, MacroTransformationContext context) throws MacroExecutionException {
+        return null
     }
 }
+
+class @artifact.name@Parameters {
+
+}
+

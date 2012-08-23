@@ -5,14 +5,20 @@ import org.xwiki.rendering.transformation.MacroTransformationContext
 import org.xwiki.rendering.block.RawBlock
 import org.xwiki.rendering.syntax.Syntax
 
-class DateMacro implements GrailsMacro {
+class DateMacro extends DefaultXWikiNoParameterMacro {
 
-    static macroName = "date"
+    public DateMacro() {
+        super("date")
+    }
 
-    static inlineSupport = true
+    @Override
+    boolean supportsInlineMode() {
+        return true
+    }
 
-    List<Block> execute(Object parameters, String content, MacroTransformationContext context) {
+    @Override
+    List<Block> execute(String content, MacroTransformationContext context) {
         return Collections.<Block>singletonList(
-                new RawBlock(new Date().format("yyyy/MM/dd(E)"), Syntax.XHTML_1_0));
+                new RawBlock(new Date().format("yyyy/MM/dd"), Syntax.XHTML_1_0));
     }
 }

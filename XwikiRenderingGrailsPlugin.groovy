@@ -1,3 +1,5 @@
+import com.monochromeroad.grails.plugins.xwiki.macro.DefaultXWikiMacro
+import org.xwiki.component.descriptor.DefaultComponentDescriptor
 import org.xwiki.component.embed.EmbeddableComponentManager
 import com.monochromeroad.grails.plugins.xwiki.XWikiRenderer
 import com.monochromeroad.grails.plugins.xwiki.XWikiConfigurationProvider
@@ -5,8 +7,6 @@ import com.monochromeroad.grails.plugins.xwiki.XWikiRendererConfigurator
 import com.monochromeroad.grails.plugins.xwiki.artefact.GrailsXwikiMacroClass
 import com.monochromeroad.grails.plugins.xwiki.artefact.XwikiMacroArtefactHandler
 import org.xwiki.properties.BeanManager
-import com.monochromeroad.grails.plugins.xwiki.macro.GenericGrailsMacro
-import com.monochromeroad.grails.plugins.xwiki.macro.GrailsMacro
 import org.xwiki.rendering.macro.Macro
 
 class XwikiRenderingGrailsPlugin {
@@ -69,55 +69,34 @@ class XwikiRenderingGrailsPlugin {
         log.info("Starting to register Grails XWiki Macros...")
         application.xwikiMacroClasses.each { GrailsXwikiMacroClass macroClass->
             log.info("XWiki Macro [${macroClass.naturalName}] is being registered...")
-            reloadMacro(componentManager, macroClass.clazz.newInstance() as GrailsMacro)
+            reloadMacro(componentManager, macroClass.clazz.newInstance() as DefaultXWikiMacro)
         }
         log.info("Grails XWiki Macros registered successfully")
     }
 
     def onChange = { event ->
-        log.info("Reloading Grails XWiki Macros..")
-        if (application.isXwikiMacroClass(event.source) && event.ctx) {
-            def componentManager =
-                    event.ctx.getBean("xwikiComponentManager") as EmbeddableComponentManager
-            GrailsMacro macroImpl = event.source.newInstance()
+        def eventSource = event.source
+        if (eventSource instanceof Class && application.isXwikiMacroClass(eventSource) && event.ctx) {
+            log.info("Reloading Grails XWiki Macros..")
+            def componentManager = event.ctx.getBean("xwikiComponentManager") as EmbeddableComponentManager
+            DefaultXWikiMacro macroImpl = eventSource.newInstance()
             reloadMacro(componentManager, macroImpl)
             log.info("Grails XWiki Macro [${macroImpl.macroName}] reloaded successfully")
         }
     }
 
-    def onConfigChange = { event ->
+    private void reloadMacro(EmbeddableComponentManager componentManager, DefaultXWikiMacro macroImpl) {
+        def beanManager = componentManager.getInstance(BeanManager) as BeanManager
+        macroImpl.beanManager = beanManager
+        macroImpl.initialize()
+
+        def macroDescriptor = new DefaultComponentDescriptor<Macro>()
+        macroDescriptor.setImplementation(macroImpl.class)
+        macroDescriptor.setRoleType(Macro)
+        macroDescriptor.setRoleHint(macroImpl.macroName)
+
+        componentManager.unregisterComponent(Macro, macroImpl.macroName)
+        componentManager.registerComponent(macroDescriptor, macroImpl)
     }
 
-    private void reloadMacro(EmbeddableComponentManager componentManager, GrailsMacro macroImpl) {
-        BeanManager beanManager = componentManager.getInstance(BeanManager) as BeanManager
-        GenericGrailsMacro macro = createMacro(macroImpl, beanManager);
-        componentManager.unregisterComponent(Macro, macro.macroName);
-        componentManager.registerComponent(macro.createDescriptor(), macro);
-    }
-
-    private GenericGrailsMacro createMacro(GrailsMacro macroImpl, BeanManager beanManager) {
-        String macroName
-        if (macroImpl.hasProperty("macroName")) {
-            macroName = macroImpl.macroName
-        } else {
-            throw new IllegalStateException(
-                    "Macro name (static macroName) not defined.: ${macroImpl.class.name}")
-        }
-
-        Class parametersBeanClass = Object.class
-        if (macroImpl.hasProperty("parametersBeanClass")) {
-            parametersBeanClass = macroImpl.parametersBeanClass as Class
-        }
-
-        Boolean inlineSupport = false
-        if (macroImpl.hasProperty("inlineSupport")) {
-            inlineSupport = macroImpl.inlineSupport as Boolean
-        }
-
-        return GenericGrailsMacro.getInstance(beanManager,
-                macroName:macroName,
-                macroImpl:macroImpl,
-                parametersBeanClass: parametersBeanClass,
-                inlineSupport: inlineSupport);
-    }
 }

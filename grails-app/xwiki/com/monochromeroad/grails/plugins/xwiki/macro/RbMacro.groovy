@@ -14,28 +14,32 @@ import org.xwiki.rendering.syntax.Syntax;
  * {{rb read="Ruby Text"}}Target Text{{/rb}}
  * </pre>
  */
-public class RbMacro implements GrailsMacro {
+public class RbMacro extends DefaultXWikiMacro<RbMacroParameter> {
 
-    static macroName = "rb"
+    public RbMacro() {
+        super("rb", RbMacroParameter)
+    }
 
-    static inlineSupport = true
+    @Override
+    boolean supportsInlineMode() {
+        return true
+    }
 
-    static parametersBeanClass = RbMacroParameter
-
-    public List<Block> execute(Object parameters, String content,
-                            MacroTransformationContext context) throws MacroExecutionException {
+    @Override
+    public List<Block> execute(RbMacroParameter parameters, String content,
+                               MacroTransformationContext context) throws MacroExecutionException {
         if (!content) {
             return Collections.emptyList();
         }
 
         String rubyText = "<ruby>" + StringEscapeUtils.escapeHtml4(content) +
-                                "<rp>(</rp><rt>" + StringEscapeUtils.escapeHtml4(parameters.getRead()) + "</rt><rp>)</rp></ruby>";
+                "<rp>(</rp><rt>" + StringEscapeUtils.escapeHtml4(parameters.getRead()) + "</rt><rp>)</rp></ruby>";
         RawBlock rubyBlock = new RawBlock(rubyText, Syntax.XHTML_1_0);
         if (context.isInline()) {
             return Collections.<Block>singletonList(rubyBlock);
         } else {
             return Collections.<Block>singletonList(
-                        new ParagraphBlock(Collections.<Block>singletonList(rubyBlock)));
+                    new ParagraphBlock(Collections.<Block>singletonList(rubyBlock)));
         }
     }
 }
