@@ -80,8 +80,8 @@ class XwikiRenderingGrailsPlugin {
         if (eventSource instanceof Class && application.isXwikiMacroClass(eventSource) && event.ctx) {
             log.info("Reloading Grails XWiki Macros..")
             def defaultXWikiComponentManager = event.ctx.getBean("defaultXWikiComponentManager") as XWikiComponentManager
-            defaultXWikiComponentManager.registerMacro(eventSource.class)
-            log.info("Grails XWiki Macro [${eventSource.class.name}] reloaded successfully")
+            defaultXWikiComponentManager.registerMacro(eventSource)
+            log.info("Grails XWiki Macro [${eventSource.name}] reloaded successfully")
         }
     }
 
