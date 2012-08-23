@@ -30,7 +30,7 @@ public class XWikiRenderer {
      *
      * It need to be initialized after construction.
      */
-    public XWikiRenderer() {}
+    XWikiRenderer() {}
 
     public XWikiRenderer(XWikiComponentManager componentManager, XWikiConfigurationProvider configuration) {
         initialize(componentManager, configuration);

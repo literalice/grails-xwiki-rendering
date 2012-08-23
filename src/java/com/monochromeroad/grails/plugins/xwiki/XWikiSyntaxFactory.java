@@ -8,7 +8,7 @@ public class XWikiSyntaxFactory {
 
     private SyntaxFactory syntaxFactory;
 
-    public XWikiSyntaxFactory() {}
+    XWikiSyntaxFactory() {}
 
     public XWikiSyntaxFactory(XWikiComponentManager componentManager) {
         initialize(componentManager);

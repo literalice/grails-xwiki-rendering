@@ -1,3 +1,4 @@
+import com.monochromeroad.grails.plugins.xwiki.DefaultXWikiRendering
 import com.monochromeroad.grails.plugins.xwiki.XWikiComponentManager
 import com.monochromeroad.grails.plugins.xwiki.XWikiRenderer
 import com.monochromeroad.grails.plugins.xwiki.XWikiConfigurationProvider
@@ -41,21 +42,20 @@ class XwikiRenderingGrailsPlugin {
     }
 
     def doWithSpring = {
-        defaultXWikiComponentManager(XWikiComponentManager)
-        defaultXWikiConfigurationProvider(XWikiConfigurationProvider)
-        defaultXWikiSyntaxFactory(XWikiSyntaxFactory)
+        defaultXWikiRendering(DefaultXWikiRendering)
+        defaultXWikiComponentManager(defaultXWikiRendering: "getXWikiComponentManager")
+        defaultXWikiConfigurationProvider(defaultXWikiRendering: "getXWikiConfigurationProvider")
+        defaultXWikiSyntaxFactory(defaultXWikiRendering: "getXWikiSyntaxFactory")
 
-        xwikiRenderer(XWikiRenderer)
+        xwikiRenderer(defaultXWikiRendering: "getXWikiRenderer")
     }
 
     def doWithApplicationContext = { applicationContext ->
         XWikiComponentManager defaultXWikiComponentManager =
             applicationContext.getBean("defaultXWikiComponentManager") as XWikiComponentManager
-        defaultXWikiComponentManager.initialize(application.classLoader)
 
         XWikiSyntaxFactory syntaxFactory =
             applicationContext.getBean("defaultXWikiSyntaxFactory") as XWikiSyntaxFactory
-        syntaxFactory.initialize(defaultXWikiComponentManager)
 
         XWikiRenderer xwikiRenderer =
             applicationContext.getBean("xwikiRenderer") as XWikiRenderer
@@ -63,7 +63,14 @@ class XwikiRenderingGrailsPlugin {
         XWikiConfigurationProvider rendererConfiguration =
             applicationContext.getBean("defaultXWikiConfigurationProvider") as XWikiConfigurationProvider
 
-        xwikiRenderer.initialize(defaultXWikiComponentManager, rendererConfiguration)
+        DefaultXWikiRendering defaultXWikiRendering =
+            applicationContext.getBean("defaultXWikiRendering") as DefaultXWikiRendering
+        defaultXWikiRendering.initialize(
+                application.classLoader,
+                defaultXWikiComponentManager,
+                syntaxFactory,
+                xwikiRenderer,
+                rendererConfiguration)
 
         log.info("Starting to register Grails XWiki Macros...")
         application.xwikiMacroClasses.each { GrailsXwikiMacroClass macroClass->

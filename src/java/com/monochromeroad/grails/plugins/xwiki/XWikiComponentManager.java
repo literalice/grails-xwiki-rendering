@@ -19,7 +19,7 @@ public class XWikiComponentManager {
      * For the Grails Default XWiki Rendering System.
      * It need to be initialized after construction.
      */
-    public XWikiComponentManager() {}
+    XWikiComponentManager() {}
 
     public XWikiComponentManager(ClassLoader classLoader) {
         initialize(classLoader);
