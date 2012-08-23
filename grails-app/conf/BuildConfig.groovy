@@ -54,11 +54,12 @@ grails.project.dependency.resolution = {
         mavenRepo "http://nexus.xwiki.org/nexus/content/groups/public"
     }
     dependencies {
-        def xwikiVersion="4.1.2"
+        def xwikiVersion = "4.1.3"
         compile("org.xwiki.commons:xwiki-commons-component-default:$xwikiVersion",
                 "org.xwiki.rendering:xwiki-rendering-transformation-macro:$xwikiVersion"){
             excludes "xercesImpl", "slf4j-api"
         }
+        compile "javax.inject:javax.inject:1"
 
         def syntaxesConfig =  (grailsSettings.config.grails.xwiki.rendering.syntaxes ?: "").split(/\s*,\s*/).toList().findAll { it }
         syntaxesConfig << "xwiki21"
