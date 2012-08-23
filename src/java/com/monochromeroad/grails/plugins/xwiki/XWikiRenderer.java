@@ -15,7 +15,12 @@ import org.xwiki.rendering.transformation.TransformationException;
 import java.io.*;
 
 /**
- * Wiki Text Renderer using XWiki Rendering Engine.
+ * XWiki Rendering System -- XDOM based
+ *
+ * <br /><br />
+ *
+ * It needs to create a XDOM represented the document structure in a memory.<br />
+ * Default syntax: xwiki/2.1 output: xhtml/1.0
  *
  * @author Masatoshi Hayashi
  */
@@ -25,19 +30,12 @@ public class XWikiRenderer {
 
     private XWikiComponentManager componentManager;
 
-    /**
-     * For the Grails Default XWiki Rendering System.
-     *
-     * It need to be initialized after construction.
-     */
-    XWikiRenderer() {}
-
     public XWikiRenderer(XWikiComponentManager componentManager, XWikiConfigurationProvider configuration) {
         initialize(componentManager, configuration);
     }
 
     /**
-     * Returns rendered text from XWiki Rendering.
+     * XWiki rendering
      *
      * @param source source text reader
      * @param inputSyntax inputSyntax
@@ -52,7 +50,20 @@ public class XWikiRenderer {
     }
 
     /**
-     * Returns rendered text from XWiki Rendering using default input syntax and default output syntax.
+     * XWiki XHTML rendering
+     *
+     * @param source a source text
+     * @param inputSyntax input syntax
+     * @param transformations transform parameters
+     * @return a rendered result
+     */
+    public String render(Reader source, Syntax inputSyntax, Transformation ...transformations) {
+        Syntax outputSyntax = configurationProvider.getDefaultOutputSyntax();
+        return render(source, inputSyntax, outputSyntax, transformations);
+    }
+
+    /**
+     * XWiki XHTML rendering using default syntax.
      *
      * @param source a source text
      * @param transformations transform parameters
@@ -65,7 +76,7 @@ public class XWikiRenderer {
     }
 
     /**
-     * Returns rendered text from XWiki Rendering.
+     * XWiki rendering
      *
      * @param source a source text
      * @param inputSyntax inputSyntax
@@ -75,6 +86,29 @@ public class XWikiRenderer {
      */
     public String render(String source, Syntax inputSyntax, Syntax outputSyntax, Transformation ...transformations) {
         return render(new StringReader(source), inputSyntax, outputSyntax, transformations);
+    }
+
+    /**
+     * XWiki XHTML rendering
+     *
+     * @param source a source text
+     * @param inputSyntax inputSyntax
+     * @param transformations transform parameters
+     * @return a rendered result
+     */
+    public String render(String source, Syntax inputSyntax, Transformation ...transformations) {
+        return render(new StringReader(source), inputSyntax, transformations);
+    }
+
+    /**
+     * XWiki XHTML rendering using default syntax
+     *
+     * @param source a source text
+     * @param transformations transform parameters
+     * @return a rendered result
+     */
+    public String render(String source, Transformation ...transformations) {
+        return render(new StringReader(source), transformations);
     }
 
     private XDOM buildXDOM(Reader source, Syntax input) {
@@ -88,13 +122,21 @@ public class XWikiRenderer {
 
     private void transform(XDOM xdom, Syntax syntax, Transformation ...transformations) {
         TransformationContext txContext = new TransformationContext(xdom, syntax);
+
         try {
+            if (configurationProvider.isMacrosEnabled()) {
+                getTransformationForMacro().transform(xdom, txContext);
+            }
             for (Transformation transformation : transformations) {
                     transformation.transform(xdom, txContext);
             }
         } catch (TransformationException e) {
             throw new IllegalStateException(e);
         }
+    }
+
+    private Transformation getTransformationForMacro() {
+        return componentManager.getInstance(Transformation.class, "macro");
     }
 
     private void applyRenderer(XDOM xdom, Syntax syntax, WikiPrinter printer) {
@@ -113,20 +155,14 @@ public class XWikiRenderer {
         return rendererFactory.createRenderer(printer);
     }
 
-    /**
-     * Returns rendered text from XWiki Rendering using default input syntax and default output syntax.
-     *
-     * @param source a source text
-     * @param transformations transform parameters
-     * @return a rendered result
-     */
-    public String render(String source, Transformation ...transformations) {
-        Syntax inputSyntax = configurationProvider.getDefaultInputSyntax();
-        Syntax outputSyntax = configurationProvider.getDefaultOutputSyntax();
-        return render(source, inputSyntax, outputSyntax, transformations);
-    }
 
-    public void initialize(XWikiComponentManager componentManager, XWikiConfigurationProvider configurationProvider) {
+    /**
+     * For the Grails Default XWiki Rendering System.
+     * It need to be initialized after construction.
+     */
+    XWikiRenderer() {}
+
+    void initialize(XWikiComponentManager componentManager, XWikiConfigurationProvider configurationProvider) {
         this.componentManager = componentManager;
         this.configurationProvider = configurationProvider;
     }

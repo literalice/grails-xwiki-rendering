@@ -50,27 +50,22 @@ class XwikiRenderingGrailsPlugin {
         xwikiRenderer(defaultXWikiRendering: "getXWikiRenderer")
     }
 
-    def doWithApplicationContext = { applicationContext ->
+    def doWithApplicationContext = { acx ->
         XWikiComponentManager defaultXWikiComponentManager =
-            applicationContext.getBean("defaultXWikiComponentManager") as XWikiComponentManager
+            acx.getBean("defaultXWikiComponentManager") as XWikiComponentManager
 
-        XWikiSyntaxFactory syntaxFactory =
-            applicationContext.getBean("defaultXWikiSyntaxFactory") as XWikiSyntaxFactory
+        XWikiSyntaxFactory syntaxFactory = acx.getBean("defaultXWikiSyntaxFactory") as XWikiSyntaxFactory
+        XWikiRenderer xwikiRenderer = acx.getBean("xwikiRenderer") as XWikiRenderer
+        XWikiConfigurationProvider configurationProvider = getXWikiConfiguration(acx, application)
 
-        XWikiRenderer xwikiRenderer =
-            applicationContext.getBean("xwikiRenderer") as XWikiRenderer
+        DefaultXWikiRendering defaultXWikiRendering = acx.getBean("defaultXWikiRendering") as DefaultXWikiRendering
 
-        XWikiConfigurationProvider rendererConfiguration =
-            applicationContext.getBean("defaultXWikiConfigurationProvider") as XWikiConfigurationProvider
-
-        DefaultXWikiRendering defaultXWikiRendering =
-            applicationContext.getBean("defaultXWikiRendering") as DefaultXWikiRendering
         defaultXWikiRendering.initialize(
                 application.classLoader,
                 defaultXWikiComponentManager,
                 syntaxFactory,
                 xwikiRenderer,
-                rendererConfiguration)
+                configurationProvider)
 
         log.info("Starting to register Grails XWiki Macros...")
         application.xwikiMacroClasses.each { GrailsXwikiMacroClass macroClass->
@@ -87,6 +82,24 @@ class XwikiRenderingGrailsPlugin {
             def defaultXWikiComponentManager = event.ctx.getBean("defaultXWikiComponentManager") as XWikiComponentManager
             defaultXWikiComponentManager.registerMacro(eventSource.class)
             log.info("Grails XWiki Macro [${eventSource.class.name}] reloaded successfully")
+        }
+    }
+
+    private XWikiConfigurationProvider getXWikiConfiguration(acx, application) {
+        XWikiConfigurationProvider configuration =
+            acx.getBean("defaultXWikiConfigurationProvider") as XWikiConfigurationProvider
+
+        configuration.setMacrosEnabled(isMacroEnabled(application.config))
+
+        return configuration
+    }
+
+    private boolean isMacroEnabled(config) {
+        def enabled = config.grails.xwiki.rendering.macros.enabled
+        if (enabled instanceof Boolean) {
+            return enabled
+        } else {
+            true
         }
     }
 
