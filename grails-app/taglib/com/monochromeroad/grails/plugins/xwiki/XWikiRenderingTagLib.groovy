@@ -6,12 +6,11 @@ class XWikiRenderingTagLib {
 
     static namespace = "xwiki"
 
-    def xwikiRenderer
+    def xwikiStreamRenderer
 
     def defaultXWikiConfigurationProvider
 
     def defaultXWikiSyntaxFactory
-
 
     /**
      * Renders Wiki Text
@@ -24,13 +23,17 @@ class XWikiRenderingTagLib {
         def outputSyntax = (attrs.outputSyntax) ? defaultXWikiSyntaxFactory.getSyntax(attrs.outputSyntax) : defaultXWikiConfigurationProvider.defaultOutputSyntax
 
         def bodyReader = body()
-        def bodyContent
+        Reader bodyContent
         if (bodyReader instanceof StreamCharBuffer) {
             bodyContent = bodyReader.reader
         } else {
-            bodyContent = bodyReader.toString()
+            bodyContent = new StringReader(bodyReader.toString())
         }
-        out << xwikiRenderer.render(bodyContent, inputSyntax, outputSyntax)
+
+        xwikiStreamRenderer.render(bodyContent, inputSyntax, outputSyntax) { String para ->
+            out.write(para)
+        }
     }
 
 }
+
