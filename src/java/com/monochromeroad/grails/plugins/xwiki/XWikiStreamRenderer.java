@@ -14,9 +14,16 @@ import java.util.*;
 /**
  * XWiki Rendering System -- streaming based
  *
- * <br /><br />
+ * <p>
+ * If you use some macros or transformations, it needs to create a XDOM that represents the whole document structure in a memory.
+ * </p>
  *
- * Default syntax: xwiki/2.1 output: xhtml/1.0
+ * <dl>
+ *     <dt>Default Syntax</dt>
+ *     <dd>xwiki/2.1</dd>
+ *     <dt>Output</dt>
+ *     <dd>xhtml/1.0</dd>
+ * </dl>
  *
  * @author Masatoshi Hayashi
  */

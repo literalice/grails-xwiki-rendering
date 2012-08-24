@@ -6,6 +6,13 @@ import org.xwiki.rendering.transformation.MacroTransformationContext;
 
 import java.util.List;
 
+/**
+ * XWiki no-parameter macro (e.g. {{date /}}) base to use in Grails.
+ *
+ * <p>You need to create a constructor that takes no arguments.</p>
+ *
+ * @author Masatoshi Hayashi
+ */
 public abstract class DefaultXWikiNoParameterMacro extends DefaultXWikiMacro<Object> {
     public DefaultXWikiNoParameterMacro(String name) {
         super(name, Object.class);

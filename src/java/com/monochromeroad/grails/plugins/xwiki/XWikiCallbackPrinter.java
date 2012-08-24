@@ -14,12 +14,10 @@ public class XWikiCallbackPrinter implements WikiPrinter {
         this.callback = callback;
     }
 
-    @Override
     public void print(String s) {
         callback.call(s);
     }
 
-    @Override
     public void println(String s) {
         callback.call(s + "\n");
     }

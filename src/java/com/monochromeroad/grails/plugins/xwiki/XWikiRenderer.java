@@ -10,10 +10,16 @@ import java.io.*;
 /**
  * XWiki Rendering System -- XDOM based
  *
- * <br /><br />
+ * <p>
+ * It needs to create a XDOM that represents the whole document structure in a memory.
+ * </p>
  *
- * It needs to create a XDOM represented the document structure in a memory.<br />
- * Default syntax: xwiki/2.1 output: xhtml/1.0
+ * <dl>
+ *     <dt>Default Syntax</dt>
+ *     <dd>xwiki/2.1</dd>
+ *     <dt>Output</dt>
+ *     <dd>xhtml/1.0</dd>
+ * </dl>
  *
  * @author Masatoshi Hayashi
  */

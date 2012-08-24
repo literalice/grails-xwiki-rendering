@@ -4,6 +4,10 @@ import org.xwiki.properties.BeanManager;
 import org.xwiki.rendering.macro.AbstractMacro;
 
 /**
+ * XWiki macro takes some parameters (e.g. {{code for="java" /}}) to use in Grails.
+ *
+ * <p>You need to create a constructor that takes no arguments.</p>
+ *
  * @author Masatoshi Hayashi
  * @param <P> Macro Parameters Class
  */
