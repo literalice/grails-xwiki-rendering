@@ -20,6 +20,10 @@ public class DefaultXWikiRendering {
         return new XWikiRenderer();
     }
 
+    public XWikiStreamRenderer getXWikiStreamRenderer() {
+        return new XWikiStreamRenderer();
+    }
+
     public XWikiSyntaxFactory getXWikiSyntaxFactory() {
         return new XWikiSyntaxFactory();
     }
@@ -27,11 +31,13 @@ public class DefaultXWikiRendering {
     public void initialize(ClassLoader classLoader,
                             XWikiComponentManager componentManager,
                             XWikiSyntaxFactory syntaxFactory,
-                            XWikiRenderer renderer,
-                            XWikiConfigurationProvider configurationProvider) {
+                            XWikiConfigurationProvider configurationProvider,
+                            XWikiRenderingSystem ...renderers) {
         componentManager.initialize(classLoader);
         syntaxFactory.initialize(componentManager);
-        renderer.initialize(componentManager, configurationProvider);
+        for (XWikiRenderingSystem renderer : renderers) {
+            renderer.initialize(componentManager, configurationProvider);
+        }
     }
 
 }

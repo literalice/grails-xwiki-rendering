@@ -2,6 +2,7 @@ import com.monochromeroad.grails.plugins.xwiki.DefaultXWikiRendering
 import com.monochromeroad.grails.plugins.xwiki.XWikiComponentManager
 import com.monochromeroad.grails.plugins.xwiki.XWikiRenderer
 import com.monochromeroad.grails.plugins.xwiki.XWikiConfigurationProvider
+import com.monochromeroad.grails.plugins.xwiki.XWikiStreamRenderer
 import com.monochromeroad.grails.plugins.xwiki.XWikiSyntaxFactory
 import com.monochromeroad.grails.plugins.xwiki.artefact.GrailsXwikiMacroClass
 import com.monochromeroad.grails.plugins.xwiki.artefact.XwikiMacroArtefactHandler
@@ -47,6 +48,7 @@ class XwikiRenderingGrailsPlugin {
         defaultXWikiSyntaxFactory(defaultXWikiRendering: "getXWikiSyntaxFactory")
 
         xwikiRenderer(defaultXWikiRendering: "getXWikiRenderer")
+        xwikiStreamRenderer(defaultXWikiRendering: "getXWikiStreamRenderer")
     }
 
     def doWithApplicationContext = { acx ->
@@ -54,8 +56,9 @@ class XwikiRenderingGrailsPlugin {
             acx.getBean("defaultXWikiComponentManager") as XWikiComponentManager
 
         XWikiSyntaxFactory syntaxFactory = acx.getBean("defaultXWikiSyntaxFactory") as XWikiSyntaxFactory
-        XWikiRenderer xwikiRenderer = acx.getBean("xwikiRenderer") as XWikiRenderer
         XWikiConfigurationProvider configurationProvider = getXWikiConfiguration(acx, application)
+        XWikiRenderer xwikiRenderer = acx.getBean("xwikiRenderer") as XWikiRenderer
+        XWikiStreamRenderer xwikiStreamRenderer = acx.getBean("xwikiStreamRenderer") as XWikiStreamRenderer
 
         DefaultXWikiRendering defaultXWikiRendering = acx.getBean("defaultXWikiRendering") as DefaultXWikiRendering
 
@@ -63,8 +66,8 @@ class XwikiRenderingGrailsPlugin {
                 application.classLoader,
                 defaultXWikiComponentManager,
                 syntaxFactory,
-                xwikiRenderer,
-                configurationProvider)
+                configurationProvider,
+                xwikiRenderer, xwikiStreamRenderer)
 
         log.info("Starting to register Grails XWiki Macros...")
         application.xwikiMacroClasses.each { GrailsXwikiMacroClass macroClass->
