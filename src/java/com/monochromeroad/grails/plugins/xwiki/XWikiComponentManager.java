@@ -15,17 +15,17 @@ public class XWikiComponentManager {
 
     private final EmbeddableComponentManager componentManager = new EmbeddableComponentManager();
 
+    public XWikiComponentManager(ClassLoader classLoader) {
+        initialize(classLoader);
+    }
+
     /**
      * For the Grails Default XWiki Rendering System.
      * It need to be initialized after construction.
      */
     XWikiComponentManager() {}
 
-    public XWikiComponentManager(ClassLoader classLoader) {
-        initialize(classLoader);
-    }
-
-    public void initialize(ClassLoader classLoader) {
+    void initialize(ClassLoader classLoader) {
         componentManager.initialize(classLoader);
     }
 
