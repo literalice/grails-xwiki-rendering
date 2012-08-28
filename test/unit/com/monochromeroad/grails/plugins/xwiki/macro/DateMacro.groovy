@@ -14,7 +14,7 @@ import org.xwiki.rendering.syntax.Syntax
  * </pre>
  * or
  * <pre>
- * {{date}}yyyy-MM-dd{{/date}
+ * {{date}}yyyy-MM-dd{{/date}}
  * </pre>
  */
 class DateMacro extends DefaultXWikiNoParameterMacro {

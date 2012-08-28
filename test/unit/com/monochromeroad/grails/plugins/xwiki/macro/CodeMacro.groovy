@@ -5,7 +5,9 @@ import org.xwiki.rendering.block.VerbatimBlock
 import org.xwiki.rendering.transformation.MacroTransformationContext
 
 /**
- * HTML Code Macro.<br />Usage:
+ * <p>HTML Code Macro.</p>
+ *
+ * Usage:
  * <pre>
  * {{code mode="java"}}
  * class TestClass{
