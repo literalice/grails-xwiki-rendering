@@ -1,8 +1,5 @@
-You can add any type of wiki elements by adding XWiki Macros.
+You can use some XWiki macros to extend the wiki syntax.
 
-if you add a macro, you will be able to use the macro in this way:
-
-@Example of using Comment Macro@
 {code:xml}
 <xwiki:render>
 = Comment Macro DEMO =
@@ -14,6 +11,11 @@ comment here...(not be rendered)
 
 There are some ways to add a XWiki Macro in your grails project.
 
-* Add a configuration in BuildConfig.groovy in order to use XWiki official macros. See also [Configuration|guide:configuration/macros].
-* Add a library jar file of the XWiki Macro to the grails project (that is, edit "BuildConfig.groovy" or add a jar file to @lib@ directory).
-* Add a Grails XWiki Macro artefact to @grails-app/xwiki@ directory in the grails project.
+* Adding a configuration in BuildConfig.groovy in order to use XWiki official macros. See [Configuration|guide:configuration/macros] for the details.
+* Adding a library jar file of the XWiki Macro to your application (that is, edit "BuildConfig.groovy" or add a jar file to @lib@ directory).
+* Adding a macro code to @grails-app/xwiki@ directory in your application.
+
+{note}
+When you create your own macro, "ExtendingMacro":http://rendering.xwiki.org/xwiki/bin/view/Main/ExtendingMacro would be useful.
+{note}
+

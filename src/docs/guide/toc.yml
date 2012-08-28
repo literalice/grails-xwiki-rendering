@@ -4,10 +4,10 @@ introduction:
 configuration:
     title: Configuration
     syntaxes: Supporeted Syntaxes
-    macros: Available Macros
+    macros: Macros
 macro:
     title: XWiki Macro
-    addingLibrary: Adding XWiki Macro libraries
-    addingArtefact: Adding Grails XWiki Macro artefacts
+    addingLibrary: Adding XWiki macro libraries
+    addingArtefact: Adding XWiki macro codes
 transformation: XWiki Transformation
 

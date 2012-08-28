@@ -4,5 +4,5 @@ Use xwiki:[render|Tags] tag instead.
 
 h4. Removal of Service "RenderingService"
 
-Use [xwikiRenderer|Services] tag instead.
+Use [xwikiRenderer|Services] service instead.
 

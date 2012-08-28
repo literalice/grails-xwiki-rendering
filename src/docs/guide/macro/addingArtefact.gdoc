@@ -1,10 +1,13 @@
-Add a groovy class that implements @GrailsMacro@ to @grails-app/xwiki@ directory in the grails project.
+Add a groovy class that extends [DefaultXWikiMacro|api:com.monochromeroad.grails.plugins.xwiki.macro.DefaultXWikiMacro] or [DefaultXWikiNoParameterMacro|api:com.monochromeroad.grails.plugins.xwiki.macro.DefaultXWikiNoParameterMacro] to @grails-app/xwiki@ directory in the grails project.
 
-h4. A macro with no parameters
+You need to create the class with a nullary constructor.
 
-A example code is "here":https://github.com/literalice/grails-xwiki-rendering/blob/master/grails-app/xwiki/com/monochromeroad/grails/plugins/xwiki/macro/DateMacro.groovy
+Check out the sample macro code for more details.
 
-If you add the code to @grails-app/xwiki@ in your project, you can use "date" macro in this way:
+* "Code Macro extends DefaultXWikiMacro":https://github.com/literalice/grails-xwiki-rendering/blob/master/test/unit/com/monochromeroad/grails/plugins/xwiki/macro/CodeMacro.groovy
+* "Date Macro extends DefaultXWikiNoParameterMacro":https://github.com/literalice/grails-xwiki-rendering/blob/master/test/unit/com/monochromeroad/grails/plugins/xwiki/macro/DateMacro.groovy
+
+If you add the codes to @grails-app/xwiki@ in your project, the macros can be used in this way:
 
 {code:xml}
 <xwiki:render>
@@ -13,16 +16,14 @@ If you add the code to @grails-app/xwiki@ in your project, you can use "date" ma
 </xwiki:render>
 {code}
 
-h4. A macro with some parameters
-
-A example code is "here":https://github.com/literalice/grails-xwiki-rendering/blob/master/grails-app/xwiki/com/monochromeroad/grails/plugins/xwiki/macro/RbMacro.groovy
-
-If you add the code to @grails-app/xwiki@ in your project, you can use "rb" macro in this way:
-
 {code:xml}
 <xwiki:render>
-= Ruby Macro DEMO =
-{{rb read="ruby text"}}ruby base{{/rb}}
+= Code Macro DEMO =
+{{code mode="java"}}
+class TestClass {
+
+}
+{{/code}}
 </xwiki:render>
 {code}
 

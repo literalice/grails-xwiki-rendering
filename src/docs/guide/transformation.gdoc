@@ -1,8 +1,8 @@
 @XWiki Transfromation@ modefies some @XDOM@(AST representing the input) to generate modified @XDOM@.
 
-See also "XWiki Rendering Architecture":http://rendering.xwiki.org/xwiki/bin/view/Main/Architecture for more detail about XWiki Transformation.
+See also "XWiki Rendering Architecture":http://rendering.xwiki.org/xwiki/bin/view/Main/Architecture for more details about XWiki Transformation.
 
-In this Grails XWiki Rendering Plugin, [xwikiRenderer|Services] service can take some XWiki Transformations.
+In this Grails XWiki Rendering Plugin, [xwikiRenderer|Services] and [xwikiStreamRenderer|Services] services can take some XWiki Transformations.
 
 h4. Example
 

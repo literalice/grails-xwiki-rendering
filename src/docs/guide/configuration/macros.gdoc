@@ -1,3 +1,13 @@
+XWiki macros is enabled in the plugin by default. To change this set the grails.xwiki.rendering.macros.enabled to true or false.
+
+{code:java}
+// Config.groovy
+grails.xwiki.rendering.macros.enabled = false // default true
+// ...
+{code}
+
+h4. Available Macros
+
 XWiki provides "some macros":http://rendering.xwiki.org/xwiki/bin/view/Main/Macros officially.
 
 If these macros are needed, add a configuration as below in BuildConfig.groovy file.

@@ -1,0 +1,53 @@
+h1. xwikiStreamRenderer
+
+h2. Purpose
+
+XWiki Rendering System -- streaming based.
+
+If you use some macros or transformations, it needs to create a XDOM that represents the whole document structure in a memory.
+
+An instance of the [XWikiStreamRenderer|api:com.monochromeroad.grails.plugins.xwiki.XWikiStreamRenderer] class.
+
+h2. Examples
+
+{code:groovy}
+class SomeController {
+
+    def xwikiStreamRender
+
+    def someAction = {
+        StringWriter writer = new StringWriter()
+        new File("./test").withReader { reader ->
+            xwikiStreamRenderer.render(reader) { String p ->
+                writer.write(p)
+            }
+        }
+        String result = writer.toString()
+        ...
+    }
+
+}
+{code}
+
+or
+
+{code:groovy}
+import org.xwiki.rendering.syntax.Syntax
+
+class SomeController {
+
+    def xwikiStreamRenderer
+
+    def someAction = {
+        StringWriter writer = new StringWriter()
+        new File("./test").withReader { reader ->
+            xwikiStreamRenderer.render(reader, Syntax.MEDIAWIKI_1_0, Syntax.PLAIN_1_0) {
+                writer.write(p)
+            }
+        }
+        String result = writer.toString()
+        ...
+    }
+
+}
+{code}

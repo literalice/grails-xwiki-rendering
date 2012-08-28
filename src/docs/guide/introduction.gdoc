@@ -1,3 +1,20 @@
 This Grails plugin allows you to convert texts using XWiki Rendering Framework.
 
+{code:java}
+class SomeController {
+
+    def xwikiRenderer
+
+    def someAction = {
+        String testString = """
+        =level1=
+        **bold**
+        """
+        String result = xwikiRenderer.render(textString)
+        ...
+    }
+
+}
+{code}
+
 See "XWiki Rendering Framework":http://rendering.xwiki.org/xwiki/bin/view/Main/WebHome for the details about the framework.

@@ -1,6 +1,10 @@
-h1. xwikiRender
+h1. xwikiRenderer
 
 h2. Purpose
+
+XWiki Rendering System -- XDOM based.
+
+It needs to create a XDOM that represents the whole document structure in a memory.
 
 An instance of the [XWikiRenderer|api:com.monochromeroad.grails.plugins.xwiki.XWikiRenderer] class.
 
@@ -16,7 +20,7 @@ class SomeController {
         =level1=
         **bold**
         """
-        String result = xwikiRenderer.render(textString, "mediawiki/1.0", "plain/1.0")
+        String result = xwikiRenderer.render(textString)
         ...
     }
 
@@ -26,18 +30,20 @@ class SomeController {
 or
 
 {code:java}
+import org.xwiki.rendering.syntax.Syntax
+
 class SomeController {
 
     def xwikiRenderer
 
     def someAction = {
-        StringWriter writer = new StringWriter()
+        String result = ""
         new File("./test").withReader { reader ->
-            xwikiRenderer.render(reader, writer, "mediawiki/1.0", "plain/1.0")
+            result = xwikiRenderer.render(reader, Syntax.MEDIAWIKI_1_0, Syntax.PLAIN_1_0)
         }
-        String result = writer.toString()
         ...
     }
 
 }
 {code}
+

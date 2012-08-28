@@ -10,7 +10,4 @@ dependencies {
 
 You can also add the macro library jar file into @YOUR-GRAILS-PROJECT/lib@ directory.
 
-{note}
-If you want to create your own macro, "ExtendingMacro":http://rendering.xwiki.org/xwiki/bin/view/Main/ExtendingMacro would be useful.
-{note}
 
