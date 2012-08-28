@@ -66,7 +66,7 @@ this line is comment.
 
     def "User Macro Support"() {
         String text = """
-{{date/}}
+{{date /}} {{date}}yyyy-MM-dd{{/date}}
 
 {{code mode="java"}}
 class TestClass{ }
@@ -75,8 +75,10 @@ class TestClass{ }
 
         when:
         def result = renderer.render(text, Syntax.XWIKI_2_1, Syntax.XHTML_1_0)
+        def formattedDate = new Date().format("yyyy/MM/dd")
+        def formattedDate2 = new Date().format("yyyy-MM-dd")
         then:
-        result == new Date().format("yyyy/MM/dd") + '<pre class="java">class TestClass{ }</pre>'
+        result == "<p><span class=\"dateMacro\">${formattedDate}</span> <span class=\"dateMacro\">${formattedDate2}</span></p><pre class=\"java\">class TestClass{ }</pre>"
     }
 
     def "Extra API: using default input syntax and default output syntax"() {
