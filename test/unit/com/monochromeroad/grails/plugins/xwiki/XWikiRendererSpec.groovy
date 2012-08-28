@@ -1,7 +1,7 @@
 package com.monochromeroad.grails.plugins.xwiki
 
 import com.monochromeroad.grails.plugins.xwiki.macro.DateMacro
-import com.monochromeroad.grails.plugins.xwiki.macro.RbMacro
+import com.monochromeroad.grails.plugins.xwiki.macro.CodeMacro
 import org.xwiki.rendering.syntax.Syntax
 import spock.lang.Specification
 import spock.lang.Shared
@@ -21,7 +21,7 @@ class XWikiRendererSpec extends Specification {
         XWikiConfigurationProvider configurationProvider = new XWikiConfigurationProvider();
         XWikiComponentManager componentManager = new XWikiComponentManager(getClass().classLoader);
         componentManager.registerMacro(DateMacro)
-        componentManager.registerMacro(RbMacro)
+        componentManager.registerMacro(CodeMacro)
 
         renderer = new XWikiRenderer(componentManager, configurationProvider)
     }
@@ -68,14 +68,15 @@ this line is comment.
         String text = """
 {{date/}}
 
-{{rb read="reading"}}TEXT{{/rb}}
-
+{{code mode="java"}}
+class TestClass{ }
+{{/code}}
 """
 
         when:
         def result = renderer.render(text, Syntax.XWIKI_2_1, Syntax.XHTML_1_0)
         then:
-        result == new Date().format("yyyy/MM/dd") + '<p><ruby>TEXT<rp>(</rp><rt>reading</rt><rp>)</rp></ruby></p>'
+        result == new Date().format("yyyy/MM/dd") + '<pre class="java">class TestClass{ }</pre>'
     }
 
     def "Extra API: using default input syntax and default output syntax"() {
