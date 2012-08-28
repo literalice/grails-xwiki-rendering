@@ -8,13 +8,17 @@ class SomeController {
     def someAction = {
         String testString = """
         =level1=
+
         **bold**
         """
         String result = xwikiRenderer.render(textString)
+        // <h1>level1</h1>
+        // <p><b>bold</b></p>
         ...
     }
 
 }
 {code}
 
-See "XWiki Rendering Framework":http://rendering.xwiki.org/xwiki/bin/view/Main/WebHome for the details about the framework.
+See also "XWiki Rendering Framework":http://rendering.xwiki.org/xwiki/bin/view/Main/WebHome for the details about the framework.
+
