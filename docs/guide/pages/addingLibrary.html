@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>3.1 Adding XWiki Macro libraries 0.6</title>
+    <title>3.1 Adding XWiki macro libraries 1.0-RC1</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -70,11 +70,11 @@ function addJsClass() {
 
 
                 <div class="project">
-                    <h1>3.1 Adding XWiki Macro libraries - Reference Documentation</h1>
+                    <h1>3.1 Adding XWiki macro libraries - Reference Documentation</h1>
 
                     <p><strong>Authors:</strong> Masatoshi Hayashi</p>
 
-                    <p><strong>Version:</strong> 0.6</p>
+                    <p><strong>Version:</strong> 1.0-RC1</p>
 
                     
                 </div>
@@ -83,14 +83,13 @@ function addJsClass() {
 
                 
 
-<h2 id="addingLibrary">3.1 Adding XWiki Macro libraries</h2>
+<h2 id="addingLibrary">3.1 Adding XWiki macro libraries</h2>
 Edit "BuildConfig.groovy" or add a jar file to <code>lib</code> directory to add a dependency to the macro.<p class="paragraph"/><code>grails-app/conf/BuildConfig.groovy</code>
 <div class="code"><pre>dependencies &#123;
     &#8230;
     compile(<span class="java&#45;quote">"com.example:xwiki&#45;macro&#45;xxx:xxx"</span>) // a macro jar
-&#125;</pre></div><p class="paragraph"/>You can also add the macro library jar file into <code>YOUR-GRAILS-PROJECT/lib</code> directory.<p class="paragraph"/><blockquote class="note">
-If you want to create your own macro, <a href="http://rendering.xwiki.org/xwiki/bin/view/Main/ExtendingMacro" target="blank">ExtendingMacro</a> would be useful.
-</blockquote><p class="paragraph"/>
+&#125;</pre></div><p class="paragraph"/>You can also add the macro library jar file into <code>YOUR-GRAILS-PROJECT/lib</code> directory.<p class="paragraph"/>
+
 
 
                 <div style="clear:both;margin-top:15px;"></div>
@@ -114,6 +113,9 @@ If you want to create your own macro, <a href="http://rendering.xwiki.org/xwiki/
                         
                             
                             <div class="menu-item"><a href="../../ref/Services/xwikiRenderer.html">xwikiRenderer</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Services/xwikiStreamRenderer.html">xwikiStreamRenderer</a>
                             </div>
                             
                             </div>

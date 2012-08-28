@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>XWiki Rendering Plugin 0.6</title>
+    <title>XWiki Rendering Plugin 1.0-RC1</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -61,22 +61,20 @@ function addJsClass(el) {
 
                 <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
 
-                <h1>xwikiRender</h1><p class="paragraph"/><h2>Purpose</h2><p class="paragraph"/>An instance of the <a href="../../api/com/monochromeroad/grails/plugins/xwiki/XWikiRenderer.html" class="api">XWikiRenderer</a> class.<p class="paragraph"/><h2>Examples</h2><p class="paragraph"/><div class="code"><pre>class SomeController &#123;<p class="paragraph"/>    def xwikiRenderer<p class="paragraph"/>    def someAction = &#123;
+                <h1>xwikiRenderer</h1><p class="paragraph"/><h2>Purpose</h2><p class="paragraph"/>XWiki Rendering System -- XDOM based.<p class="paragraph"/>It needs to create a XDOM that represents the whole document structure in a memory.<p class="paragraph"/>An instance of the <a href="../../api/com/monochromeroad/grails/plugins/xwiki/XWikiRenderer.html" class="api">XWikiRenderer</a> class.<p class="paragraph"/><h2>Examples</h2><p class="paragraph"/><div class="code"><pre>class SomeController &#123;<p class="paragraph"/>    def xwikiRenderer<p class="paragraph"/>    def someAction = &#123;
         <span class="java&#45;object">String</span> testString = <span class="java&#45;quote">""</span><span class="java&#45;quote">"
         =level1=
         &#42;&#42;bold&#42;&#42;
         "</span><span class="java&#45;quote">""</span>
-        <span class="java&#45;object">String</span> result = xwikiRenderer.render(textString, <span class="java&#45;quote">"mediawiki/1.0"</span>, <span class="java&#45;quote">"plain/1.0"</span>)
+        <span class="java&#45;object">String</span> result = xwikiRenderer.render(textString)
         &#8230;
-    &#125;<p class="paragraph"/>&#125;</pre></div><p class="paragraph"/>or<p class="paragraph"/><div class="code"><pre>class SomeController &#123;<p class="paragraph"/>    def xwikiRenderer<p class="paragraph"/>    def someAction = &#123;
-        StringWriter writer = <span class="java&#45;keyword">new</span> StringWriter()
+    &#125;<p class="paragraph"/>&#125;</pre></div><p class="paragraph"/>or<p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">import</span> org.xwiki.rendering.syntax.Syntax<p class="paragraph"/>class SomeController &#123;<p class="paragraph"/>    def xwikiRenderer<p class="paragraph"/>    def someAction = &#123;
+        <span class="java&#45;object">String</span> result = <span class="java&#45;quote">""</span>
         <span class="java&#45;keyword">new</span> File(<span class="java&#45;quote">"./test"</span>).withReader &#123; reader &#45;&#62;
-            xwikiRenderer.render(reader, writer, <span class="java&#45;quote">"mediawiki/1.0"</span>, <span class="java&#45;quote">"plain/1.0"</span>)
+            result = xwikiRenderer.render(reader, Syntax.MEDIAWIKI_1_0, Syntax.PLAIN_1_0)
         &#125;
-        <span class="java&#45;object">String</span> result = writer.toString()
         &#8230;
-    &#125;<p class="paragraph"/>&#125;</pre></div>
-
+    &#125;<p class="paragraph"/>&#125;</pre></div><p class="paragraph"/>
             </div>
         </td>
         <td id="col2">
@@ -93,6 +91,9 @@ function addJsClass(el) {
                             
                             
                             <div class="menu-item"><a href="../../ref/Services/xwikiRenderer.html">xwikiRenderer</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Services/xwikiStreamRenderer.html">xwikiStreamRenderer</a>
                             </div>
                             
                         </div>

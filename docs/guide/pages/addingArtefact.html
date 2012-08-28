@@ -2,7 +2,7 @@
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-    <title>3.2 Adding Grails XWiki Macro artefacts 0.6</title>
+    <title>3.2 Adding XWiki macro codes 1.0-RC1</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
     <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
@@ -70,11 +70,11 @@ function addJsClass() {
 
 
                 <div class="project">
-                    <h1>3.2 Adding Grails XWiki Macro artefacts - Reference Documentation</h1>
+                    <h1>3.2 Adding XWiki macro codes - Reference Documentation</h1>
 
                     <p><strong>Authors:</strong> Masatoshi Hayashi</p>
 
-                    <p><strong>Version:</strong> 0.6</p>
+                    <p><strong>Version:</strong> 1.0-RC1</p>
 
                     
                 </div>
@@ -83,13 +83,19 @@ function addJsClass() {
 
                 
 
-<h2 id="addingArtefact">3.2 Adding Grails XWiki Macro artefacts</h2>
-Add a groovy class that implements <code>GrailsMacro</code> to <code>grails-app/xwiki</code> directory in the grails project.<p class="paragraph"/><h4>A macro with no parameters</h4><p class="paragraph"/>A example code is <a href="https://github.com/literalice/grails-xwiki-rendering/blob/master/grails-app/xwiki/com/monochromeroad/grails/plugins/xwiki/macro/DateMacro.groovy" target="blank">here</a><p class="paragraph"/>If you add the code to <code>grails-app/xwiki</code> in your project, you can use "date" macro in this way:<p class="paragraph"/><div class="code"><pre><span class="xml&#45;tag">&#60;xwiki:render&#62;</span>
+<h2 id="addingArtefact">3.2 Adding XWiki macro codes</h2>
+Add a groovy class that extends <a href="../api/com/monochromeroad/grails/plugins/xwiki/macro/DefaultXWikiMacro.html" class="api">DefaultXWikiMacro</a> or <a href="../api/com/monochromeroad/grails/plugins/xwiki/macro/DefaultXWikiNoParameterMacro.html" class="api">DefaultXWikiNoParameterMacro</a> to <code>grails-app/xwiki</code> directory in the grails project.<p class="paragraph"/>You need to create the class with a nullary constructor.<p class="paragraph"/>Check out the sample macro code for more details.
+<ul class="star">
+<li><a href="https://github.com/literalice/grails-xwiki-rendering/blob/master/test/unit/com/monochromeroad/grails/plugins/xwiki/macro/CodeMacro.groovy" target="blank">Code Macro extends DefaultXWikiMacro</a></li>
+<li><a href="https://github.com/literalice/grails-xwiki-rendering/blob/master/test/unit/com/monochromeroad/grails/plugins/xwiki/macro/DateMacro.groovy" target="blank">Date Macro extends DefaultXWikiNoParameterMacro</a></li>
+</ul><p class="paragraph"/>If you add the codes to <code>grails-app/xwiki</code> in your project, the macros can be used in this way:<p class="paragraph"/><div class="code"><pre><span class="xml&#45;tag">&#60;xwiki:render&#62;</span>
 = Date Macro DEMO =
 &#123;&#123;date /&#125;&#125;
-<span class="xml&#45;tag">&#60;/xwiki:render&#62;</span></pre></div><p class="paragraph"/><h4>A macro with some parameters</h4><p class="paragraph"/>A example code is <a href="https://github.com/literalice/grails-xwiki-rendering/blob/master/grails-app/xwiki/com/monochromeroad/grails/plugins/xwiki/macro/RbMacro.groovy" target="blank">here</a><p class="paragraph"/>If you add the code to <code>grails-app/xwiki</code> in your project, you can use "rb" macro in this way:<p class="paragraph"/><div class="code"><pre><span class="xml&#45;tag">&#60;xwiki:render&#62;</span>
-= Ruby Macro DEMO =
-&#123;&#123;rb read=<span class="xml&#45;quote">"ruby text"</span>&#125;&#125;ruby base&#123;&#123;/rb&#125;&#125;
+<span class="xml&#45;tag">&#60;/xwiki:render&#62;</span></pre></div><p class="paragraph"/><div class="code"><pre><span class="xml&#45;tag">&#60;xwiki:render&#62;</span>
+= Code Macro DEMO =
+&#123;&#123;code mode=<span class="xml&#45;quote">"java"</span>&#125;&#125;
+class TestClass &#123;<p class="paragraph"/>&#125;
+&#123;&#123;/code&#125;&#125;
 <span class="xml&#45;tag">&#60;/xwiki:render&#62;</span></pre></div><p class="paragraph"/>
 
 
@@ -114,6 +120,9 @@ Add a groovy class that implements <code>GrailsMacro</code> to <code>grails-app/
                         
                             
                             <div class="menu-item"><a href="../../ref/Services/xwikiRenderer.html">xwikiRenderer</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../../ref/Services/xwikiStreamRenderer.html">xwikiStreamRenderer</a>
                             </div>
                             
                             </div>
