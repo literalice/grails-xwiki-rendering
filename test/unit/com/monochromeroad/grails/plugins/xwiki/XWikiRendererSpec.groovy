@@ -78,7 +78,7 @@ class TestClass{ }
         def formattedDate = new Date().format("yyyy/MM/dd")
         def formattedDate2 = new Date().format("yyyy-MM-dd")
         then:
-        result == "<p><span class=\"dateMacro\">${formattedDate}</span> <span class=\"dateMacro\">${formattedDate2}</span></p><pre class=\"java\">class TestClass{ }</pre>"
+        result == "<p><span class=\"dateMacro\">${formattedDate}</span> <span class=\"dateMacro\">${formattedDate2}</span></p><pre class=\"java\">class TestClass&#123; }</pre>"
     }
 
     def "Extra API: using default input syntax and default output syntax"() {
