@@ -9,7 +9,7 @@ import com.monochromeroad.grails.plugins.xwiki.artefact.XwikiMacroArtefactHandle
 
 class XwikiRenderingGrailsPlugin {
     // the plugin version
-    def version = "1.0-RC1"
+    def version = "1.0.RC2-SNAPSHOT"
 
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "* > 1.2.2"
