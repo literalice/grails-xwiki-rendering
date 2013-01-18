@@ -87,6 +87,9 @@ grails.project.dependency.resolution = {
             transitive = false
             export = false
         }
+        test("org.spockframework:spock-grails-support:0.7-groovy-2.0") {
+            export = false
+        }
     }
 
     plugins {
@@ -94,7 +97,8 @@ grails.project.dependency.resolution = {
             export = false
         }
 
-        test(":spock:0.6") {
+        test(":spock:0.7") {
+            exclude "spock-grails-support"
             export = false
         }
     }
