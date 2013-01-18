@@ -87,7 +87,7 @@ class XwikiRenderingGrailsPlugin {
         }
     }
 
-    private XWikiConfigurationProvider getXWikiConfiguration(acx, application) {
+    private static XWikiConfigurationProvider getXWikiConfiguration(acx, application) {
         XWikiConfigurationProvider configuration =
             acx.getBean("defaultXWikiConfigurationProvider") as XWikiConfigurationProvider
 
@@ -96,7 +96,7 @@ class XwikiRenderingGrailsPlugin {
         return configuration
     }
 
-    private boolean isMacroEnabled(config) {
+    private static boolean isMacroEnabled(config) {
         def enabled = config.grails.xwiki.rendering.macros.enabled
         if (enabled instanceof Boolean) {
             return enabled
