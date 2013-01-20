@@ -6,6 +6,7 @@ import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.Transformation;
 
 import java.io.*;
+import java.util.Collections;
 
 /**
  * XWiki Rendering System -- XDOM based
@@ -41,13 +42,51 @@ public class XWikiRenderer extends XWikiRenderingSystem {
      * @param source source text reader
      * @param inputSyntax inputSyntax
      * @param outputSyntax outputSyntax
+     * @return a rendered result
+     */
+    public String render(Reader source, Syntax inputSyntax, Syntax outputSyntax) {
+        return render(source, inputSyntax, outputSyntax, Collections.<Transformation>emptyList(), Collections.<Transformation>emptyList());
+    }
+
+    /**
+     * XWiki rendering
+     *
+     * @param source source text reader
+     * @param inputSyntax inputSyntax
+     * @param outputSyntax outputSyntax
      * @param transformations transform parameters
      * @return a rendered result
      */
-    public String render(Reader source, Syntax inputSyntax, Syntax outputSyntax, Transformation ...transformations) {
+    public String render(Reader source, Syntax inputSyntax, Syntax outputSyntax, Iterable<Transformation> transformations) {
+        return render(source, inputSyntax, outputSyntax, Collections.<Transformation>emptyList(), transformations);
+    }
+
+    /**
+     * XWiki rendering
+     *
+     * @param source source text reader
+     * @param inputSyntax inputSyntax
+     * @param outputSyntax outputSyntax
+     * @param preTransformations transform parameters
+     * @param postTransformations transform parameters
+     * @return a rendered result
+     */
+    public String render(Reader source, Syntax inputSyntax, Syntax outputSyntax, Iterable<Transformation> preTransformations, Iterable<Transformation> postTransformations) {
         XDOM xdom = buildXDOM(source, inputSyntax);
-        transform(xdom, inputSyntax, transformations);
+        transform(xdom, inputSyntax, preTransformations, postTransformations);
         return convertToString(xdom, outputSyntax);
+    }
+
+    /**
+     * XWiki XHTML rendering
+     *
+     * @param source a source text
+     * @param inputSyntax input syntax
+     * @return a rendered result
+     */
+    public String render(Reader source, Syntax inputSyntax) {
+        Syntax outputSyntax = configurationProvider.getDefaultOutputSyntax();
+        return render(source, inputSyntax, outputSyntax);
     }
 
     /**
@@ -58,9 +97,34 @@ public class XWikiRenderer extends XWikiRenderingSystem {
      * @param transformations transform parameters
      * @return a rendered result
      */
-    public String render(Reader source, Syntax inputSyntax, Transformation ...transformations) {
+    public String render(Reader source, Syntax inputSyntax, Iterable<Transformation> transformations) {
         Syntax outputSyntax = configurationProvider.getDefaultOutputSyntax();
         return render(source, inputSyntax, outputSyntax, transformations);
+    }
+
+    /**
+     * XWiki XHTML rendering
+     *
+     * @param source a source text
+     * @param inputSyntax input syntax
+     * @param preTransformations transform parameters
+     * @return a rendered result
+     */
+    public String render(Reader source, Syntax inputSyntax, Iterable<Transformation> preTransformations, Iterable<Transformation> postTransformations) {
+        Syntax outputSyntax = configurationProvider.getDefaultOutputSyntax();
+        return render(source, inputSyntax, outputSyntax, preTransformations, postTransformations);
+    }
+
+    /**
+     * XWiki XHTML rendering using default syntax.
+     *
+     * @param source a source text
+     * @return a rendered result
+     */
+    public String render(Reader source) {
+        Syntax inputSyntax = configurationProvider.getDefaultInputSyntax();
+        Syntax outputSyntax = configurationProvider.getDefaultOutputSyntax();
+        return render(source, inputSyntax, outputSyntax);
     }
 
     /**
@@ -70,10 +134,35 @@ public class XWikiRenderer extends XWikiRenderingSystem {
      * @param transformations transform parameters
      * @return a rendered result
      */
-    public String render(Reader source, Transformation ...transformations) {
+    public String render(Reader source, Iterable<Transformation> transformations) {
         Syntax inputSyntax = configurationProvider.getDefaultInputSyntax();
         Syntax outputSyntax = configurationProvider.getDefaultOutputSyntax();
         return render(source, inputSyntax, outputSyntax, transformations);
+    }
+
+    /**
+     * XWiki XHTML rendering using default syntax.
+     *
+     * @param source a source text
+     * @param preTransformations transform parameters
+     * @return a rendered result
+     */
+    public String render(Reader source, Iterable<Transformation> preTransformations, Iterable<Transformation> postTransformations) {
+        Syntax inputSyntax = configurationProvider.getDefaultInputSyntax();
+        Syntax outputSyntax = configurationProvider.getDefaultOutputSyntax();
+        return render(source, inputSyntax, outputSyntax, preTransformations, postTransformations);
+    }
+
+    /**
+     * XWiki rendering
+     *
+     * @param source a source text
+     * @param inputSyntax inputSyntax
+     * @param outputSyntax outputSyntax
+     * @return a rendered result
+     */
+    public String render(String source, Syntax inputSyntax, Syntax outputSyntax) {
+        return render(new StringReader(source), inputSyntax, outputSyntax);
     }
 
     /**
@@ -85,8 +174,21 @@ public class XWikiRenderer extends XWikiRenderingSystem {
      * @param transformations transform parameters
      * @return a rendered result
      */
-    public String render(String source, Syntax inputSyntax, Syntax outputSyntax, Transformation ...transformations) {
+    public String render(String source, Syntax inputSyntax, Syntax outputSyntax, Iterable<Transformation> transformations) {
         return render(new StringReader(source), inputSyntax, outputSyntax, transformations);
+    }
+
+    /**
+     * XWiki rendering
+     *
+     * @param source a source text
+     * @param inputSyntax inputSyntax
+     * @param outputSyntax outputSyntax
+     * @param preTransformations transform parameters
+     * @return a rendered result
+     */
+    public String render(String source, Syntax inputSyntax, Syntax outputSyntax, Iterable<Transformation> preTransformations, Iterable<Transformation> postTransformations) {
+        return render(new StringReader(source), inputSyntax, outputSyntax, preTransformations, postTransformations);
     }
 
     /**
@@ -94,11 +196,45 @@ public class XWikiRenderer extends XWikiRenderingSystem {
      *
      * @param source a source text
      * @param inputSyntax inputSyntax
-     * @param transformations transform parameters
      * @return a rendered result
      */
-    public String render(String source, Syntax inputSyntax, Transformation ...transformations) {
+    public String render(String source, Syntax inputSyntax) {
+        return render(new StringReader(source), inputSyntax);
+    }
+
+    /**
+     * XWiki XHTML rendering
+     *
+     * @param source a source text
+     * @param inputSyntax inputSyntax
+     * @param  transformations parameters
+     * @return a rendered result
+     */
+    public String render(String source, Syntax inputSyntax, Iterable<Transformation> transformations) {
         return render(new StringReader(source), inputSyntax, transformations);
+    }
+
+    /**
+     * XWiki XHTML rendering
+     *
+     * @param source a source text
+     * @param inputSyntax inputSyntax
+     * @param preTransformations parameters
+     * @param postTransformations parameters
+     * @return a rendered result
+     */
+    public String render(String source, Syntax inputSyntax, Iterable<Transformation> preTransformations, Iterable<Transformation> postTransformations) {
+        return render(new StringReader(source), inputSyntax, preTransformations, postTransformations);
+    }
+
+    /**
+     * XWiki XHTML rendering using default syntax
+     *
+     * @param source a source text
+     * @return a rendered result
+     */
+    public String render(String source) {
+        return render(new StringReader(source));
     }
 
     /**
@@ -108,8 +244,19 @@ public class XWikiRenderer extends XWikiRenderingSystem {
      * @param transformations transform parameters
      * @return a rendered result
      */
-    public String render(String source, Transformation ...transformations) {
+    public String render(String source, Iterable<Transformation> transformations) {
         return render(new StringReader(source), transformations);
+    }
+
+    /**
+     * XWiki XHTML rendering using default syntax
+     *
+     * @param source a source text
+     * @param preTransformations transform parameters
+     * @return a rendered result
+     */
+    public String render(String source, Iterable<Transformation> preTransformations, Iterable<Transformation> postTransformations) {
+        return render(new StringReader(source), preTransformations, postTransformations);
     }
 
     private String convertToString(XDOM xdom, Syntax syntax) {

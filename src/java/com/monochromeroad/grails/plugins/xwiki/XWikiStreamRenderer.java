@@ -9,7 +9,7 @@ import org.xwiki.rendering.syntax.Syntax;
 import org.xwiki.rendering.transformation.Transformation;
 
 import java.io.Reader;
-import java.util.*;
+import java.util.Collections;
 
 /**
  * XWiki Rendering System -- streaming based
@@ -45,14 +45,28 @@ public class XWikiStreamRenderer extends XWikiRenderingSystem {
      * @param source source text reader
      * @param inputSyntax inputSyntax
      * @param outputSyntax outputSyntax
+     * @param preTransformations transform parameters before applying macros
+     * @param postTransformations transform parameters after applying macros
      * @param callback a callback function processed on parsing a text
      */
-    public void render(Reader source, Syntax inputSyntax, Syntax outputSyntax, Closure callback) {
-        if (configurationProvider.isMacrosEnabled()) {
-            renderOnXDOM(source, inputSyntax, outputSyntax, Collections.<Transformation>emptyList(), callback);
+    public void render(Reader source, Syntax inputSyntax, Syntax outputSyntax, Iterable<Transformation> preTransformations, Iterable<Transformation> postTransformations, Closure callback) {
+        if (configurationProvider.isMacrosEnabled() || preTransformations.iterator().hasNext() || postTransformations.iterator().hasNext()) {
+            renderOnXDOM(source, inputSyntax, outputSyntax, preTransformations, postTransformations, callback);
         } else {
             renderOnStream(source, inputSyntax, outputSyntax, callback);
         }
+    }
+
+    /**
+     * XWiki rendering
+     *
+     * @param source source text reader
+     * @param inputSyntax inputSyntax
+     * @param outputSyntax outputSyntax
+     * @param callback a callback function processed on parsing a text
+     */
+    public void render(Reader source, Syntax inputSyntax, Syntax outputSyntax, Closure callback) {
+        render(source, inputSyntax, outputSyntax, Collections.<Transformation>emptyList(), Collections.<Transformation>emptyList(), callback);
     }
 
     /**
@@ -88,12 +102,8 @@ public class XWikiStreamRenderer extends XWikiRenderingSystem {
      * @param transformations transform parameters
      * @param callback a callback function processed on parsing a text
      */
-    public void render(Reader source, Syntax inputSyntax, Syntax outputSyntax, List<Transformation> transformations, Closure callback) {
-        if (configurationProvider.isMacrosEnabled() || !transformations.isEmpty()) {
-            renderOnXDOM(source, inputSyntax, outputSyntax, transformations, callback);
-        } else {
-            renderOnStream(source, inputSyntax, outputSyntax, callback);
-        }
+    public void render(Reader source, Syntax inputSyntax, Syntax outputSyntax, Iterable<Transformation> transformations, Closure callback) {
+        render(source, inputSyntax, outputSyntax, Collections.<Transformation>emptyList(), transformations, callback);
     }
 
     /**
@@ -104,9 +114,23 @@ public class XWikiStreamRenderer extends XWikiRenderingSystem {
      * @param transformations transform parameters
      * @param callback a callback function processed on parsing a text
      */
-    public void render(Reader source, Syntax inputSyntax, List<Transformation> transformations, Closure callback) {
+    public void render(Reader source, Syntax inputSyntax, Iterable<Transformation> transformations, Closure callback) {
         Syntax outputSyntax = configurationProvider.getDefaultOutputSyntax();
         render(source, inputSyntax, outputSyntax, transformations, callback);
+    }
+
+    /**
+     * XWiki XHTML rendering
+     *
+     * @param source source text reader
+     * @param inputSyntax inputSyntax
+     * @param preTransformations transform parameters
+     * @param postTransformations transform parameters
+     * @param callback a callback function processed on parsing a text
+     */
+    public void render(Reader source, Syntax inputSyntax, Iterable<Transformation> preTransformations, Iterable<Transformation> postTransformations, Closure callback) {
+        Syntax outputSyntax = configurationProvider.getDefaultOutputSyntax();
+        render(source, inputSyntax, outputSyntax, preTransformations, postTransformations, callback);
     }
 
     /**
@@ -116,15 +140,29 @@ public class XWikiStreamRenderer extends XWikiRenderingSystem {
      * @param transformations transform parameters
      * @param callback a callback function processed on parsing a text
      */
-    public void render(Reader source, List<Transformation> transformations, Closure callback) {
+    public void render(Reader source, Iterable<Transformation> transformations, Closure callback) {
         Syntax inputSyntax = configurationProvider.getDefaultInputSyntax();
         Syntax outputSyntax = configurationProvider.getDefaultOutputSyntax();
         render(source, inputSyntax, outputSyntax, transformations, callback);
     }
 
-    private void renderOnXDOM(Reader source, Syntax inputSyntax, Syntax outputSyntax, List<Transformation> transformations, Closure callback) {
+    /**
+     * XWiki XHTML rendering using the default syntax
+     *
+     * @param source source text reader
+     * @param preTransformations transform parameters
+     * @param postTransformations transform parameters
+     * @param callback a callback function processed on parsing a text
+     */
+    public void render(Reader source, Iterable<Transformation> preTransformations, Iterable<Transformation> postTransformations, Closure callback) {
+        Syntax inputSyntax = configurationProvider.getDefaultInputSyntax();
+        Syntax outputSyntax = configurationProvider.getDefaultOutputSyntax();
+        render(source, inputSyntax, outputSyntax, preTransformations, postTransformations, callback);
+    }
+
+    private void renderOnXDOM(Reader source, Syntax inputSyntax, Syntax outputSyntax, Iterable<Transformation> preTransformations, Iterable<Transformation> postTransformations, Closure callback) {
         XDOM xdom = buildXDOM(source, inputSyntax);
-        transform(xdom, inputSyntax, transformations);
+        transform(xdom, inputSyntax, preTransformations, postTransformations);
         applyRenderer(xdom, outputSyntax, new XWikiCallbackPrinter(callback));
     }
 

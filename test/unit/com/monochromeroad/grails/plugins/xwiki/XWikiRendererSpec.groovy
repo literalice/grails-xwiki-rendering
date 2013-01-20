@@ -1,8 +1,10 @@
 package com.monochromeroad.grails.plugins.xwiki
 
-import com.monochromeroad.grails.plugins.xwiki.macro.DateMacro
-import com.monochromeroad.grails.plugins.xwiki.macro.CodeMacro
+import com.monochromeroad.grails.plugins.xwiki.macro.SampleMacro
+import com.monochromeroad.grails.plugins.xwiki.macro.SampleNoParameterMacro
+import com.monochromeroad.grails.plugins.xwiki.transformation.SampleTransformation
 import org.xwiki.rendering.syntax.Syntax
+import org.xwiki.rendering.transformation.Transformation
 import spock.lang.Specification
 import spock.lang.Shared
 import org.apache.log4j.BasicConfigurator
@@ -15,88 +17,173 @@ class XWikiRendererSpec extends Specification {
     @Shared
     XWikiRenderer renderer
 
-    def setupSpec() {
-        BasicConfigurator.configure();
+    @Shared
+    XWikiStreamRenderer streamRenderer
 
-        XWikiConfigurationProvider configurationProvider = new XWikiConfigurationProvider();
-        XWikiComponentManager componentManager = new XWikiComponentManager(getClass().classLoader);
-        componentManager.registerMacro(DateMacro)
-        componentManager.registerMacro(CodeMacro)
+    @Shared
+    XWikiConfigurationProvider configurationProvider = new XWikiConfigurationProvider()
+
+    def setupSpec() {
+        BasicConfigurator.configure()
+
+        XWikiComponentManager componentManager = new XWikiComponentManager(getClass().classLoader)
+        componentManager.registerMacro(SampleMacro)
+        componentManager.registerMacro(SampleNoParameterMacro)
 
         renderer = new XWikiRenderer(componentManager, configurationProvider)
+        streamRenderer = new XWikiStreamRenderer(componentManager, configurationProvider)
     }
 
-    String testXWiki21Text = """
-=level1=
-text :**bold**
-"""
+    def expected = "**test** {{sample data='test' /}} {{sample2}}body{{/sample2}}"
 
-    String expectedHTML = '<h1 id="Hlevel1"><span>level1</span></h1><p>text :<strong>bold</strong></p>'
-
-    String expectedText = "level1\n\ntext :bold"
-
-    def "Converts wiki text using XWiki syntax"() {
+    def "Renders a wiki text"() {
         when:
-        def result = renderer.render(new StringReader(testXWiki21Text), Syntax.XWIKI_2_1, Syntax.XHTML_1_0)
+        configurationProvider.macrosEnabled = true
+        def result = assertRendererApi(expected)
+
         then:
-        result == expectedHTML
+        result == "<p><strong>test</strong> data:test[inserted by a macro: sample] body[inserted by a macro: sample2]</p>"
     }
 
-    def "Converts XWiki 2_1 text to another format using XWiki syntax"() {
+    def "Renders a wiki text without macros"() {
         when:
-        def result = renderer.render(new StringReader(testXWiki21Text), Syntax.XWIKI_2_1, Syntax.PLAIN_1_0)
+        configurationProvider.macrosEnabled = false
+        and:
+        def result = assertRendererApi(expected)
+
         then:
-        result == expectedText
+        result == "<p><strong>test</strong>&nbsp;&nbsp;</p>"
     }
 
-    def "Embedded Macro Support"() {
-        String text = """
-= level1 =
-== level2 ==
-{{comment}}
-this line is comment.
-{{/comment}}
-"""
-
+    def "Renders a wiki text with a transformation after applying a macro"() {
         when:
-        def result = renderer.render(text, Syntax.XWIKI_2_1, Syntax.XHTML_1_0)
-        then:"The text written in Comment Macro is not rendered"
-        result == '<h1 id="Hlevel1"><span>level1</span></h1><h2 id="Hlevel2"><span>level2</span></h2>'
-    }
+        configurationProvider.macrosEnabled = true
+        def result = assertRendererApi(expected, [new SampleTransformation("T1"), new SampleTransformation("T2")])
 
-    def "User Macro Support"() {
-        String text = """
-{{date /}} {{date}}yyyy-MM-dd{{/date}}
-
-{{code mode="java"}}
-class TestClass{ }
-{{/code}}
-"""
-
-        when:
-        def result = renderer.render(text, Syntax.XWIKI_2_1, Syntax.XHTML_1_0)
-        def formattedDate = new Date().format("yyyy/MM/dd")
-        def formattedDate2 = new Date().format("yyyy-MM-dd")
         then:
-        result == "<p><span class=\"dateMacro\">${formattedDate}</span> <span class=\"dateMacro\">${formattedDate2}</span></p><pre class=\"java\">class TestClass&#123; }</pre>"
+        result.trim() == "<p><strong>test</strong> data:test[inserted by a macro: sample] body[inserted by a macro: sample2]</p>It applies the transformation T1! [.. may be applied a macro.] It applies the transformation T2! [.. may be applied a macro.]"
     }
 
-    def "Extra API: using default input syntax and default output syntax"() {
+    def "Renders a wiki text with a transformation after/before applying a macro"() {
         when:
-        String result = renderer.render(testXWiki21Text)
+        configurationProvider.macrosEnabled = true
+        def result = assertRendererApi(expected, [new SampleTransformation("T1")], [new SampleTransformation("T2")])
+
         then:
-        result == expectedHTML
+        result.trim() == "<p><strong>test</strong> data:test[inserted by a macro: sample] body[inserted by a macro: sample2]</p>It applies the transformation T1! It applies the transformation T2! [.. may be applied a macro.]"
     }
 
-    def "Adds some custom transformer"() {
-        def transformation1 = new TestTransformation("Pre Transformation", 1);
-        def transformation2 = new TestTransformation("Post Transformation", 1000);
-
+    def "Renders a wiki text with another syntax"() {
         when:
-        String result = renderer.render(
-                testXWiki21Text, Syntax.XWIKI_2_1, Syntax.XHTML_1_0, transformation1, transformation2)
-        println result
+        def result = assertRendererApi("''test'' '''test'''", Syntax.MEDIAWIKI_1_0)
         then:
-        result == expectedHTML + "Pre TransformationPost Transformation"
+        result == '<p><em>test</em> <strong>test</strong></p>'
+    }
+
+    def "Renders a wiki text with another output syntax"() {
+        when:
+        configurationProvider.macrosEnabled = true
+        def result = assertRendererApi(expected, Syntax.XWIKI_2_1, Syntax.PLAIN_1_0)
+
+        then:
+        result.trim() == "test data:test[inserted by a macro: sample] body[inserted by a macro: sample2]"
+    }
+
+    private String assertRendererApi(String src, Syntax inputSyntax) {
+        def result = renderer.render(src, inputSyntax)
+        assert result == renderer.render(src, inputSyntax, configurationProvider.defaultOutputSyntax)
+        assert result == renderer.render(new StringReader(src), inputSyntax)
+        assert result == renderer.render(new StringReader(src), inputSyntax, configurationProvider.defaultOutputSyntax)
+
+        def streamResult = ""
+        streamRenderer.render(new StringReader(src), inputSyntax) { streamResult += it }
+        assert streamResult == result
+
+        streamResult = ""
+        streamRenderer.render(new StringReader(src), inputSyntax, configurationProvider.defaultOutputSyntax) { streamResult += it }
+        assert streamResult == result
+
+        result
+    }
+
+    private String assertRendererApi(String src, Syntax inputSyntax, Syntax outputSyntax) {
+        def result = renderer.render(src, inputSyntax, outputSyntax)
+        assert result == renderer.render(new StringReader(src), inputSyntax, outputSyntax)
+
+        def streamResult = ""
+        streamRenderer.render(new StringReader(src), inputSyntax, outputSyntax) { streamResult += it }
+        assert streamResult == result
+
+        result
+    }
+
+    private String assertRendererApi(String src) {
+        def result = renderer.render(src)
+
+        assert result == renderer.render(src, configurationProvider.defaultInputSyntax)
+        assert result == renderer.render(src, configurationProvider.defaultInputSyntax, configurationProvider.defaultOutputSyntax)
+        assert result == renderer.render(new StringReader(src))
+        assert result == renderer.render(new StringReader(src), configurationProvider.defaultInputSyntax)
+        assert result == renderer.render(new StringReader(src), configurationProvider.defaultInputSyntax, configurationProvider.defaultOutputSyntax)
+
+        def streamResult = ""
+        streamRenderer.render(new StringReader(src)) { streamResult += it }
+        assert streamResult == result
+
+        streamResult = ""
+        streamRenderer.render(new StringReader(src), configurationProvider.defaultInputSyntax) { streamResult += it }
+        assert streamResult == result
+
+        streamResult = ""
+        streamRenderer.render(new StringReader(src), configurationProvider.defaultInputSyntax, configurationProvider.defaultOutputSyntax) { streamResult += it }
+        assert streamResult == result
+
+        result
+    }
+
+    private String assertRendererApi(String src, List<Transformation> postTransformation) {
+        def result = renderer.render(src, postTransformation)
+        assert result == renderer.render(src, configurationProvider.defaultInputSyntax, postTransformation)
+        assert result == renderer.render(src, configurationProvider.defaultInputSyntax, configurationProvider.defaultOutputSyntax, postTransformation)
+        assert result == renderer.render(new StringReader(src), postTransformation)
+        assert result == renderer.render(new StringReader(src), configurationProvider.defaultInputSyntax, postTransformation)
+        assert result == renderer.render(new StringReader(src), configurationProvider.defaultInputSyntax, configurationProvider.defaultOutputSyntax, postTransformation)
+
+        def streamResult = ""
+        streamRenderer.render(new StringReader(src), postTransformation) { streamResult += it }
+        assert streamResult == result
+
+        streamResult = ""
+        streamRenderer.render(new StringReader(src), configurationProvider.defaultInputSyntax, postTransformation) { streamResult += it }
+        assert streamResult == result
+
+        streamResult = ""
+        streamRenderer.render(new StringReader(src), configurationProvider.defaultInputSyntax, configurationProvider.defaultOutputSyntax, postTransformation) { streamResult += it }
+        assert streamResult == result
+
+        result
+    }
+
+    private String assertRendererApi(String src, List<Transformation> preTransformation, List<Transformation> postTransformation) {
+        def result = renderer.render(src, preTransformation, postTransformation)
+        assert result == renderer.render(src, configurationProvider.defaultInputSyntax, preTransformation, postTransformation)
+        assert result == renderer.render(src, configurationProvider.defaultInputSyntax, configurationProvider.defaultOutputSyntax, preTransformation, postTransformation)
+        assert result == renderer.render(new StringReader(src), preTransformation, postTransformation)
+        assert result == renderer.render(new StringReader(src), configurationProvider.defaultInputSyntax, preTransformation, postTransformation)
+        assert result == renderer.render(new StringReader(src), configurationProvider.defaultInputSyntax, configurationProvider.defaultOutputSyntax, preTransformation, postTransformation)
+
+        def streamResult = ""
+        streamRenderer.render(new StringReader(src), preTransformation, postTransformation) { streamResult += it }
+        assert streamResult == result
+
+        streamResult = ""
+        streamRenderer.render(new StringReader(src), configurationProvider.defaultInputSyntax, preTransformation, postTransformation) { streamResult += it }
+        assert streamResult == result
+
+        streamResult = ""
+        streamRenderer.render(new StringReader(src), configurationProvider.defaultInputSyntax, configurationProvider.defaultOutputSyntax, preTransformation, postTransformation) { streamResult += it }
+        assert streamResult == result
+
+        result
     }
 }

@@ -12,7 +12,6 @@ import org.xwiki.rendering.transformation.TransformationContext;
 import org.xwiki.rendering.transformation.TransformationException;
 
 import java.io.Reader;
-import java.util.Arrays;
 
 /**
  * Base functions for XWiki rendering system.
@@ -45,18 +44,17 @@ public abstract class XWikiRenderingSystem {
         }
     }
 
-    protected final void transform(XDOM xdom, Syntax syntax, Transformation ...transformations) {
-        transform(xdom, syntax, Arrays.asList(transformations));
-    }
-
-    protected final void transform(XDOM xdom, Syntax syntax, Iterable<Transformation> transformations) {
+    protected final void transform(XDOM xdom, Syntax syntax, Iterable<Transformation> preTransformations, Iterable<Transformation> postTransformations) {
         TransformationContext txContext = new TransformationContext(xdom, syntax);
 
         try {
+            for (Transformation transformation : preTransformations) {
+                transformation.transform(xdom, txContext);
+            }
             if (configurationProvider.isMacrosEnabled()) {
                 getTransformationForMacro().transform(xdom, txContext);
             }
-            for (Transformation transformation : transformations) {
+            for (Transformation transformation : postTransformations) {
                 transformation.transform(xdom, txContext);
             }
         } catch (TransformationException e) {
