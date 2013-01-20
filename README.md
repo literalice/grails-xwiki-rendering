@@ -1,5 +1,7 @@
 # XWiki Rendering Framework Grails Integration #
 
+[![Build Status](https://buildhive.cloudbees.com/job/literalice/job/grails-xwiki-rendering/badge/icon)](https://buildhive.cloudbees.com/job/literalice/job/grails-xwiki-rendering/)
+
 This Grails plugin allows you to convert texts using XWiki Rendering Framework.
 
 ## Example ##
