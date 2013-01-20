@@ -45,8 +45,8 @@ public class XWikiStreamRenderer extends XWikiRenderingSystem {
      * @param source source text reader
      * @param inputSyntax inputSyntax
      * @param outputSyntax outputSyntax
-     * @param preTransformations transform parameters before applying macros
-     * @param postTransformations transform parameters after applying macros
+     * @param preTransformations transforms applied before macros
+     * @param postTransformations transforms applied after macros
      * @param callback a callback function processed on parsing a text
      */
     public void render(Reader source, Syntax inputSyntax, Syntax outputSyntax, Iterable<Transformation> preTransformations, Iterable<Transformation> postTransformations, Closure callback) {
@@ -99,7 +99,7 @@ public class XWikiStreamRenderer extends XWikiRenderingSystem {
      * @param source source text reader
      * @param inputSyntax inputSyntax
      * @param outputSyntax outputSyntax
-     * @param transformations transform parameters
+     * @param transformations transforms applied after macros
      * @param callback a callback function processed on parsing a text
      */
     public void render(Reader source, Syntax inputSyntax, Syntax outputSyntax, Iterable<Transformation> transformations, Closure callback) {
@@ -111,7 +111,7 @@ public class XWikiStreamRenderer extends XWikiRenderingSystem {
      *
      * @param source source text reader
      * @param inputSyntax inputSyntax
-     * @param transformations transform parameters
+     * @param transformations transforms applied after macros
      * @param callback a callback function processed on parsing a text
      */
     public void render(Reader source, Syntax inputSyntax, Iterable<Transformation> transformations, Closure callback) {
@@ -124,8 +124,8 @@ public class XWikiStreamRenderer extends XWikiRenderingSystem {
      *
      * @param source source text reader
      * @param inputSyntax inputSyntax
-     * @param preTransformations transform parameters
-     * @param postTransformations transform parameters
+     * @param preTransformations transforms applied before macros
+     * @param postTransformations transforms applied after macros
      * @param callback a callback function processed on parsing a text
      */
     public void render(Reader source, Syntax inputSyntax, Iterable<Transformation> preTransformations, Iterable<Transformation> postTransformations, Closure callback) {
@@ -137,7 +137,7 @@ public class XWikiStreamRenderer extends XWikiRenderingSystem {
      * XWiki XHTML rendering using the default syntax
      *
      * @param source source text reader
-     * @param transformations transform parameters
+     * @param transformations transforms applied after macros
      * @param callback a callback function processed on parsing a text
      */
     public void render(Reader source, Iterable<Transformation> transformations, Closure callback) {
@@ -150,8 +150,8 @@ public class XWikiStreamRenderer extends XWikiRenderingSystem {
      * XWiki XHTML rendering using the default syntax
      *
      * @param source source text reader
-     * @param preTransformations transform parameters
-     * @param postTransformations transform parameters
+     * @param preTransformations transforms applied before macros
+     * @param postTransformations transforms applied after macros
      * @param callback a callback function processed on parsing a text
      */
     public void render(Reader source, Iterable<Transformation> preTransformations, Iterable<Transformation> postTransformations, Closure callback) {

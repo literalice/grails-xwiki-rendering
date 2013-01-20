@@ -54,7 +54,7 @@ public class XWikiRenderer extends XWikiRenderingSystem {
      * @param source source text reader
      * @param inputSyntax inputSyntax
      * @param outputSyntax outputSyntax
-     * @param transformations transform parameters
+     * @param transformations transforms applied after macros
      * @return a rendered result
      */
     public String render(Reader source, Syntax inputSyntax, Syntax outputSyntax, Iterable<Transformation> transformations) {
@@ -67,8 +67,8 @@ public class XWikiRenderer extends XWikiRenderingSystem {
      * @param source source text reader
      * @param inputSyntax inputSyntax
      * @param outputSyntax outputSyntax
-     * @param preTransformations transform parameters
-     * @param postTransformations transform parameters
+     * @param preTransformations transforms applied before macros
+     * @param postTransformations transforms applied after macros
      * @return a rendered result
      */
     public String render(Reader source, Syntax inputSyntax, Syntax outputSyntax, Iterable<Transformation> preTransformations, Iterable<Transformation> postTransformations) {
@@ -94,7 +94,7 @@ public class XWikiRenderer extends XWikiRenderingSystem {
      *
      * @param source a source text
      * @param inputSyntax input syntax
-     * @param transformations transform parameters
+     * @param transformations transforms applied after macros
      * @return a rendered result
      */
     public String render(Reader source, Syntax inputSyntax, Iterable<Transformation> transformations) {
@@ -107,7 +107,8 @@ public class XWikiRenderer extends XWikiRenderingSystem {
      *
      * @param source a source text
      * @param inputSyntax input syntax
-     * @param preTransformations transform parameters
+     * @param preTransformations transforms applied before macros
+     * @param postTransformations transforms applied after macros
      * @return a rendered result
      */
     public String render(Reader source, Syntax inputSyntax, Iterable<Transformation> preTransformations, Iterable<Transformation> postTransformations) {
@@ -131,7 +132,7 @@ public class XWikiRenderer extends XWikiRenderingSystem {
      * XWiki XHTML rendering using default syntax.
      *
      * @param source a source text
-     * @param transformations transform parameters
+     * @param transformations transforms applied after macros
      * @return a rendered result
      */
     public String render(Reader source, Iterable<Transformation> transformations) {
@@ -144,7 +145,8 @@ public class XWikiRenderer extends XWikiRenderingSystem {
      * XWiki XHTML rendering using default syntax.
      *
      * @param source a source text
-     * @param preTransformations transform parameters
+     * @param preTransformations transforms applied before macros
+     * @param postTransformations transforms applied after macros
      * @return a rendered result
      */
     public String render(Reader source, Iterable<Transformation> preTransformations, Iterable<Transformation> postTransformations) {
@@ -171,7 +173,7 @@ public class XWikiRenderer extends XWikiRenderingSystem {
      * @param source a source text
      * @param inputSyntax inputSyntax
      * @param outputSyntax outputSyntax
-     * @param transformations transform parameters
+     * @param transformations transforms applied after macros
      * @return a rendered result
      */
     public String render(String source, Syntax inputSyntax, Syntax outputSyntax, Iterable<Transformation> transformations) {
@@ -184,7 +186,8 @@ public class XWikiRenderer extends XWikiRenderingSystem {
      * @param source a source text
      * @param inputSyntax inputSyntax
      * @param outputSyntax outputSyntax
-     * @param preTransformations transform parameters
+     * @param preTransformations transforms applied before macros
+     * @param postTransformations transforms applied after macros
      * @return a rendered result
      */
     public String render(String source, Syntax inputSyntax, Syntax outputSyntax, Iterable<Transformation> preTransformations, Iterable<Transformation> postTransformations) {
@@ -207,7 +210,7 @@ public class XWikiRenderer extends XWikiRenderingSystem {
      *
      * @param source a source text
      * @param inputSyntax inputSyntax
-     * @param  transformations parameters
+     * @param transformations transforms applied after macros
      * @return a rendered result
      */
     public String render(String source, Syntax inputSyntax, Iterable<Transformation> transformations) {
@@ -219,8 +222,8 @@ public class XWikiRenderer extends XWikiRenderingSystem {
      *
      * @param source a source text
      * @param inputSyntax inputSyntax
-     * @param preTransformations parameters
-     * @param postTransformations parameters
+     * @param preTransformations transforms applied before macros
+     * @param postTransformations transforms applied after macros
      * @return a rendered result
      */
     public String render(String source, Syntax inputSyntax, Iterable<Transformation> preTransformations, Iterable<Transformation> postTransformations) {
@@ -241,7 +244,7 @@ public class XWikiRenderer extends XWikiRenderingSystem {
      * XWiki XHTML rendering using default syntax
      *
      * @param source a source text
-     * @param transformations transform parameters
+     * @param transformations transforms applied after macros
      * @return a rendered result
      */
     public String render(String source, Iterable<Transformation> transformations) {
@@ -252,7 +255,8 @@ public class XWikiRenderer extends XWikiRenderingSystem {
      * XWiki XHTML rendering using default syntax
      *
      * @param source a source text
-     * @param preTransformations transform parameters
+     * @param preTransformations transforms applied before macros
+     * @param postTransformations transforms applied after macros
      * @return a rendered result
      */
     public String render(String source, Iterable<Transformation> preTransformations, Iterable<Transformation> postTransformations) {
