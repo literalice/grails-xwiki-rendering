@@ -87,6 +87,10 @@ grails.project.dependency.resolution = {
             transitive = false
             export = false
         }
+        test("org.xwiki.rendering:xwiki-rendering-syntax-mediawiki:$xwikiVersion"){
+            excludes "xercesImpl", "slf4j-api"
+            export = false
+        }
         test("org.spockframework:spock-grails-support:0.7-groovy-2.0") {
             export = false
         }
@@ -97,7 +101,7 @@ grails.project.dependency.resolution = {
             export = false
         }
 
-        test(":spock:0.7") {
+        test(":spock:0.7", ":code-coverage:1.2.5") {
             exclude "spock-grails-support"
             export = false
         }
