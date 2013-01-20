@@ -40,7 +40,9 @@ for (repositoryName in ["grailsCentral", "snapshotRepository"]) {
 
 grails.project.dependency.resolution = {
 
-    inherits("global")
+    inherits("global") {
+        excludes "xercesImpl", "xml-apis"
+    }
 
     log "error" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
 
@@ -59,7 +61,6 @@ grails.project.dependency.resolution = {
                 "org.xwiki.rendering:xwiki-rendering-transformation-macro:$xwikiVersion"){
             excludes "xercesImpl", "slf4j-api"
         }
-        compile "javax.inject:javax.inject:1"
 
         def syntaxesConfig =  (grailsSettings.config.grails.xwiki.rendering.syntaxes ?: "").split(/\s*,\s*/).toList().findAll { it }
         syntaxesConfig << "xwiki21"
