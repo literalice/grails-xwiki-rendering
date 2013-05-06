@@ -7,7 +7,6 @@ import org.xwiki.rendering.syntax.Syntax
 import org.xwiki.rendering.transformation.Transformation
 import spock.lang.Specification
 import spock.lang.Shared
-import org.apache.log4j.BasicConfigurator
 
 /**
  * XWiki Renderer Spec
@@ -24,8 +23,6 @@ class XWikiRendererSpec extends Specification {
     XWikiConfigurationProvider configurationProvider = new XWikiConfigurationProvider()
 
     def setupSpec() {
-        BasicConfigurator.configure()
-
         XWikiComponentManager componentManager = new XWikiComponentManager(getClass().classLoader)
         componentManager.registerMacro(SampleMacro)
         componentManager.registerMacro(SampleNoParameterMacro)
@@ -35,6 +32,19 @@ class XWikiRendererSpec extends Specification {
     }
 
     def expected = "**test** {{sample data='test' /}} {{sample2}}body{{/sample2}}"
+
+    def "Danger attribute"() {
+        when:
+        def expected = """
+
+(% class="myClass" style="myStyle" id="myId" onload="alert(document.cookie);" %)
+= heading =
+
+"""
+
+        then:
+        println renderer.render(expected)
+    }
 
     def "Renders a wiki text"() {
         when:
