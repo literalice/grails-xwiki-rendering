@@ -53,10 +53,10 @@ grails.project.dependency.resolution = {
         grailsRepo "http://grails.org/plugins"
 
         mavenCentral()
-        mavenRepo "http://nexus.xwiki.org/nexus/content/groups/public"
+//        mavenRepo "http://nexus.xwiki.org/nexus/content/groups/public"
     }
     dependencies {
-        def xwikiVersion = "5.0"
+        def xwikiVersion = "5.1"
         compile("org.xwiki.commons:xwiki-commons-component-default:$xwikiVersion",
                 "org.xwiki.rendering:xwiki-rendering-transformation-macro:$xwikiVersion"){
             excludes "xercesImpl", "slf4j-api"
@@ -98,11 +98,11 @@ grails.project.dependency.resolution = {
     }
 
     plugins {
-        build(":release:2.2.0", ":rest-client-builder:1.0.3") {
+        build(":release:2.2.1", ":rest-client-builder:1.0.3") {
             export = false
         }
 
-        test(":spock:0.7", ":code-coverage:1.2.5") {
+        test(":spock:0.7", ":code-coverage:1.2.6") {
             exclude "spock-grails-support"
             export = false
         }
