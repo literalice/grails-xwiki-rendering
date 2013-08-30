@@ -4,6 +4,8 @@ grails.project.test.reports.dir = "target/test-reports"
 
 grails.release.scm.enabled = false
 
+hibernateVersion = "3.6.10.M6"
+
 private repositoryConfigLoader(name, path) {
     def centralCredentialLocation = System.getProperty(path)
     if (centralCredentialLocation) {
@@ -38,6 +40,7 @@ for (repositoryName in ["grailsCentral", "snapshotRepository"]) {
     }
 }
 
+//grails.project.dependency.resolver = "maven" // or ivy
 grails.project.dependency.resolution = {
 
     inherits("global") {
@@ -98,9 +101,11 @@ grails.project.dependency.resolution = {
     }
 
     plugins {
-        build(":release:2.2.1", ":rest-client-builder:1.0.3") {
+        build(":release:3.0.0", ":rest-client-builder:1.0.3") {
             export = false
         }
+
+        runtime ":hibernate:$hibernateVersion"
 
         test(":spock:0.7", ":code-coverage:1.2.6") {
             exclude "spock-grails-support"
@@ -108,4 +113,3 @@ grails.project.dependency.resolution = {
         }
     }
 }
-
