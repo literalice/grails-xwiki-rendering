@@ -40,7 +40,7 @@ for (repositoryName in ["grailsCentral", "snapshotRepository"]) {
     }
 }
 
-//grails.project.dependency.resolver = "maven" // or ivy
+grails.project.dependency.resolver = "maven" // or ivy
 grails.project.dependency.resolution = {
 
     inherits("global") {
@@ -53,7 +53,7 @@ grails.project.dependency.resolution = {
         grailsPlugins()
         grailsHome()
         grailsCentral()
-        grailsRepo "http://grails.org/plugins"
+//        grailsRepo "http://grails.org/plugins"
 
         mavenCentral()
 //        mavenRepo "http://nexus.xwiki.org/nexus/content/groups/public"
