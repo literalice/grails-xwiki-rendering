@@ -4,7 +4,7 @@ grails.project.test.reports.dir = "target/test-reports"
 
 grails.release.scm.enabled = false
 
-hibernateVersion = "3.6.10.3"
+hibernateVersion = '3.6.10.4'
 
 private repositoryConfigLoader(name, path) {
     def centralCredentialLocation = System.getProperty(path)
