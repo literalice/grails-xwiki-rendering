@@ -44,7 +44,7 @@ grails.project.dependency.resolver = "maven" // or ivy
 grails.project.dependency.resolution = {
 
     inherits("global") {
-        excludes "xercesImpl", "xml-apis"
+        excludes "xercesImpl", "xml-apis", "grails-core"
     }
 
     log "error" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
@@ -101,11 +101,11 @@ grails.project.dependency.resolution = {
     }
 
     plugins {
-        build(":release:3.0.1", ":rest-client-builder:2.0.0") {
+        build(":release:3.0.1", ":rest-client-builder:2.0.1") {
             export = false
         }
 
-        runtime ":hibernate:$hibernateVersion"
+//        runtime ":hibernate:$hibernateVersion"
 
         test(":spock:0.7"/*, ":code-coverage:1.2.6"*/) {
             exclude "spock-grails-support"
