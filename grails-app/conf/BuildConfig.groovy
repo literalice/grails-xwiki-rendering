@@ -69,7 +69,7 @@ grails.project.dependency.resolution = {
         syntaxesConfig << "xwiki21"
         syntaxesConfig << "xhtml"
 
-        println "XWiki syntaxes ${syntaxesConfig} loading."
+        println "| XWiki syntaxes ${syntaxesConfig} loading."
 
         for (xwikiSyntax in syntaxesConfig) {
             compile("org.xwiki.rendering:xwiki-rendering-syntax-$xwikiSyntax:$xwikiVersion"){
