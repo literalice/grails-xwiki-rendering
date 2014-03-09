@@ -4,6 +4,8 @@ grails.project.test.reports.dir = "target/test-reports"
 
 grails.release.scm.enabled = false
 
+hibernateVersion = '3.6.10.8'
+
 private repositoryConfigLoader(name, path) {
     def centralCredentialLocation = System.getProperty(path)
     if (centralCredentialLocation) {
@@ -38,10 +40,11 @@ for (repositoryName in ["grailsCentral", "snapshotRepository"]) {
     }
 }
 
+grails.project.dependency.resolver = "maven" // or ivy
 grails.project.dependency.resolution = {
 
     inherits("global") {
-        excludes "xercesImpl", "xml-apis"
+        excludes "xercesImpl", "xml-apis", "grails-core"
     }
 
     log "error" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
@@ -50,13 +53,13 @@ grails.project.dependency.resolution = {
         grailsPlugins()
         grailsHome()
         grailsCentral()
-        grailsRepo "http://grails.org/plugins"
+//        grailsRepo "http://grails.org/plugins"
 
         mavenCentral()
-        mavenRepo "http://nexus.xwiki.org/nexus/content/groups/public"
+//        mavenRepo "http://nexus.xwiki.org/nexus/content/groups/public"
     }
     dependencies {
-        def xwikiVersion = "5.0"
+        def xwikiVersion = "5.4.1"
         compile("org.xwiki.commons:xwiki-commons-component-default:$xwikiVersion",
                 "org.xwiki.rendering:xwiki-rendering-transformation-macro:$xwikiVersion"){
             excludes "xercesImpl", "slf4j-api"
@@ -66,7 +69,7 @@ grails.project.dependency.resolution = {
         syntaxesConfig << "xwiki21"
         syntaxesConfig << "xhtml"
 
-        println "XWiki syntaxes ${syntaxesConfig} loading."
+        println "| XWiki syntaxes ${syntaxesConfig} loading."
 
         for (xwikiSyntax in syntaxesConfig) {
             compile("org.xwiki.rendering:xwiki-rendering-syntax-$xwikiSyntax:$xwikiVersion"){
@@ -98,14 +101,15 @@ grails.project.dependency.resolution = {
     }
 
     plugins {
-        build(":release:2.2.0", ":rest-client-builder:1.0.3") {
+        build(":release:3.0.1", ":rest-client-builder:2.0.1") {
             export = false
         }
 
-        test(":spock:0.7", ":code-coverage:1.2.5") {
+//        runtime ":hibernate:$hibernateVersion"
+
+        test(":spock:0.7"/*, ":code-coverage:1.2.6"*/) {
             exclude "spock-grails-support"
             export = false
         }
     }
 }
-
